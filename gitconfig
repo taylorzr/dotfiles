@@ -1,0 +1,38 @@
+[alias]
+  sha = !git log origin/master.. --format='%h (%cd) %s' --date=relative | fzf --reverse | awk '{print $1}'
+  fixup = !git commit --fixup=$(SHA=$(git sha) && echo "${SHA}~1" | pbcopy | echo $SHA)
+  churn = !git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort -n | awk 'BEGIN {print "count\tfile"} {print $1 "\t" $2}'
+  s = status
+  aa = add --all --intent-to-add
+  ap = add --patch
+  d = diff
+  dc = diff --color-words
+  ds = diff --staged
+  dd = diff --dirstat=lines
+  db = diff origin/master..
+  l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit
+  ll = l origin/master..
+  co = checkout
+  avant = !avant
+  bundle = !bundle
+  clear = !clear
+  amend = commit --amend --no-edit
+  nuke = !git reset --hard && git clean -f
+[init]
+	templatedir = /Users/zachtaylor/.git_template
+[commit]
+	template = /Users/zachtaylor/.git_template/.git-commit-template.txt
+[core]
+  editor = vim
+  excludesfile = ~/.globalgitignore
+  pager = less
+[user]
+  name = Zach Taylor
+  email = taylorzr@gmail.com
+[push]
+  default = simple
+[rebase]
+  autosquash = true
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
