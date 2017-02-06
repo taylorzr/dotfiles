@@ -13,9 +13,6 @@
   l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit
   ll = l origin/master..
   co = checkout
-  avant = !avant
-  bundle = !bundle
-  clear = !clear
   amend = commit --amend --no-edit
   nuke = !git reset --hard && git clean -f
 [init]
