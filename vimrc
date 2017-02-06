@@ -90,7 +90,7 @@
   nnoremap <Leader>rd :!bundle exec rake db:reset<CR>
   nnoremap <Leader>rt :!RAILS_ENV=test bundle exec rake db:reset<CR>
 
-  nnoremap <Leader>cf :Dispatch print -n % \| pbcopy<CR>
+  nnoremap <Leader>cf :let @*=expand("%") \| echo "Filename copied to clipboard!"<CR>
 
   nnoremap <Leader>aa gg=G``
 
