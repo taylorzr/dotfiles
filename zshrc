@@ -50,7 +50,7 @@ DEFAULT_USER="$USER"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git rvm bundler rails web-search safe-paste tmux)
+plugins=(rvm bundler rails web-search safe-paste)
 
 # Why is there a little eye up there in the top corner of tmux sessions?!?
 # Assuming this is a tmux plugin feature?!?
@@ -66,11 +66,6 @@ $PATH\
 :$HOME/work/bin\
 :$HOME/.rvm/bin
 "
-# :/usr/local/bin\
-# :/usr/bin\
-# :/bin\
-# :/usr/sbin\
-# :/usr/local/sbin\
 
 # export MANPATH="/usr/local/man:$MANPATH"
 export GOPATH=$HOME/work
