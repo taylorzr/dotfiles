@@ -1,8 +1,8 @@
 alias tags="ctags -R --languages=ruby,sh --exclude=.git --exclude=log ."
 
-alias gs="git s"
-alias gd="git d"
-alias gds="git ds"
+alias gs="git status"
+alias gd="git diff"
+alias gds="git diff --staged"
 
 alias good="git bisect good"
 alias bad="git bisect bad"
@@ -34,4 +34,10 @@ alias post="curl -X POST -H Content-Type:application/json"
 alias k="kubectl"
 alias mk="minikube"
 
-alias reload='source ~/.zshrc && echo Zsh reloaded!'
+alias reload='reload_tmux && reload_zsh'
+alias reload_zsh='source ~/.zshrc && echo Zsh config reloaded!'
+alias reload_tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
+
+alias tl='tmux list-sessions'
+alias ts='tmux switch -t'
+alias tk='tmux kill-session -t'
