@@ -90,7 +90,8 @@
   nnoremap <Leader>rd :!bundle exec rake db:reset<CR>
   nnoremap <Leader>rt :!RAILS_ENV=test bundle exec rake db:reset<CR>
 
-  nnoremap <Leader>cf :let @*=expand("%") \| echo "Filename copied to clipboard!"<CR>
+  nnoremap <Leader>cf :let @*=expand('%') \| echo 'Filename copied to clipboard!'<CR>
+  nnoremap <Leader>cl :let @*=expand('%') . ':' . line('.') \| echo 'Filename & line copied to clipboard!'<CR>
 
   nnoremap <Leader>aa gg=G``
 
