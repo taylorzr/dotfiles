@@ -41,3 +41,9 @@ alias reload_tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"
 alias tl='tmux list-sessions'
 alias ts='tmux switch -t'
 alias tk='tmux kill-session -t'
+
+function clear_heroku_build_cache {
+  heroku repo:gc --app $1
+  heroku repo:purge_cache --app $1
+}
+
