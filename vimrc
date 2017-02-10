@@ -100,10 +100,7 @@
   " nnoremap <Leader>db :e db/structure.sql<CR> \| :/ create table %
   nnoremap <Leader>db :call JumpToStructure(expand('%:t:r'))<CR>
 
-  function! JumpToStructure(model_name)
-    execute ':e db/structure.sql'
-    " execute ':/ create table ' . a:model_name
-  endfunction
+  nnoremap <Leader>r :redraw! \| echo 'Screen redrawn!'<CR>
 
 "
 " Functions
