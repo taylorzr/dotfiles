@@ -121,6 +121,10 @@
     exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
   endfunction
 
+  function! JumpToStructure(model_name)
+    execute ':e db/structure.sql'
+    " execute ':/ create table ' . a:model_name
+  endfunction
 
 "
 " Plugins
@@ -211,7 +215,7 @@
           nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
           nnoremap <Leader>s :call RunNearestSpec()<CR>
           nnoremap <Leader>l :call RunLastSpec()<CR>
-          nnoremap <Leader>a :call RunAllSpecs()<CR>
+          " nnoremap <Leader>a :call RunAllSpecs()<CR>
 
     Plug 'scrooloose/syntastic'
           let g:syntastic_ruby_mri_exec = '~/.rvm/rubies/ruby-2.2.2/bin/ruby'

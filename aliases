@@ -38,9 +38,17 @@ alias reload='reload_tmux && reload_zsh'
 alias reload_zsh='source ~/.zshrc && echo Zsh config reloaded!'
 alias reload_tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
 
+
+function tmux_create_and_switch_to_session  {
+  tmux new -s $1 -d # Check if already exists
+  tmux switch -t $1
+  cd ~/code/$1 # This changes the current shell, not shell in new session
+}
+
 alias tl='tmux list-sessions'
 alias ts='tmux switch -t'
 alias tk='tmux kill-session -t'
+alias tn='tmux_create_and_switch_to_session'
 
 function clear_heroku_build_cache {
   heroku repo:gc --app $1
