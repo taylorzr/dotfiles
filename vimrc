@@ -166,8 +166,6 @@
     Plug 'junegunn/fzf.vim'
           nnoremap <C-p> :FZF<CR>
           nnoremap <Leader>b :Buffers<CR>
-          nnoremap <Leader>r :History<CR>
-          " nnoremap <Leader>g :Ag <C-r>=expand('<cword>')<CR><CR>
           nnoremap <Leader>g :Ag <C-r><C-w><CR>
 
     Plug 'scrooloose/nerdtree'
@@ -175,6 +173,7 @@
           nnoremap <Leader>f :NERDTreeFind<CR>
           let g:NERDTreeWinSize=40
           let NERDTreeShowHidden=1
+
     Plug 'Xuyuanp/nerdtree-git-plugin'
 
     Plug 'vim-airline/vim-airline'
