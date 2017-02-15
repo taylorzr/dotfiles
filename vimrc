@@ -92,6 +92,7 @@
 
   nnoremap <Leader>cf :let @*=expand('%') \| echo 'Filename copied to clipboard!'<CR>
   nnoremap <Leader>cl :let @*=expand('%') . ':' . line('.') \| echo 'Filename & line copied to clipboard!'<CR>
+  nnoremap <Leader>fd :call delete(expand('%')) \| bdelete!<CR>
 
   nnoremap <Leader>aa gg=G``
 
