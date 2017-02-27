@@ -17,7 +17,7 @@
   nuke = !git reset --hard && git clean -f
 [core]
   editor = vim
-  excludesfile = ~/.globalgitignore
+  excludesfile = ~/dotfiles/global_git_ignore
   pager = less
 [user]
   name = Zach Taylor
