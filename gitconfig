@@ -15,10 +15,6 @@
   co = checkout
   amend = commit --amend --no-edit
   nuke = !git reset --hard && git clean -f
-[init]
-	templatedir = /Users/zachtaylor/.git_template
-[commit]
-	template = /Users/zachtaylor/.git_template/.git-commit-template.txt
 [core]
   editor = vim
   excludesfile = ~/.globalgitignore
