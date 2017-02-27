@@ -75,6 +75,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Source other files
 # TODO List all files in dotfiles and source each
+# Find someway to sync tokens securely
 source ~/dotfiles/tokens
 source ~/dotfiles/aliases
 
