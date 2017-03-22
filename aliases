@@ -55,3 +55,5 @@ function clear_heroku_build_cache {
   heroku repo:purge_cache --app $1
 }
 
+# Inject hub into git (https://github.com/github/hub#aliasing)
+eval "$(hub alias -s)"

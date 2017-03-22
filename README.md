@@ -1,9 +1,10 @@
 # Setup
 
 ### git
-1. Install git:
+1. Install git and hub:
 
     `brew install git` or `sudo apt install git`
+    `brew install hub` or `sudo apt install git`
 
 2. Link config:
 
