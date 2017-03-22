@@ -1,0 +1,6 @@
+--ignore-dir=.bundle
+--ignore-dir=coverage
+--ignore-dir=node_modules
+--ignore-dir=log
+--ignore-dir=tmp
+--ignore-dir=vendor

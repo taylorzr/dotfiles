@@ -173,6 +173,8 @@
           nnoremap <Leader>b :Buffers<CR>
           nnoremap <Leader>g :Ag <C-r><C-w><CR>
 
+    Plug 'mileszs/ack.vim'
+
     Plug 'scrooloose/nerdtree'
           nnoremap <Leader>n :NERDTree<CR>
           nnoremap <Leader>f :NERDTreeFind<CR>

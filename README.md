@@ -69,4 +69,9 @@
 
 
 ### ssh
-1. Link config: `ln -s ~/ssh/config ~/.ssh/config` # osx only
+1. Link config: `ln -s ~/dotfiles/ssh/config ~/.ssh/config` # osx only
+
+
+### ack
+1. Install [ack](https://beyondgrep.com): `brew install ack`
+2. Link config: `ln -s ~/dotfiles/ackrc ~/.ackrc`
