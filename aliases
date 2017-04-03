@@ -40,11 +40,13 @@ alias reload_tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"
 
 
 function tmux_create_and_switch_to_session  {
-  tmux new -s $1 -d # Check if already exists
+  tmux new-session -d -s $1 -c ~/code/$1 # If it already exists, tmux just says 'duplicate sesssion: $1'
   tmux switch -t $1
-  cd ~/code/$1 # This changes the current shell, not shell in new session
+  # Maybe creating 2 panes and starting vim in top?
 }
 
+alias project='tmux_create_and_switch_to_session'
+alias ta='tmux attach'
 alias tl='tmux list-sessions'
 alias ts='tmux switch -t'
 alias tk='tmux kill-session -t'
