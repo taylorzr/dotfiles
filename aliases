@@ -13,7 +13,7 @@ alias gc='git commit --verbose'
 alias gcm='git commit --message'
 alias gco='git checkout'
 alias gnb='git checkout -b'
-alias gp='git pull'
+alias gp='git push'
 alias gf='git fetch'
 
 alias good="git bisect good"
