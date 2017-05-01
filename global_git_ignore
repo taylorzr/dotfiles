@@ -1,1 +1,5 @@
+# vim ctags file
 tags
+
+# vim-xmark plugin temporary file
+**/.xmark*
