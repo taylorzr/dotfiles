@@ -1,4 +1,7 @@
+# TODO: Covert to function so that the subcommand `bundle list --paths`
+# doesn't execute at shell load time
 alias tags="ctags -R --languages=ruby,sh --exclude=.git --exclude=log ."
+# alias tags="ctags -R --languages=ruby,sh --exclude=.git --exclude=log . $(bundle list --paths)"
 
 alias gl='git log'
 alias gs="git status"
