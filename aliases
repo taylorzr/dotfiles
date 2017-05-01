@@ -1,8 +1,15 @@
 alias tags="ctags -R --languages=ruby,sh --exclude=.git --exclude=log ."
 
+alias gl='git log'
 alias gs="git status"
 alias gd="git diff"
 alias gds="git diff --staged"
+alias gc='git commit --verbose'
+alias gcm='git commit --message'
+alias gco='git checkout'
+alias gnb='git checkout -b'
+alias gp='git pull'
+alias gf='git fetch'
 
 alias good="git bisect good"
 alias bad="git bisect bad"
