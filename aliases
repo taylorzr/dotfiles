@@ -2,6 +2,8 @@ alias tags="ctags -R --languages=ruby,sh --exclude=.git --exclude=log ."
 
 alias gl='git log'
 alias gs="git status"
+alias ga="git add"
+alias gap="git add --patch"
 alias gd="git diff"
 alias gds="git diff --staged"
 alias gc='git commit --verbose'
