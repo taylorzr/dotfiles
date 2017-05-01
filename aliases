@@ -55,6 +55,7 @@ function tmux_create_and_switch_to_session  {
 
 alias project='tmux_create_and_switch_to_session'
 alias ta='tmux attach'
+alias td='tmux detach'
 alias tl='tmux list-sessions'
 alias ts='tmux switch -t'
 alias tk='tmux kill-session -t'
