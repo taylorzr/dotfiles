@@ -59,6 +59,7 @@ plugins=(rvm bundler rails web-search safe-paste)
 
 export PATH="\
 $PATH\
+:/usr/local/Cellar/postgresql94/9.4.9_1/bin\
 :/Users/zachtaylor/Code/qa-tools/tcid_finder\
 :/Users/zachtaylor/Code/qa-tools/circle_tools\
 :/Users/zachtaylor/Library/Android/sdk/tools\
