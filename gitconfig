@@ -5,6 +5,7 @@
   s = status
   aa = add --all --intent-to-add
   ap = add --patch
+  current-branch = symbolic-ref --short HEAD
   d = diff
   dc = diff --color-words
   ds = diff --staged
@@ -17,6 +18,8 @@
   nuke = !git reset --hard && git clean -f
   pr = pull-request
   ci = ci-status
+  squash = rebase -i
+  undo = reset --soft head~1
 [core]
   editor = vim
   excludesfile = ~/dotfiles/global_git_ignore
