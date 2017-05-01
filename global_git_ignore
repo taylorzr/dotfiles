@@ -3,3 +3,6 @@ tags
 
 # vim-xmark plugin temporary file
 **/.xmark*
+
+# osx directory cache
+.DS_Store
