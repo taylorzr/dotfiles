@@ -186,13 +186,6 @@
 
     Plug 'Xuyuanp/nerdtree-git-plugin'
 
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-          set laststatus=2
-          let g:airline_powerline_fonts = 1
-          " Default pattern is: "%{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}%{airline#util#wrap(airline#extensions#branch#get_head(),0)}"
-          let g:airline_section_b = "%{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}"
-
     Plug 'tpope/vim-surround'
           nmap <Leader># ysiw#
           nmap <Leader>" ysiw"
