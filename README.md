@@ -76,3 +76,23 @@
 ### ack
 1. Install [ack](https://beyondgrep.com): `brew install ack`
 2. Link config: `ln -s ~/dotfiles/ackrc ~/.ackrc`
+
+
+
+### Linux Specific
+
+```
+ln -s ~/dotfiles/xinitrc ~/.xinitrc
+ln -s ~/dotfiles/xmodmap ~/.xmodmap
+ln -s ~/dotfiles/config/i3/config ~/.config/i3/config
+xmodmap ~/.xmodmap # this should be executed by xinitrc but not working
+```
+
+LINUX TODO:
+- fix xmodmap
+- simpler vim status line
+- fix vim colors
+- copy/paste in tmux
+- i3 split use same shell directory
+- git remember ssh password
+
