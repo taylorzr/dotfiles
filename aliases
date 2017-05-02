@@ -51,9 +51,35 @@ alias reload='reload_tmux && reload_zsh'
 alias reload_zsh='source ~/.zshrc && echo Zsh config reloaded!'
 alias reload_tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
 
+alias s='brew services'
+alias sl='brew services list'
+
+function pg {
+  if [ -z ${1+x} ]; then
+    brew services list
+  else
+    brew services $1 postgresql94
+  fi
+}
+
+function redis {
+  if [ -z ${1+x} ]; then
+    brew services list
+  else
+    brew services $1 redis
+  fi
+}
+
+function rabbitmq {
+  if [ -z ${1+x} ]; then
+    brew services list
+  else
+    brew services $1 rabbitmq
+  fi
+}
 
 function tmux_create_and_switch_to_session  {
-  tmux new-session -d -s $1 -c ~/code/$1 # If it already exists, tmux just says 'duplicate sesssion: $1'
+  tmux new-session -d -s $1 -c ~/$1 # If it already exists, tmux just says 'duplicate sesssion: $1'
   tmux switch -t $1
   # Maybe creating 2 panes and starting vim in top?
 }
