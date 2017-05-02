@@ -59,10 +59,7 @@ plugins=(rvm bundler rails web-search safe-paste)
 
 export PATH="\
 $PATH\
-:/usr/local/Cellar/postgresql94/9.4.9_1/bin\
-:/Users/zachtaylor/Code/qa-tools/tcid_finder\
-:/Users/zachtaylor/Code/qa-tools/circle_tools\
-:/Users/zachtaylor/Library/Android/sdk/tools\
+:/usr/local/Cellar/postgresql@9.4/bin\
 :/Users/zachtaylor/.fzf/bin\
 :$HOME/work/bin\
 :$HOME/.rvm/bin
@@ -117,3 +114,6 @@ fi
 if [ -f /Users/zachtaylor/Downloads/google-cloud-sdk/completion.zsh.inc ]; then
   source '/Users/zachtaylor/Downloads/google-cloud-sdk/completion.zsh.inc'
 fi
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
