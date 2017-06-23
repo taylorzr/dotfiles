@@ -21,7 +21,7 @@
   squash = rebase -i
   undo = reset --soft head~1
 [core]
-  editor = vim
+  editor = nvim
   excludesfile = ~/dotfiles/global_git_ignore
   pager = less
 [user]
