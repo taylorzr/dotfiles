@@ -52,18 +52,12 @@ Plug 'scrooloose/nerdtree'
      nnoremap <Leader>n :NERDTree<CR>
      nnoremap <Leader>f :NERDTreeFind<CR>
 
-" TODO:
-" Completion - Youcompleteme?
-" Syntax - neomake?
-
 Plug 'neomake/neomake'
 
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
      let g:deoplete#enable_at_startup = 1
 
 Plug 'frankier/neovim-colors-solarized-truecolor-only'
-
-Plug 'junegunn/vim-xmark', { 'do': 'make' }
 
 Plug 'wellle/targets.vim'
 

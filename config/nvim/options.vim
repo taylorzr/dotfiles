@@ -12,3 +12,6 @@ set expandtab
 " Automatically wrap text
 set textwidth=72
 set fo+=t
+
+" Use system clipboard
+set clipboard=unnamedplus

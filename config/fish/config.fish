@@ -38,6 +38,9 @@ alias reload='reload_tmux; and reload_zsh'
 alias reload_zsh='source ~/.zshrc; and echo Zsh config reloaded!'
 alias reload_tmux='tmux source-file ~/.tmux.conf; and echo "Tmux config reloaded!"'
 
+alias tl='tmux list-sessions'
+alias tk='tmux kill-session -t'
+
 alias s='brew services'
 alias sl='brew services list'
 
@@ -47,7 +50,7 @@ alias vim='nvim'
 
 source /usr/local/share/chruby/chruby.fish
 source /usr/local/share/chruby/auto.fish
-chruby 2.4.
+# chruby 2.4 is this necessary?!?
 
 # NOTE: Maybe this should only be executed once, and then its store in
 # ~/.config/fish/fishd.a45e60bc9d05
@@ -69,4 +72,4 @@ function mfa
   eval (python ~/.mfa.py $argv[1] $argv[2])
 end
 
-eval (python -m virtualfish)
+# eval (python -m virtualfish)

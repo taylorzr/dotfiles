@@ -1,98 +1,71 @@
-# Setup
+## Arch
 
-### git
-1. Install git and hub:
-
-    `brew install git` or `sudo apt install git`
-    `brew install hub` or `sudo apt install git`
-
-2. Link config:
-
+1. Install packages
     ```
+    sudo pacman -S \
+      acpi    \ `# battery information for i3blocks`
+      git     \ `# version control system`
+      feh     \ `# preview images and set background`
+      fish    \ `# a shell for the 90s`
+      fzf     \ `# fuzzy search`
+      htop    \ `# process info and control`
+      hub     \ `# git extension for github support`
+      i3      \ `# window manager`
+      maim    \ `# screenshots`
+      neovim  \ `# edit text`
+      termite \ `# terminal emulator`
+      xorg    \ `# screen stuff`
+      xsel    \ `# copy-paste support for nvim`
+      yaourt  \ `# install aur stuff`
+
+    sudo yaourt -S \
+      google-chrome       \ `# web`
+      neofetch            \ `# show system information`
+      the_silver_searcher \ `# more better grep`
+      ```
+
+2. Setup ssh
+    ``` 
+    mv ~/Downloads/id_rsa* ~/.ssh chmod 400 ~/.ssh/id_rsa
+    ```
+
+3. Clone dotfiles
+    ```
+    git clone git@github.com:taylorzr/dotfiles.git
+    ```
+
+4. Link all the things
+    ```
+    ln -s ~/dotfiles/xinitrc ~/.xinitrc
+    ln -s ~/dotfiles/xmodmap ~/.xmodmap
+    ln -s ~/dotfiles/config/i3/config ~/.config/i3/config
+    ln -s ~/dotfiles/config/termite/config ~/.config/termite/config
+    ln -s ~/dotfiles/config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
+    ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
     ln -s ~/dotfiles/gitconfig ~/.gitconfig
+    ln -s ~/dotfiles/config/nvim/init.vim ~/.config/nvim/init.vim
     ```
 
-
-### zsh
-1. Install zsh:
-
-    `brew install zsh` or `sudo apt install zsh`
-
-2. Install [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh):
-
-    ```
-    sh -c "$(curl -fsSL \
-      https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    ```
-
-3. Link config:
-
-    ```
-    mv ~/.zshrc ~/.zshrc.backup
-    ln -s ~/dotfiles/zshrc ~/.zshrc
-    ```
-
-
-### tmux
-1. Install tmux:
-
-    `brew install tmux` or `sudo apt install tmux`
-
-2. Install [tmux plugin manager](https://github.com/tmux-plugins/tpm):
-
+5. Tmux plugin manager and plugins
     ```
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    tmux source ~/.tmux.conf
+    # Install plugins, C-b I (tmux prefix followed by *capital* I)
     ```
 
-3. Install plugins with `Prefix + I`
-
-
-### vim
-1. Install vim:
-
-    `brew install vim` or `sudo apt install vim`
-
-2. Link config:
-
+6. Vim plugin manager and plugins
     ```
-    ln -s ~/dotfiles/vimrc ~/.vimrc
-    ln -s ~/dotfiles/vim/colors ~/.vim/
+    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     ```
 
-4. Install [vim-plug](https://github.com/junegunn/vim-plug):
-
-    ```
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    ```
-
-5. Install plugins with `:PlugInstall`
-
-
-### ssh
-1. Link config: `ln -s ~/dotfiles/ssh/config ~/.ssh/config` # osx only
-
-
-### ack
-1. Install [ack](https://beyondgrep.com): `brew install ack`
-2. Link config: `ln -s ~/dotfiles/ackrc ~/.ackrc`
-
-
-
-### Linux Specific
-
-```
-ln -s ~/dotfiles/xinitrc ~/.xinitrc
-ln -s ~/dotfiles/xmodmap ~/.xmodmap
-ln -s ~/dotfiles/config/i3/config ~/.config/i3/config
-xmodmap ~/.xmodmap # this should be executed by xinitrc but not working
-```
-
-LINUX TODO:
-- fix xmodmap
-- simpler vim status line
-- fix vim colors
-- copy/paste in tmux
-- i3 split use same shell directory
-- git remember ssh password
+#### TODO
+- trackpad gestures, back/forward, prev/next workspace
+- better visuals, lock screen, etc
+- vpn setup
+- ssh remember key password
+- power managment
+- remaining multimedia keys (back, play/pause, forward)
+- i3 split use current directory if shell
+- install elixir 1.3.4
 
