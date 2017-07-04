@@ -38,6 +38,7 @@
     ```
     ln -s ~/dotfiles/xinitrc ~/.xinitrc
     ln -s ~/dotfiles/xmodmap ~/.xmodmap
+    ln -s ~/dotfiles/Xresources ~/.Xresources
     ln -s ~/dotfiles/config/i3/config ~/.config/i3/config
     ln -s ~/dotfiles/config/termite/config ~/.config/termite/config
     ln -s ~/dotfiles/config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
@@ -60,11 +61,11 @@
     ```
 
 #### TODO
+- power managment, suspend to ram/disk
 - trackpad gestures, back/forward, prev/next workspace
 - better visuals, lock screen, etc
 - vpn setup
 - ssh remember key password
-- power managment
 - remaining multimedia keys (back, play/pause, forward)
 - i3 split use current directory if shell
 - install elixir 1.3.4

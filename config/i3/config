@@ -170,14 +170,21 @@ bindsym XF86AudioRaiseVolume  exec amixer set Master 5%+
 bindsym --release Print exec import ~/screenshots/$(date +%s).png
 
 ## Screen brightness
-bindsym XF86MonBrightnessUp        exec xbacklight -inc 5
-bindsym XF86MonBrightnessDown      exec xbacklight -dec 5
+bindsym XF86MonBrightnessUp        exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown      exec xbacklight -dec 10
 bindsym $mod+XF86MonBrightnessUp   exec xbacklight -set 100
 bindsym $mod+XF86MonBrightnessDown exec xbacklight -set 1
 
 ## OSX-like laptop behavior
 bindsym $mod+Control+h workspace prev
 bindsym $mod+Control+l workspace next
+
+# FIXME: These don't look great, and i3blocks needs to be configured as well
+# Colors
+client.focused          #002b36 #586e75 #fdf6e3 #268bd2
+client.focused_inactive #002b36 #073642 #839496 #073642
+client.unfocused        #002b36 #073642 #839496 #073642
+client.urgent           #002b36 #dc322f #fdf6e3 #002b36
 
 # Set background
 exec_always feh --bg-scale ~/dotfiles/graphics/ayb.png
