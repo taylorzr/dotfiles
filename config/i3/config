@@ -165,6 +165,7 @@ bar {
 # Multimedia keys
 ## Volume
 bindsym XF86AudioMute         exec amixer set Master toggle
+#                                                    ^^^^^^ not toggling, only muting
 bindsym XF86AudioLowerVolume  exec amixer set Master 5%-
 bindsym XF86AudioRaiseVolume  exec amixer set Master 5%+
 bindsym --release Print exec import ~/screenshots/$(date +%s).png
@@ -175,9 +176,17 @@ bindsym XF86MonBrightnessDown      exec xbacklight -dec 10
 bindsym $mod+XF86MonBrightnessUp   exec xbacklight -set 100
 bindsym $mod+XF86MonBrightnessDown exec xbacklight -set 1
 
+## Media
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioNext exec playerctl next
+
 ## OSX-like laptop behavior
 bindsym $mod+Control+h workspace prev
 bindsym $mod+Control+l workspace next
+
+## Mouse bindings
+bindsym --release button2 kill
 
 # FIXME: These don't look great, and i3blocks needs to be configured as well
 # Colors
@@ -189,8 +198,14 @@ client.urgent           #002b36 #dc322f #fdf6e3 #002b36
 # Set background
 exec_always feh --bg-scale ~/dotfiles/graphics/ayb.png
 
+# Scratchpad
+for_window [instance="_scratchpad"] move to scratchpad
+bindsym $mod+grave scratchpad show
+exec --no-startup-id termite -t _scratchpad
+
 # FIXME: Not working yet...
 # Assign and start default applications
 assign [class="Rambox"] $workspace1
 assign [class="Google Chrome"] $workspace3
+assign [class="Spotify"] $workspace4
 exec --no-startup-id i3-msg "workspace $workspace1; exec rambox; workspace $workspace2; exec termite; workspace $workspace3; exec google-chrome-stable"

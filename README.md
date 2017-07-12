@@ -62,6 +62,7 @@
 
 #### TODO
 - power managment, suspend to ram/disk
+    maybe helpful: https://wiki.archlinux.org/index.php/I3#Shutdown.2C_reboot.2C_lock_screen
 - trackpad gestures, back/forward, prev/next workspace
 - better visuals, lock screen, etc
 - vpn setup
