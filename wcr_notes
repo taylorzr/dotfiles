@@ -1,0 +1,52 @@
+- Legacy
+  - missed most of it :( look at slides, but sounds like a lot of
+    similarities to my experiences with legacy code in avant-basic and
+    other projects
+
+- React
+  - just use ember
+  - react is good but you have to make decisions
+  - those decisions fracture the community and it's harder to find
+    people in the same situation
+  - if you building/maintaining something really hurts for a long time
+    (this case it was 7 months) throw it away and rebuild it (garden
+    anyone?!?!)
+
+- Beauty
+  - meh
+  - use rubocop
+  - refactor
+  - ok...
+
+- Database
+  - a few gems for handling tree storage in sql
+
+- Machine learning
+  - slides give you a path to learn
+  - it will take a year
+  - people sometimes use things for evil... ok...
+
+- Ruby lightning talk about rubies (red sapphires)
+  - is a pink sapphire a ruby !??! Hotter debate than emacs/vim
+
+- Demeter
+  - demEter or dEmeter ?!? (pronunciation)
+  - it's a law follow it
+  - it makes it suck less to program when change occurs
+  - Zachs thoughts
+    - seems like the ultimate problem is that rails encourages it
+    - would probably be mostly solved by constructing domain models that
+      take in separate AR models
+    - seems to be related to designing things so they only have one
+      reason to change, if you violate this rule, you will have to make
+      multple code changes to achieve a behavior change
+
+- Database performance
+  - use explain
+    - bad things are large number of rows, and sequential scans
+    - index scan is better than sequential
+  - use indexes
+  - counting rows is unavoidably slow, maybe just avoid it or estimate
+    rows
+  - limit data to avoid long queries (Do you NEED to show all that
+    data?)

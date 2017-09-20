@@ -7,7 +7,7 @@ alias gd="git diff"
 alias gds="git diff --staged"
 alias gc='git commit --verbose'
 alias gcm='git commit --message'
-alias gco='git checkout'
+alias gco='git checkout' 
 alias gnb='git checkout -b'
 alias gp='git push'
 alias gf='git fetch'
@@ -40,6 +40,8 @@ alias reload_tmux='tmux source-file ~/.tmux.conf; and echo "Tmux config reloaded
 
 alias tl='tmux list-sessions'
 alias tk='tmux kill-session -t'
+alias td='tmux detach'
+alias ta='tmux attach'
 
 alias s='brew services'
 alias sl='brew services list'
@@ -47,6 +49,8 @@ alias sl='brew services list'
 alias is='iex -S mix'
 
 alias vim='nvim'
+
+alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
 source /usr/local/share/chruby/chruby.fish
 source /usr/local/share/chruby/auto.fish

@@ -15,3 +15,8 @@ set fo+=t
 
 " Use system clipboard
 set clipboard=unnamedplus
+" Maybe osx is unamed & linux is unamedplus?
+" set clipboard=unnamed
+
+" Turn off swap files
+set noswapfile

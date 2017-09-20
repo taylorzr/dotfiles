@@ -1,4 +1,8 @@
 Host *
     UseKeychain yes
 
+Host garden* gnome*
+    User ec2-user
+    IdentityFile ~/.ssh/AvantGarden.pem
+
 AddKeysToAgent yes

@@ -54,6 +54,10 @@ alias reload_tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"
 alias s='brew services'
 alias sl='brew services list'
 
+alias is='iex -S mix'
+
+alias vim='nvim'
+
 function pg {
   if [ -z ${1+x} ]; then
     brew services list

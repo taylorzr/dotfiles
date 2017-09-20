@@ -56,6 +56,8 @@ Plug 'neomake/neomake'
 
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
      let g:deoplete#enable_at_startup = 1
+     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+     inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 Plug 'frankier/neovim-colors-solarized-truecolor-only'
 

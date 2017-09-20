@@ -1,3 +1,7 @@
+--recurse=yes
+--tag-relative=yes
+--exclude=.git
+
 --langdef=Elixir
 --langmap=Elixir:.ex.exs
 --regex-Elixir=/^[ \t]*def(p?)[ \t]+([a-z_][a-zA-Z0-9_?!]*)/\2/f,functions,functions (def ...)/

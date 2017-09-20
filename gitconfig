@@ -32,5 +32,9 @@
 [rebase]
   autosquash = true
 [merge]
-	tool = vimdiff
-	conflictstyle = diff3
+  tool = vimdiff
+  conflictstyle = diff3
+; set vi & vim to load nvim, so nut sure if this is necessary:
+[mergetool "vimdiff"]
+  path = nvim
+  trustExitCode = false
