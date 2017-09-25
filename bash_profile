@@ -18,7 +18,7 @@
   alias tl='tmux list-sessions'
   alias tk='tmux kill-session -t'
   alias td='tmux detach'
-  alias ta='tmux attach'
+  alias ta='tmux attach || { (while ! tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/restore.sh; do sleep 0.2; done)& tmux ; }'
 
   # Git
   alias g='git'
@@ -31,7 +31,11 @@
   # Bundler/rails
   alias be='bundle exec'
   alias ber='bundle exec rspec'
+  alias cber='BROWSER=chrome bundle exec rspec'
   alias rc='rails console'
+
+  # Docker
+  alias dc='docker-compose'
 
   alias taco='echo yes please'
 # end Aliases
