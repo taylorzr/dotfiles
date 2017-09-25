@@ -4,8 +4,13 @@
   # TODO: Get git status in the prompt, e.g. number of changed lines or
   # icon of additions/subtractions
   previous_result() {
-    if [ $? -ne 0 ]; then
-      echo ':( '
+    local exit_code=$?
+    local red='\033[31m'
+    local reset='\033[00m'
+    if [ $exit_code -ne 0 ]; then
+      # TODO: Is it bad to print or echo here? Something about bash PS1
+      # length being off?!?
+      printf "${red}:(${reset} "
     fi
   }
   parse_git_branch() {
