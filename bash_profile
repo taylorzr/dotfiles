@@ -59,6 +59,3 @@
 
 # Secrets
 [ -f ~/dotfiles/secrets ] && source ~/dotfiles/secrets ]
-# TODO:
-# export AWS_PERSONAL_KEY=YOUR_ACCOUNT_KEY
-# export AWS_PERSONAL_SECRET_KEY=YOUR_ACCOUNT_SECRET_KEY
