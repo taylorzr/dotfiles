@@ -16,19 +16,19 @@
   prompt_command() {
     local last_exit_code=$?
 
-    local red='\033[31m'
-    local green='\033[32m'
-    local yellow='\033[33m'
-    local reset='\033[00m'
+    # NOTE: Colors need to be escaped with \[ & \] to allow bash to
+    # calculate the length of the prompt correctly, and so wrap lines
+    # correctly
+    local red='\[\033[31m\]'
+    local green='\[\033[32m\]'
+    local yellow='\[\033[33m\]'
+    local reset='\[\033[00m\]'
 
     local git_branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')
 
     PS1="\w ${git_branch}"
 
     if [ "${last_exit_code}" -ge 1 ]; then
-      # TODO: Is it bad to print or echo here? Something about bash PS1
-      # length being off?!?
-      # Hmn, still happening even though we're not echoing/printing :/
       PS1+=" ${red}:(${reset} "
     else
       PS1+=" ${green}:)${reset} "
@@ -66,7 +66,8 @@
   # Docker
   alias dc='docker-compose'
 
-  alias taco='echo yes please'
+  # Heroku
+  alias hrc='heroku run rails console'
 # end Aliases
 
 # Env
@@ -77,14 +78,21 @@
 
 # Tool configuration
   # chruby
+  default_ruby=2.4
+
   if [[ $(uname -s) == Linux ]]; then
     source /usr/share/chruby/chruby.sh
+    # NOTE: I believe setting a default ruby version needs to come before
+    # the auto.sh so that the correct ruby version will be used
+    chruby $default_ruby
     source /usr/share/chruby/auto.sh
   else
     source /usr/local/share/chruby/chruby.sh
+    # NOTE: I believe setting a default ruby version needs to come before
+    # the auto.sh so that the correct ruby version will be used
+    chruby $default_ruby
     source /usr/local/opt/chruby/share/chruby/auto.sh
   fi
-  chruby 2.4
 
   # fzf
   [ -f ~/.fzf.bash ] && source ~/.fzf.bash
