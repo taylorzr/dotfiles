@@ -1,6 +1,9 @@
 " Ruby 
-autocmd Filetype ruby setlocal shiftwidth=2
+" autocmd Filetype ruby setlocal shiftwidth=2
 autocmd Filetype ruby nnoremap <Leader>p orequire 'pry'; binding.pry<ESC>
+
+" Crystal
+" autocmd Filetype ruby setlocal shiftwidth=2
 
 " Elixir
 autocmd Filetype elixir nnoremap <Leader>p orequire IEx; IEx.pry<ESC>

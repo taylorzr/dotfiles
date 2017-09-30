@@ -6,7 +6,7 @@ set list listchars=tab:\▸\ ,trail:·
 
 " Expand tabs to spaces
 set tabstop=4
-set shiftwidth=4
+set shiftwidth=2
 set expandtab
 
 " Automatically wrap text
