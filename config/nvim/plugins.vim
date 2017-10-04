@@ -59,12 +59,14 @@ Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
      inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
      inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
-Plug 'frankier/neovim-colors-solarized-truecolor-only'
-
 Plug 'wellle/targets.vim'
 
 Plug 'michaeljsmith/vim-indent-object'
 
 Plug 'tpope/vim-surround'
+
+" Colorschemes
+Plug 'romainl/flattened'
+Plug 'JarrodCTaylor/spartan'
 
 call plug#end()

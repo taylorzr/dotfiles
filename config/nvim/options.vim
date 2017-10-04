@@ -10,7 +10,7 @@ set shiftwidth=2
 set expandtab
 
 " Automatically wrap text
-set textwidth=72
+set textwidth=80
 set fo+=t
 
 " Use system clipboard

@@ -1,4 +1,4 @@
-" Ruby 
+" Ruby
 " autocmd Filetype ruby setlocal shiftwidth=2
 autocmd Filetype ruby nnoremap <Leader>p orequire 'pry'; binding.pry<ESC>
 

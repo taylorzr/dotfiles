@@ -3,7 +3,9 @@ source ~/dotfiles/config/nvim/mapping.vim
 source ~/dotfiles/config/nvim/plugins.vim
 source ~/dotfiles/config/nvim/languages.vim
 
-colorscheme solarized
+" colorscheme flattened_dark
+colorscheme spartan
+set background=dark
 
 autocmd! BufWritePost * Neomake
 
