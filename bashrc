@@ -62,6 +62,7 @@
   alias ber='bundle exec rspec'
   alias cber='BROWSER=chrome bundle exec rspec'
   alias rc='rails console'
+  alias rs='rails server'
 
   # Docker
   alias dc='docker-compose'
