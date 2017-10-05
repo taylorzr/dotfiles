@@ -13,6 +13,7 @@ autocmd Filetype python nnoremap <Leader>p ofrom IPython import embed; embed()<E
 
 " Go
 autocmd FileType go setlocal noexpandtab
+autocmd FileType go setlocal shiftwidth=4
 
 " Make
 autocmd FileType make setlocal noexpandtab

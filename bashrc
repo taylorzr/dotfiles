@@ -76,7 +76,8 @@
 
 # Path modifications
   # TODO: Conditional based on OS (OSX vs Linux)
-  export PATH=~/Library/Python/2.7/bin:$PATH # For aws cli
+  export PATH=~/Library/Python/2.7/bin:$PATH # aws cli
+  export PATH=$PATH:~/go/bin # go binaries
 
 # Tool configuration
   # chruby
