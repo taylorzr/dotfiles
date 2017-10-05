@@ -104,3 +104,9 @@
 
 # Secrets
 [ -f ~/dotfiles/secrets ] && source ~/dotfiles/secrets
+
+# Git Completion
+# curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/dotfiles/git-completion.bash
+if [ -f ~/dotfiles/git-completion.bash ]; then
+  source ~/dotfiles/git-completion.bash
+fi
