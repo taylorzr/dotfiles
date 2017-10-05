@@ -24,9 +24,9 @@
     local yellow='\[\033[33m\]'
     local reset='\[\033[00m\]'
 
-    local git_branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')
+    local git_branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/')
 
-    PS1="\w ${git_branch}"
+    PS1="\w${git_branch}"
 
     if [ "${last_exit_code}" -ge 1 ]; then
       PS1+=" ${red}:(${reset} "
