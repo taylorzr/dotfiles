@@ -13,10 +13,12 @@ set expandtab
 set textwidth=80
 set fo+=t
 
-" Use system clipboard
-set clipboard=unnamedplus
-" Maybe osx is unamed & linux is unamedplus?
-" set clipboard=unnamed
+" Use system clipboard for yanking
+if system('uname -s') == "Darwin\n"
+  set clipboard=unnamed
+else
+  set clipboard=unnamedplus
+endif
 
 " Turn off swap files
 set noswapfile
