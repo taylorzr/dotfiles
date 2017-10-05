@@ -42,6 +42,7 @@
   alias reload='source ~/.bash_profile'
   alias vim='nvim'
   alias vi='nvim'
+  alias la='ls -la'
 
   # Tmux
   alias tl='tmux list-sessions'
