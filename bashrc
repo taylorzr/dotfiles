@@ -11,10 +11,17 @@
 
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
+shopt -s histappend                      # append to history, don't overwrite it
 
 # Prompt
   prompt_command() {
     local last_exit_code=$?
+
+    # Save and reload the history
+    history -a; history -c; history -r
 
     # NOTE: Colors need to be escaped with \[ & \] to allow bash to
     # calculate the length of the prompt correctly, and so wrap lines
