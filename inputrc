@@ -1,1 +1,4 @@
 TAB: menu-complete
+
+# reverse tab completion with shift-tab
+"\e[Z": "\e-1\C-i"
