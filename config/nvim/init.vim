@@ -7,6 +7,14 @@ source ~/dotfiles/config/nvim/languages.vim
 colorscheme spartan
 set background=dark
 
+" obvious trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
+" colorcolumn
+set colorcolumn=80
+highlight ColorColumn ctermbg=Black
+
 autocmd! BufWritePost * Neomake
 
 " Fix color of warning, without this it's barely visible
