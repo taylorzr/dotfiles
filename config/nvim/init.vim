@@ -3,6 +3,9 @@ source ~/dotfiles/config/nvim/mapping.vim
 source ~/dotfiles/config/nvim/plugins.vim
 source ~/dotfiles/config/nvim/languages.vim
 
+" enable mouse in all modes
+set mouse=a
+
 " colorscheme flattened_dark
 colorscheme spartan
 set background=dark
