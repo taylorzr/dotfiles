@@ -10,3 +10,13 @@ alias vw='vault write'
 function mfa {
   eval $(python ~/.mfa.py $1 $2)
 }
+
+function enable_avant_apply {
+  bundle config --local local.avant_apply ~/avant-apply
+  bundle config --local disable_local_branch_check true
+}
+
+function disable_avant_apply {
+  bundle config --delete local.avant_apply
+  bundle config --delete disable_local_branch_check
+}
