@@ -33,7 +33,7 @@ shopt -s histappend                      # append to history, don't overwrite it
 
     local git_branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/')
 
-    if [[ ! -z $(git status -s) ]]; then
+    if [[ ! -z $(git status -s 2> /dev/null) ]]; then
       git_branch="${yellow}${git_branch}${reset}"
     fi
 
