@@ -210,7 +210,12 @@ exec_always feh --bg-scale ~/dotfiles/graphics/ayb.png
 # TODO: Fix scratchpad at start
 # exec --no-startup-id termite -t _scratchpad
 
+# Provides network gui interface
+# Requires network manager:
+#  `systemctl status NetworkManager`
 exec --no-startup-id nm-applet
+
+# TODO: Start up keyring
 
 # FIXME: Not working yet...
 # Assign and start default applications
