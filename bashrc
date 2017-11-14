@@ -16,6 +16,10 @@ export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
 shopt -s histappend                      # append to history, don't overwrite it
 
+# https://github.com/tmux/tmux/wiki/FAQ Not 100% of 100% this shoud be set for
+# all terminals, maybe just within tmux but let's try this first
+export TERM='screen-256color'
+
 # Prompt
   prompt_command() {
     local last_exit_code=$?
