@@ -1,5 +1,3 @@
-let mapleader="\<Space>"
-
 " Easy config reloading
 command! Reload source $MYVIMRC
 noremap <Leader>r :Reload<CR>
@@ -22,3 +20,7 @@ noremap L $
 nnoremap <Leader>cf :let @*=expand('%') \| echo 'Filename copied to clipboard!'<CR>
 nnoremap <Leader>cl :let @*=expand('%') . ':' . line('.') \| echo 'Filename & line copied to clipboard!'<CR>
 
+
+" Easier indent/dedent
+nnoremap > >>
+nnoremap < <<

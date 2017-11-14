@@ -1,9 +1,8 @@
-" Ruby
-" autocmd Filetype ruby setlocal shiftwidth=2
-autocmd Filetype ruby nnoremap <Leader>p orequire 'pry'; binding.pry<ESC>
+" Generic static analysis
+autocmd! BufWritePost * Neomake
 
-" Crystal
-" autocmd Filetype ruby setlocal shiftwidth=2
+" Ruby
+autocmd Filetype ruby nnoremap <Leader>p orequire 'pry'; binding.pry<ESC>
 
 " Elixir
 autocmd Filetype elixir nnoremap <Leader>p orequire IEx; IEx.pry<ESC>
