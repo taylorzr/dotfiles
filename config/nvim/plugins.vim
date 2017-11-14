@@ -69,4 +69,6 @@ Plug 'tpope/vim-surround'
 Plug 'romainl/flattened'
 Plug 'JarrodCTaylor/spartan'
 
+Plug 'mattn/emmet-vim'
+
 call plug#end()
