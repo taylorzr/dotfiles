@@ -20,6 +20,12 @@ shopt -s histappend                      # append to history, don't overwrite it
 # all terminals, maybe just within tmux but let's try this first
 export TERM='screen-256color'
 
+export EDITOR='nvim'
+
+export GOPATH="$HOME/go"
+export MYGOPATH=' '
+
+
 # Prompt
   prompt_command() {
     local last_exit_code=$?
@@ -51,7 +57,6 @@ export TERM='screen-256color'
   }
 
   export PROMPT_COMMAND=prompt_command
-  export EDITOR='nvim'
 
 # Aliases do
   alias reload='source ~/.bash_profile'
