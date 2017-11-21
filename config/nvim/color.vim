@@ -12,6 +12,6 @@ set colorcolumn=80
 highlight ColorColumn ctermbg=Black
 
 " Fix color of warning, without this it's barely visible
-:highlight NeomakeWarningMessage ctermfg=227
+highlight NeomakeWarningMessage ctermfg=227
 let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningMessage'}
 

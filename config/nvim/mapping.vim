@@ -1,6 +1,5 @@
 " Easy config reloading
 command! Reload source $MYVIMRC
-noremap <Leader>r :Reload<CR>
 
 " Switch ; & :
 " Quicker access to command mode
