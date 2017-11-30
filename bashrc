@@ -51,7 +51,7 @@ export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 
     if [ "${last_exit_code}" -ge 1 ]; then
       # TODO: Find a linux say program
-      say oops &
+      say oops
       PS1+=" ${red}:(${reset} "
     else
       PS1+=" ${green}:)${reset} "
