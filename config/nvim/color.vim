@@ -4,6 +4,7 @@ colorscheme spartan
 set background=dark
 
 " obvious trailing whitespace
+" TODO: This doesn't work when the config is reloaded, investigate
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 

@@ -23,7 +23,7 @@ export TERM='screen-256color'
 export EDITOR='nvim'
 
 export GOPATH="$HOME/go"
-export MYGOPATH=' '
+export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 
 
 # Prompt
@@ -50,6 +50,8 @@ export MYGOPATH=' '
     PS1="\w${git_branch}"
 
     if [ "${last_exit_code}" -ge 1 ]; then
+      # TODO: Find a linux say program
+      say oops &
       PS1+=" ${red}:(${reset} "
     else
       PS1+=" ${green}:)${reset} "
