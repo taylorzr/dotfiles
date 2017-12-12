@@ -50,8 +50,11 @@ export MYGOPATH="$GOPATH/src/github.com/taylorzr"
     PS1="\w${git_branch}"
 
     if [ "${last_exit_code}" -ge 1 ]; then
-      # TODO: Find a linux say program
-      say oops
+      if [[ $(uname -s) == Linux ]]; then
+        echo oops | espeak oops 2> /dev/null
+      else
+        say oops
+      fi
       PS1+=" ${red}:(${reset} "
     else
       PS1+=" ${green}:)${reset} "
