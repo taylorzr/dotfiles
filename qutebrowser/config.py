@@ -1250,8 +1250,16 @@
 ## `:open google qutebrowser`.
 ## Type: Dict
 c.url.searchengines = {
-    'DEFAULT': 'https://www.google.com/search?q={}',
-    'maps': 'https://www.google.com/maps/search/{}?hl=en&source=opensearch',
+    'DEFAULT':    'https://www.google.com/search?q={}',
+    'a':          'https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={}',
+    'amazon':     'https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={}',
+    'craig':      'http://chicago.craigslist.org/search/?sort=rel&query={}&catAbb=sss',
+    'craigslist': 'http://chicago.craigslist.org/search/?sort=rel&query={}&catAbb=sss',
+    'man':        'http://devdocs.io/#q={}',
+    'map':        'https://www.google.com/maps/search/{}?hl=en&source=opensearch',
+    'maps':       'https://www.google.com/maps/search/{}?hl=en&source=opensearch',
+    'y':          'https://www.youtube.com/search?q={}',
+    'youtube':    'https://www.youtube.com/search?q={}',
 }
 
 ## The page(s) to open at the start.
@@ -1363,7 +1371,9 @@ c.url.searchengines = {
 # config.bind('G', 'scroll-to-perc')
 # config.bind('H', 'back')
 # config.bind('J', 'tab-next')
+config.bind('<Ctrl-l>', 'tab-next')
 # config.bind('K', 'tab-prev')
+config.bind('<Ctrl-h>', 'tab-prev')
 # config.bind('L', 'forward')
 # config.bind('M', 'bookmark-add')
 # config.bind('N', 'search-prev')
