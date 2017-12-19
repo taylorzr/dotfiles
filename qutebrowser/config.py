@@ -18,7 +18,7 @@
 
 ## Always restore open sites when qutebrowser is reopened.
 ## Type: Bool
-# c.auto_save.session = False
+c.auto_save.session = True
 
 ## The backend to use to display websites. qutebrowser supports two
 ## different web rendering engines / backends, QtWebKit and QtWebEngine.
@@ -1287,7 +1287,7 @@ c.url.searchengines = {
 
 ## The default zoom level.
 ## Type: Perc
-# c.zoom.default = '100%'
+# c.zoom.default = '120%'
 
 ## The available zoom levels.
 ## Type: List of Perc
