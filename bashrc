@@ -51,7 +51,7 @@ export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 
     if [ "${last_exit_code}" -ge 1 ]; then
       if [[ $(uname -s) == Linux ]]; then
-        echo oops | espeak oops 2> /dev/null
+        echo oops | espeak 2> /dev/null
       else
         say oops
       fi
