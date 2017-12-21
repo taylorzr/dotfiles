@@ -93,18 +93,16 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # name workspaces
-set $workspace1 "1:Chat"
-set $workspace2 "2:Terminal"
-set $workspace3 "3:Web"
-set $workspace4 "4:Video"
-set $workspace5 "5:Music"
+set $workspace1 "1:Code"
+set $workspace2 "2:Web"
+set $workspace3 "3:Chat"
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
 bindsym $mod+2 workspace $workspace2
 bindsym $mod+3 workspace $workspace3
-bindsym $mod+4 workspace $workspace4
-bindsym $mod+5 workspace $workspace5
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
@@ -115,8 +113,8 @@ bindsym $mod+0 workspace 10
 bindsym $mod+Shift+1 move container to workspace $workspace1
 bindsym $mod+Shift+2 move container to workspace $workspace2
 bindsym $mod+Shift+3 move container to workspace $workspace3
-bindsym $mod+Shift+4 move container to workspace $workspace4
-bindsym $mod+Shift+5 move container to workspace $workspace5
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
@@ -222,4 +220,4 @@ exec --no-startup-id nm-applet
 assign [class="Rambox"] $workspace1
 assign [class="Google Chrome"] $workspace3
 assign [class="Spotify"] $workspace5
-exec --no-startup-id i3-msg "workspace $workspace1; exec rambox; workspace $workspace2; exec termite; workspace $workspace3; exec google-chrome-stable"
+exec --no-startup-id i3-msg "workspace $workspace1; exec termite; workspace $workspace2; exec qutebrowser; sleep 1; workspace $workspace3; exec franz4-bin"
