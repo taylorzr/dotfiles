@@ -1255,11 +1255,13 @@ c.url.searchengines = {
     'amazon':     'https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={}',
     'craig':      'http://chicago.craigslist.org/search/?sort=rel&query={}&catAbb=sss',
     'craigslist': 'http://chicago.craigslist.org/search/?sort=rel&query={}&catAbb=sss',
+    'github':     'https://github.com/search?utf8=%E2%9C%93&q={}&type=',
+    'gh':         'https://github.com/search?utf8=%E2%9C%93&q={}&type=',
     'man':        'http://devdocs.io/#q={}',
     'map':        'https://www.google.com/maps/search/{}?hl=en&source=opensearch',
     'maps':       'https://www.google.com/maps/search/{}?hl=en&source=opensearch',
-    'yt':          'https://www.youtube.com/search?q={}',
     'youtube':    'https://www.youtube.com/search?q={}',
+    'yt':         'https://www.youtube.com/search?q={}',
 }
 
 ## The page(s) to open at the start.
@@ -1332,6 +1334,7 @@ c.url.searchengines = {
 # config.bind('<Alt-7>', 'tab-focus 7')
 # config.bind('<Alt-8>', 'tab-focus 8')
 # config.bind('<Alt-9>', 'tab-focus -1')
+config.bind('<Ctrl-i>', 'spawn --userscript ~/.config/qutebrowser/password_fill')
 # config.bind('<Ctrl-A>', 'navigate increment')
 # config.bind('<Ctrl-Alt-p>', 'print')
 # config.bind('<Ctrl-B>', 'scroll-page 0 -1')
