@@ -19,7 +19,7 @@
   pr = pull-request
   ci = ci-status
   squash = rebase -i
-  undo = reset --soft head~1
+  undo = reset --soft HEAD~1
 [core]
   editor = nvim
   excludesfile = ~/dotfiles/global_git_ignore
