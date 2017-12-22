@@ -1258,7 +1258,7 @@ c.url.searchengines = {
     'man':        'http://devdocs.io/#q={}',
     'map':        'https://www.google.com/maps/search/{}?hl=en&source=opensearch',
     'maps':       'https://www.google.com/maps/search/{}?hl=en&source=opensearch',
-    'y':          'https://www.youtube.com/search?q={}',
+    'yt':          'https://www.youtube.com/search?q={}',
     'youtube':    'https://www.youtube.com/search?q={}',
 }
 
