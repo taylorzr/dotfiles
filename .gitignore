@@ -1,2 +1,4 @@
 tokens
 secrets
+**/qutebrowser/autoconfig.yml
+**/qutebrowser/qsettings/*
