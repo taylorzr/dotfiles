@@ -213,10 +213,8 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id nm-applet
 
 # TODO: Start up keyring
+exec --no-startup-id gnome-keyring
 
 # FIXME: Not working yet...
 # Assign and start default applications
-assign [class="Rambox"] $workspace1
-assign [class="Google Chrome"] $workspace3
-assign [class="Spotify"] $workspace5
 exec --no-startup-id i3-msg "workspace $workspace1; exec termite; workspace $workspace2; exec qutebrowser; sleep 1; workspace $workspace3; exec franz4-bin"
