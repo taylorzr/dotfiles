@@ -217,4 +217,8 @@ exec --no-startup-id gnome-keyring
 
 # FIXME: Not working yet...
 # Assign and start default applications
-exec --no-startup-id i3-msg "workspace $workspace1; exec termite; workspace $workspace2; exec qutebrowser; sleep 1; workspace $workspace3; exec franz4-bin"
+assign [class="qutebrowser"] 2
+assign [class="Franz"] 3
+exec --no-startup-id termite
+exec --no-startup-id qutebrowser --enable-webengine-inspector
+exec --no-startup-id franz4-bin
