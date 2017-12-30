@@ -185,6 +185,9 @@ bindsym $mod+Control+l workspace next
 ## Mouse bindings
 bindsym --release button2 kill
 
+## Lock
+bindsym $mod+q exec $HOME/.config/i3/i3lock-fancy.sh
+
 # FIXME: These don't look great, and i3blocks needs to be configured as well
 # Colors
 client.focused          #002b36 #586e75 #fdf6e3 #268bd2
