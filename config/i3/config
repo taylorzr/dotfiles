@@ -190,6 +190,8 @@ bindsym $mod+q exec $HOME/.config/i3/i3lock-fancy.sh
 
 # FIXME: These don't look great, and i3blocks needs to be configured as well
 # Colors
+# TODO: Use spartan colors
+# class                 border  backgr. text    indicator child_border
 client.focused          #002b36 #586e75 #fdf6e3 #268bd2
 client.focused_inactive #002b36 #073642 #839496 #073642
 client.unfocused        #002b36 #073642 #839496 #073642
