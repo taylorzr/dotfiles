@@ -167,6 +167,15 @@
 - i3 split use current directory if shell
 - install elixir 1.3.4
 
+#### Troubleshooting
+Microphone not working
+- alsamixer
+- f6 # Select sound card
+- Select 'HDA Intel PCH'
+- f4 # View capture controls
+- move to 'Capture' control
+- toggle CAPTURE mode with spacebar
+
 
 ### OSX
 
