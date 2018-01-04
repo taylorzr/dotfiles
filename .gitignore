@@ -2,3 +2,6 @@ tokens
 secrets
 **/qutebrowser/autoconfig.yml
 **/qutebrowser/qsettings/*
+config/nvim/autoload/*
+config/nvim/ftplugin/*
+config/nvim/plugged/*
