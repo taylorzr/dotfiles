@@ -100,8 +100,12 @@ export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 # Env
 
 # Path modifications
-  # TODO: Conditional based on OS (OSX vs Linux)
-  export PATH=~/Library/Python/2.7/bin:$PATH # aws cli
+  if [[ $(uname -s) == Linux ]]; then
+    export PATH=~/.local/bin:$PATH # aws cli
+  else
+    export PATH=~/Library/Python/2.7/bin:$PATH # aws cli
+  fi
+
   export PATH=$PATH:~/go/bin # go binaries
 
 # Tool configuration
