@@ -24,8 +24,8 @@ pip3 install neovim # Used by deoplete
 
 # arch
 ```
-sudo pacman -S acpi git feh fzf htop hub i3 maim neovim pass termite xorg xsel yaourt
-yaourt -S google-chrome neofetch the_silver_searcher
+sudo pacman -S acpi chruby git feh fzf htop hub i3 maim neovim pass polybar termite xorg xsel yaourt
+yaourt -S franz4-bin google-chrome neofetch the_silver_searcher
 ```
 
 ```
