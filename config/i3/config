@@ -92,6 +92,10 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+# dock
+bindsym $mod+d exec xrandr --output DP1 --auto --output eDP1 --off
+bindsym $mod+Shift+d exec xrandr --auto
+
 # switch to workspace
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2

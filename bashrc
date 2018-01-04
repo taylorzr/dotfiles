@@ -95,6 +95,9 @@ export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 
   # Heroku
   alias hrc='heroku run rails console'
+
+  alias dock='xrandr --output DP1 --auto --output eDP1 --off'
+  alias undock='xrandr --auto'
 # end Aliases
 
 # Env
