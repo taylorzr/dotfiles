@@ -155,10 +155,10 @@ bindsym $mod+r mode "resize"
 
 # Multimedia keys
 ## Volume
-# bindsym XF86AudioMute         exec amixer set Master toggle
-#                                                    ^^^^^^ not toggling, only muting
-bindsym XF86AudioLowerVolume  exec amixer set Master 5%-
-bindsym XF86AudioRaiseVolume  exec amixer set Master 5%+
+bindsym XF86AudioMute         exec amixer set Master toggle
+bindsym XF86AudioLowerVolume  exec amixer set Master 8%-
+bindsym XF86AudioRaiseVolume  exec amixer set Master 8%+
+
 bindsym --release Print exec import ~/screenshots/$(date +%s).png
 
 ## Screen brightness
