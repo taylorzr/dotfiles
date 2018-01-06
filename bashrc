@@ -2,15 +2,6 @@
 # # If not running interactively, don't do anything
 # [[ $- != *i* ]] && return
 
-# alias ls='ls --color=auto'
-# PS1='[\u@\h \W]\$ '
-# # >>> BEGIN ADDED BY CNCHI INSTALLER
-# export BROWSER=/usr/bin/google-chrome-stable
-# export EDITOR=/usr/bin/nvim
-# # <<< END ADDED BY CNCHI INSTALLER
-
-# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
 export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
@@ -96,6 +87,7 @@ export MYGOPATH="$GOPATH/src/github.com/taylorzr"
   # Heroku
   alias hrc='heroku run rails console'
 
+  # Dock with external monitor
   alias dock='xrandr --output DP1 --auto --output eDP1 --off'
   alias undock='xrandr --auto'
 # end Aliases
@@ -142,4 +134,8 @@ export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 # curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/dotfiles/git-completion.bash
 if [ -f ~/dotfiles/git-completion.bash ]; then
   source ~/dotfiles/git-completion.bash
+fi
+
+if [[ $(uname -s) == Linux ]]; then
+  source $HOME/dotfiles/bashrc-linux
 fi
