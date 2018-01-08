@@ -130,12 +130,21 @@ export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 # Secrets
 [ -f ~/dotfiles/secrets ] && source ~/dotfiles/secrets
 
-# Git Completion
-# curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/dotfiles/git-completion.bash
-if [ -f ~/dotfiles/git-completion.bash ]; then
-  source ~/dotfiles/git-completion.bash
-fi
+export NVM_DIR="$HOME/.nvm"
+
+# FIXME: Something while sourcing nvm.sh is throwing 2 errors, e.g.:
+#   usage: source-file [-q] path
+#   usage: source-file [-q] path
+#   ~/dotfiles (master) :)
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 if [[ $(uname -s) == Linux ]]; then
   source $HOME/dotfiles/bashrc-linux
 fi
+
+# Load auto-completion
+source /usr/local/etc/bash_completion.d/brew
+source /usr/local/etc/bash_completion.d/git-completion.bash
+source /usr/local/etc/bash_completion.d/pass
+source /usr/local/etc/bash_completion.d/tmux

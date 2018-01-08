@@ -1159,7 +1159,7 @@ c.auto_save.session = True
 ##   - prev: Select the tab which came before the closed one (left in horizontal, above in vertical).
 ##   - next: Select the tab which came after the closed one (right in horizontal, below in vertical).
 ##   - last-used: Select the previously selected tab.
-# c.tabs.select_on_remove = 'next'
+c.tabs.select_on_remove = 'prev'
 
 ## When to show the tab bar.
 ## Type: String
@@ -1260,8 +1260,8 @@ c.url.searchengines = {
     'man':        'http://devdocs.io/#q={}',
     'map':        'https://www.google.com/maps/search/{}?hl=en&source=opensearch',
     'maps':       'https://www.google.com/maps/search/{}?hl=en&source=opensearch',
-    'youtube':    'https://www.youtube.com/search?q={}',
     'yt':         'https://www.youtube.com/search?q={}',
+    'abc':        'https://github.com/avantcredit/avant-basic/commit/{}',
 }
 
 ## The page(s) to open at the start.
