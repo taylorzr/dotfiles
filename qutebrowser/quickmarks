@@ -1,7 +1,7 @@
 pw passwords.google.com
 todo https://www.wunderlist.com/webapp#/lists/inbox
 inbox inbox.google.com
-yt youtube.com
+yt https://www.youtube.com/
 gh github.com
 drive drive.google.com
 cal calendar.google.com
@@ -11,4 +11,7 @@ a https://www.amazon.com
 r https://www.reddit.com/
 5k http://localhost:5000/
 3k http://localhost:3000/
-yt https://www.youtube.com/
+pt https://www.pivotaltracker.com/n/projects/2013735
+hipchat https://avantcredit.hipchat.com/chat
+whatsapp https://web.whatsapp.com/
+gmail https://mail.google.com/mail/u/1/#inbox
