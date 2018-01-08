@@ -162,8 +162,8 @@ bindsym XF86AudioRaiseVolume  exec amixer set Master 8%+
 bindsym --release Print exec import ~/screenshots/$(date +%s).png
 
 ## Screen brightness
-bindsym XF86MonBrightnessUp        exec xbacklight -inc 10
-bindsym XF86MonBrightnessDown      exec xbacklight -dec 10
+bindsym XF86MonBrightnessUp        exec xbacklight -inc 15
+bindsym XF86MonBrightnessDown      exec xbacklight -dec 15
 bindsym $mod+XF86MonBrightnessUp   exec xbacklight -set 100
 bindsym $mod+XF86MonBrightnessDown exec xbacklight -set 1
 
