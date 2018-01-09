@@ -81,6 +81,18 @@ ms)
 defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 ```
 
+### Keyboard
+Keyboard > Shortcuts > App Shortcuts
+- Sleep > Alt q
+- Copy > Ctrl c
+- Paste > Ctrl v
+
+Keyboard > Shortcuts > Mission Control
+- Move left a space > Ctrl Command h
+- Move right a space > Ctrl Command l
+- Application windows > Ctrl Command j
+- Mission Control > Ctrl Command k
+
 ### Mission control shortcuts
 https://apple.stackexchange.com/questions/106559/keyboard-shorcut-to-switch-focus-between-multiple-displays-on-os-x-10-9-5-mav
 ```
