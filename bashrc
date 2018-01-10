@@ -141,10 +141,7 @@ export NVM_DIR="$HOME/.nvm"
 
 if [[ $(uname -s) == Linux ]]; then
   source $HOME/dotfiles/bashrc-linux
+else
+  source $HOME/dotfiels/bashrc-osx
 fi
 
-# Load auto-completion
-source /usr/local/etc/bash_completion.d/brew
-source /usr/local/etc/bash_completion.d/git-completion.bash
-source /usr/local/etc/bash_completion.d/pass
-source /usr/local/etc/bash_completion.d/tmux
