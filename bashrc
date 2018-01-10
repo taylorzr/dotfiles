@@ -142,6 +142,6 @@ export NVM_DIR="$HOME/.nvm"
 if [[ $(uname -s) == Linux ]]; then
   source $HOME/dotfiles/bashrc-linux
 else
-  source $HOME/dotfiels/bashrc-osx
+  source $HOME/dotfiles/bashrc-osx
 fi
 
