@@ -1,0 +1,16 @@
+# load auto-completion
+source /usr/local/etc/bash_completion.d/brew
+source /usr/local/etc/bash_completion.d/git-completion.bash
+source /usr/local/etc/bash_completion.d/pass
+source /usr/local/etc/bash_completion.d/tmux
+
+# aws cli
+export PATH=~/Library/Python/2.7/bin:$PATH
+
+# chruby
+default_ruby=2.4
+source /usr/local/share/chruby/chruby.sh
+# NOTE: I believe setting a default ruby version needs to come before
+# the auto.sh so that the correct ruby version will be used
+chruby $default_ruby
+source /usr/local/opt/chruby/share/chruby/auto.sh

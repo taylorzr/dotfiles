@@ -1,4 +1,4 @@
-# Vault
+# vault
 export VAULT_CACERT=/Users/ztaylo43/AvantCorporationCA.crt
 export VAULT_ADDR=https://vault.ad.avant.com
 alias va='vault auth --method=ldap username=$(whoami)'

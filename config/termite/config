@@ -21,13 +21,20 @@ cursor = #8a8a8a
 # Yellow-ish
 highlight = #87875F
 
-# FIXME: Don't think these are working, what are the colors used for
-# success/failure?!?
-# OK, Red works in vim for highlighting the trailing whitespace
+# Black
+color8 = #303030
+# color8
 # Red
 color9 = #870000
-
-# Green?
+# Green
 color10 = #00875F
 # Yellow
 color11 = #87875F
+# Blue
+color12 = #2e5696
+# Magenta
+# color13 = #91418c
+# Cyan
+color14 = #5F8787
+# White
+# color15 = #1c1c1c
