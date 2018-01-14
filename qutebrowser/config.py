@@ -710,7 +710,11 @@ c.auto_save.session = True
 ## The editor (and arguments) to use for the `open-editor` command. `{}`
 ## gets replaced by the filename of the file to be edited.
 ## Type: ShellCommand
-# c.editor.command = ['gvim', '-f', '{}']
+from sys import platform
+if platform == "linux":
+    c.editor.command = ['termite', '-e', 'nvim {}']
+else:
+    c.editor.command = ['gvim', '-f', '{}']
 
 ## Encoding to use for the editor.
 ## Type: Encoding

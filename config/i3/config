@@ -222,4 +222,3 @@ assign [class="qutebrowser"] 2
 assign [class="Franz"] 3
 exec --no-startup-id termite
 exec --no-startup-id qutebrowser --enable-webengine-inspector
-exec --no-startup-id franz4-bin
