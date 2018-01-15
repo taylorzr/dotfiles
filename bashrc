@@ -18,7 +18,7 @@ fi
 # https://github.com/tmux/tmux/wiki/FAQ Not 100% of 100% this shoud be set for
 # all terminals, maybe just within tmux but let's try this first
 export TERM='screen-256color'
-export EDITOR='nvim'
+export EDITOR='nvim -c "set tw=0"'
 export GOPATH="$HOME/go"
 export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 export PATH=$PATH:~/go/bin # go binaries
