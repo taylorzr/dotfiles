@@ -8,3 +8,8 @@ source /usr/share/chruby/chruby.sh
 # the auto.sh so that the correct ruby version will be used
 chruby $default_ruby
 source /usr/share/chruby/auto.sh
+
+keyboard_config() {
+  xset r rate 200 25
+  setxkbmap -layout us -option ctrl:nocaps
+}
