@@ -5,7 +5,7 @@ alias rb='source ~/.bash_profile && echo "Bashrc reloaded!"'
 alias rt='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
 
 # ls
-alias ls='ls --color=auto'
+alias ls='ls -G'
 alias la='ls -lah'
 alias l.='ls -d .*'
 

@@ -67,7 +67,8 @@ Using swapfile: https://wiki.archlinux.org/index.php/Swap#Swapfile
 # osx
 
 ```
-brew install fzf hub neovim the_silver_searcher tmux
+brew install bash bash-completion2 fzf hub neovim the_silver_searcher tmux
+brew tap homebrew/services
 ln -s '~/dotfiles/Library/Application Support/Spectacle/Shortcuts.json' '~/Library/Application Support/Spectacle/Shortcuts.json' # Not sure if this works still
 ```
 

@@ -20,3 +20,74 @@ function disable_avant_apply {
   bundle config --delete local.avant_apply
   bundle config --delete disable_local_branch_check
 }
+
+function config:all() (
+  set -e
+  local server keys
+  server=$1
+  if [[ -z "$server" ]] ; then
+    echo 'Missing first argument (server name)'
+    exit 1
+  fi
+  # `tail -n +3` to remove the header in the vault secret table
+  vault list /secret/app/integration/$server | tail -n +3 | while read key
+  do
+    value=$(config:get $server $key)
+    printf '%s=%s\n' $key $value
+  done
+)
+alias ca='config:all'
+
+function config:get() (
+  set -e
+  if [[ -z "$1" ]] ; then
+    echo 'Missing first argument (server name)'
+    exit 1
+  fi
+  if [[ -z "$2" ]] ; then
+    echo 'Missing second argument (key)'
+    exit 1
+  fi
+  local key result
+  server=$1
+  key=$2
+  result=$(vault read -field=value secret/app/integration/$server/${key})
+  printf '%s\n' $result
+)
+alias cg='config:get'
+
+function config:set() (
+  set -e
+  if [[ -z "$1" ]] ; then
+    echo 'Missing first argument (server name)'
+    exit 1
+  fi
+  if [[ -z "$2" ]] ; then
+    echo 'Missing second argument (key=value)'
+    exit 1
+  fi
+  local server key_value key value
+  server=$1
+  key_value=$2
+  eval $(echo $2 | awk -F '=' '{ print "key="$1; print "value="$2 }')
+  vault write secret/app/integration/$server/${key} value=${value}
+)
+alias cs='config:set'
+
+function config:sha() (
+  set -e
+  if [[ -z "$1" ]] ; then
+    echo 'Missing first argument (server name)'
+    exit 1
+  fi
+  local server
+  server=$1
+  printf "%s\n" $(curl https://$server.dev.avant.com/heartbeat 2>/dev/null | awk -F ': ' '{print $2}')
+)
+alias sha='config:sha'
+
+function config:branch() (
+  set -e
+  git branch -r --contains $(sha $1)
+)
+alias branch='config:branch'

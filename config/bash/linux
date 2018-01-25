@@ -2,11 +2,10 @@
 export PATH=~/.local/bin:$PATH # aws cli
 
 # chruby
-default_ruby=2.4
 source /usr/share/chruby/chruby.sh
 # NOTE: I believe setting a default ruby version needs to come before
 # the auto.sh so that the correct ruby version will be used
-chruby $default_ruby
+chruby 2.4
 source /usr/share/chruby/auto.sh
 
 keyboard_config() {

@@ -22,3 +22,6 @@ nnoremap <Leader>cl :let @*=expand('%') . ':' . line('.') \| echo 'Filename & li
 " Easier indent/dedent
 nnoremap > >>
 nnoremap < <<
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %

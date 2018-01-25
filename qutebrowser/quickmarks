@@ -16,3 +16,8 @@ hipchat https://avantcredit.hipchat.com/chat
 whatsapp https://web.whatsapp.com/
 gmail https://mail.google.com/mail/u/1/#inbox
 ci https://circleci.int.avant.com/dashboard
+ab-deploy https://jenkins.ad.avant.com/job/ecs_deploys/job/integration/job/integration-deploy/build?delay=0sec
+ab-build https://jenkins.ad.avant.com/job/ecs_deploys/job/dev/job/basic/job/build/build?delay=0sec
+ab-fork https://jenkins.ad.avant.com/job/ecs_deploys/job/integration/job/integration-fork/build?delay=0sec
+hip https://avantcredit.hipchat.com/chat
+mailcatcher http://localhost:1080/
