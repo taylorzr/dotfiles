@@ -18,6 +18,10 @@ noremap L $
 " Copy filename and/or line number
 nnoremap <Leader>cf :let @*=expand('%') \| echo 'Filename copied to clipboard!'<CR>
 nnoremap <Leader>cl :let @*=expand('%') . ':' . line('.') \| echo 'Filename & line copied to clipboard!'<CR>
+nnoremap <Leader>tf :Testfile<CR> \| :echo 'Testing ' . expand('%')<CR>
+nnoremap <Leader>tl :Testline<CR> \| :echo 'Testing ' . expand('%') . ':' . line('.')<CR>
+command! Testfile silent exec '!tmux send-keys -t 1 ber' . '\ ' . expand('%') . ' Enter'
+command! Testline silent exec '!tmux send-keys -t 1 ber' . '\ ' . expand('%') . ':' . line('.') . ' Enter'
 
 " Easier indent/dedent
 nnoremap > >>

@@ -75,4 +75,6 @@ Plug 'mattn/emmet-vim'
 Plug 'chrisbra/Colorizer'
      :let g:colorizer_auto_color = 1
 
+Plug 'tpope/vim-projectionist'
+
 call plug#end()
