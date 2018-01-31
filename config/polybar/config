@@ -21,10 +21,10 @@ alert = #bd2c40
 [bar/example]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 27
+height = 25
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 6.0
+; radius = 6.0
 fixed-center = false
 
 background = ${colors.background}
@@ -44,11 +44,11 @@ module-margin-right = 2
 
 font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
+font-2 = Wuncon Siji:pixelsize=10;1
 
-modules-left = i3 date
-modules-center =
-modules-right = battery cpu memory filesystem xbacklight volume wlan eth powermenu
+modules-left = i3 volume
+modules-center = date
+modules-right = powermenu battery cpu memory filesystem wlan eth
 
 tray-position = right
 tray-padding = 2
@@ -79,15 +79,15 @@ blacklist-0 = num lock
 
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-prefix-underline = ${colors.secondary}
+; format-prefix-underline = ${colors.secondary}
 
 label-layout = %layout%
-label-layout-underline = ${colors.secondary}
+; label-layout-underline = ${colors.secondary}
 
 label-indicator-padding = 2
 label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
-label-indicator-underline = ${colors.secondary}
+; label-indicator-underline = ${colors.secondary}
 
 [module/filesystem]
 type = internal/fs
@@ -95,7 +95,7 @@ interval = 25
 
 mount-0 = /
 
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+label-mounted = %{F#555}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
@@ -104,7 +104,7 @@ type = internal/bspwm
 
 label-focused = %index%
 label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.primary}
+; label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
 label-occupied = %index%
@@ -134,7 +134,7 @@ label-mode-background = ${colors.primary}
 ; focused = Active workspace on focused monitor
 label-focused = %index%
 label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = ${module/bspwm.label-focused-underline}
+; label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = ${module/bspwm.label-focused-padding}
 
 ; unfocused = Inactive workspace on any monitor
@@ -144,7 +144,7 @@ label-unfocused-padding = ${module/bspwm.label-occupied-padding}
 ; visible = Active workspace on unfocused monitor
 label-visible = %index%
 label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
+; label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
@@ -177,7 +177,7 @@ bar-indicator-foreground = #ff
 bar-indicator-font = 2
 bar-fill = ─
 bar-fill-font = 2
-bar-fill-foreground = #9f78e1
+bar-fill-foreground = #555
 bar-empty = ─
 bar-empty-font = 2
 bar-empty-foreground = ${colors.foreground-alt}
@@ -190,17 +190,17 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " CPU "
+format-prefix = "CPU"
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
+; format-underline = #f90000
 label = %percentage:2%%
 
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = " MEM "
+format-prefix = "RAM "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #4bffdc
+; format-underline = #4bffdc
 label = %percentage_used%%
 
 [module/wlan]
@@ -208,8 +208,9 @@ type = internal/network
 interface = wlp58s0
 interval = 3.0
 
-format-connected = <ramp-signal> <label-connected>
-format-connected-underline = #9f78e1
+format-connected = <label-connected>
+; format-connected = <ramp-signal> <label-connected>
+; format-connected-underline = #9f78e1
 label-connected = %essid%
 
 format-disconnected =
@@ -230,7 +231,7 @@ type = internal/network
 interface = docker0
 interval = 3.0
 
-format-connected-underline = #55aa55
+; format-connected-underline = #55aa55
 format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
@@ -253,7 +254,7 @@ time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0a6cf5
+; format-underline = #0a6cf5
 
 label = %date% %time%
 
@@ -292,14 +293,14 @@ adapter = AC
 full-at = 98
 
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
+; format-charging-underline = #ffb52a
 
 format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+; format-discharging-underline = ${self.format-charging-underline}
 
 format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
+; format-full-underline = ${self.format-charging-underline}
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -318,9 +319,9 @@ thermal-zone = 0
 warn-temperature = 60
 
 format = <ramp> <label>
-format-underline = #f50a4d
+; format-underline = #f50a4d
 format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
+; format-warn-underline = ${self.format-underline}
 
 label = %temperature%
 label-warn = %temperature%
@@ -339,7 +340,7 @@ expand-right = true
 format-spacing = 1
 
 label-open = 
-label-open-foreground = ${colors.secondary}
+label-open-foreground = ${colors.foreground-alt}
 label-close =  cancel
 label-close-foreground = ${colors.secondary}
 label-separator = |

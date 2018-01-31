@@ -1,5 +1,6 @@
 [options]
-font         = Monospace 16
+font         = Monospace 18
+/* font         = Monospace 16 */
 visible_bell = false
 
 [colors]

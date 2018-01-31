@@ -6,7 +6,7 @@ gh github.com
 drive drive.google.com
 cal calendar.google.com
 ab https://github.com/avantcredit/avant-basic
-pr https://github.com/pulls?q=is%3Aopen+is%3Apr+author%3Ataylorzr+user%3Ataylorzr+user%3Aavantcredit
+pr https://github.com/pulls?q=is%3Aopen+is%3Apr+author%3Ataylorzr
 a https://www.amazon.com
 r https://www.reddit.com/
 5k http://localhost:5000/
@@ -22,3 +22,5 @@ ab-fork https://jenkins.ad.avant.com/job/ecs_deploys/job/integration/job/integra
 hip https://avantcredit.hipchat.com/chat
 mailcatcher http://localhost:1080/
 blog http://localhost:1313/
+wa https://web.whatsapp.com/
+hn https://news.ycombinator.com/

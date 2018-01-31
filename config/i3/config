@@ -40,9 +40,10 @@ floating_modifier $mod
 # - qutebrowser
 # requires xdotool
 # TODO: Doesn't work for chrome, e.g. 'New tab - Google Chrome', probably need
-# to split on '-' first, then pick last item
-bindsym $mod+Return exec $(xdotool getwindowfocus getwindowname | awk '{print $NF}')
-# bindsym $mod+Return exec i3-nagbar -t warning -m $(xdotool getwindowfocus getwindowname | awk '{print $NF}')
+# to split on '-' first, then pick last item, or translate each app title to an
+# app name, or find another way to get app name
+bindsym $mod+Return exec $(xdotool getwindowfocus getwindowname | awk '{print $NF}'| sed 's/i3/termite/g')
+# bindsym $mod+Return exec i3-nagbar -t warning -m $(xdotool getwindowfocus getwindowname | awk '{print $NF}' | sed 's/i3/termite/g')
 
 # kill focused window
 bindsym $mod+q kill
@@ -222,6 +223,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # Requires network manager:
 #  `systemctl status NetworkManager`
 exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 
 # TODO: Start up keyring
 exec --no-startup-id gnome-keyring
