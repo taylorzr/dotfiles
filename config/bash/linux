@@ -12,3 +12,5 @@ keyboard_config() {
   xset r rate 200 25
   setxkbmap -layout us -option ctrl:nocaps
 }
+
+alias sys='systemctl'

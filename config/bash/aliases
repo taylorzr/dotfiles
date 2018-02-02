@@ -19,13 +19,22 @@ alias tk='tmux kill-session -t'
 alias td='tmux detach'
 alias ta='tmux attach || { (while ! tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/restore.sh; do sleep 0.2; done)& tmux ; }'
 
-function tmux_create_and_switch_to_session  {
-  tmux new-session -d -s $1 -c ~/$1 # If it already exists, tmux just says 'duplicate sesssion: $1'
-  tmux switch -t $1
+function tmux_project() (
+  set -e
+  if [[ -z "$1" ]] ; then
+    echo 'Missing argument (project name)'
+    exit 1
+  fi
+  local session
+  session=$1
+  if ! tmux has-session -t $session 2>/dev/null; then 
+    tmux new-session -d -s $session -c ~/$session
+  fi
+  tmux switch -t $session 2>/dev/null
   # Maybe creating 2 panes and starting vim in top?
-}
-alias project='tmux_create_and_switch_to_session'
-alias tn='tmux_create_and_switch_to_session'
+)
+
+alias tp='tmux_project'
 
 # git
 alias g='git'

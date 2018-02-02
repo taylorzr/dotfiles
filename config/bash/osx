@@ -10,3 +10,5 @@ source /usr/local/opt/chruby/share/chruby/auto.sh
 
 # brew managed bash autocompletion
 source /usr/local/share/bash-completion/bash_completion
+
+alias sys='brew services'

@@ -91,3 +91,11 @@ function config:branch() (
   git branch -r --contains $(sha $1)
 )
 alias branch='config:branch'
+
+function clean() {
+  bin/prep_local
+}
+
+function dev() {
+  bin/start_development
+}
