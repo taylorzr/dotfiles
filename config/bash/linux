@@ -8,9 +8,12 @@ source /usr/share/chruby/chruby.sh
 chruby 2.4
 source /usr/share/chruby/auto.sh
 
-keyboard_config() {
+configure_keyboard() {
   xset r rate 200 25
   setxkbmap -layout us -option ctrl:nocaps
+  echo "Keyboard configured!"
+
 }
+alias rk='configure_keyboard'
 
 alias sys='systemctl'
