@@ -14,6 +14,10 @@ else
   source $HOME/dotfiles/config/bash/osx
 fi
 
+if [[ -f "$HOME/dotfiles/config/bash/local" ]]; then
+  source $HOME/dotfiles/config/bash/local
+fi
+
 # options
 # https://github.com/tmux/tmux/wiki/FAQ Not 100% of 100% this shoud be set for
 # all terminals, maybe just within tmux but let's try this first

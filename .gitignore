@@ -5,3 +5,4 @@ secrets
 config/nvim/autoload/*
 config/nvim/ftplugin/*
 config/nvim/plugged/*
+config/bash/local
