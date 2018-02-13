@@ -22,3 +22,6 @@ endif
 
 " Turn off swap files
 set noswapfile
+
+" Persistent undo
+set undofile

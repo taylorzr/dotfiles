@@ -27,7 +27,7 @@ function tmux_project() (
   fi
   local session
   session=$1
-  if ! tmux has-session -t $session 2>/dev/null; then 
+  if ! tmux has-session -t $session 2>/dev/null; then
     tmux new-session -d -s $session -c ~/$session
   fi
   tmux switch -t $session 2>/dev/null
@@ -52,6 +52,7 @@ alias ber='bundle exec rspec'
 alias cber='BROWSER=chrome bundle exec rspec'
 alias rc='rails console'
 alias rs='rails server'
+alias pr='pry-remote'
 
 # docker
 alias dc='docker-compose'
