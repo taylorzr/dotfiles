@@ -40,6 +40,10 @@ ln -s ~/dotfiles/Xresources ~/.Xresources
 
 ```
 gpg --import zach.asc
+gpg --edit-key zach
+gpg> trust
+Your decision? 5 # Trust ultimately
+Do you really want to set this key to ultimate trust? (y/N) y
 ```
 
 ### TODO
