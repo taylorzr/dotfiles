@@ -25,3 +25,6 @@ set noswapfile
 
 " Persistent undo
 set undofile
+
+" Spell checking on
+set spell
