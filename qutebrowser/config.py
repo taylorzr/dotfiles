@@ -1266,6 +1266,7 @@ c.url.searchengines = {
     'maps':       'https://www.google.com/maps/search/{}?hl=en&source=opensearch',
     'yt':         'https://www.youtube.com/search?q={}',
     'abc':        'https://github.com/avantcredit/avant-basic/commit/{}',
+    '5k':         'http://localhost:5000/{}',
 }
 
 ## The page(s) to open at the start.

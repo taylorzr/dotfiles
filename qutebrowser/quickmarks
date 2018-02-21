@@ -28,3 +28,5 @@ zach https://zach.dev.avant.com/
 ab-delete https://jenkins.ad.avant.com/job/ecs_deploys/job/integration/job/integration-delete/
 ab-create https://jenkins.ad.avant.com/job/ecs_deploys/job/integration/job/integration-fork/build?delay=0sec
 pnc https://www.pnc.com/en/personal-banking.html
+4k http://localhost:4000/
+it https://avantcreditcorp.service-now.com/navpage.do
