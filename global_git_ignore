@@ -1,11 +1,14 @@
 # vim ctags file
 tags
 
-# vim-xmark plugin temporary file
-**/.xmark*
-
 # osx directory cache
 .DS_Store
 
 # My notes
 zach_notes*
+
+# Projections - Could be committed so other people get projections too, but most
+# probably won't use this so :shrug:
+.projections.json
+
+*.pyc
