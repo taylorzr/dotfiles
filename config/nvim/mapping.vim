@@ -15,14 +15,6 @@ nnoremap <CR> :nohlsearch<CR>
 noremap H ^
 noremap L $
 
-" Copy/run tests by filename or line number
-nnoremap <Leader>cf :let @*=expand('%') \| echo 'Filename copied to clipboard!'<CR>
-nnoremap <Leader>cl :let @*=expand('%') . ':' . line('.') \| echo 'Filename & line copied to clipboard!'<CR>
-nnoremap <Leader>tf :Testfile<CR> \| :echo 'Testing ' . expand('%')<CR>
-nnoremap <Leader>tl :Testline<CR> \| :echo 'Testing ' . expand('%') . ':' . line('.')<CR>
-command! Testfile silent exec '!tmux send-keys -t 1 ber' . '\ ' . expand('%') . ' Enter'
-command! Testline silent exec '!tmux send-keys -t 1 ber' . '\ ' . expand('%') . ':' . line('.') . ' Enter'
-
 " Easier indent/dedent
 nnoremap > >>
 nnoremap < <<
@@ -30,7 +22,7 @@ nnoremap < <<
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
-" Use system clipboard for yank buffer
+" Copy/run tests by filename or line number
 if system('uname -s') == "Darwin\n"
   nnoremap <Leader>cf :let @*=expand('%') \| echo 'Filename copied to clipboard!'<CR>
   nnoremap <Leader>cl :let @*=expand('%') . ':' . line('.') \| echo 'Filename & line copied to clipboard!'<CR>
@@ -38,3 +30,8 @@ else
   nnoremap <Leader>cf :let @+=expand('%') \| echo 'Filename copied to clipboard!'<CR>
   nnoremap <Leader>cl :let @+=expand('%') . ':' . line('.') \| echo 'Filename & line copied to clipboard!'<CR>
 endif
+
+nnoremap <Leader>tf :Testfile<CR> \| :echo 'Testing ' . expand('%')<CR>
+nnoremap <Leader>tl :Testline<CR> \| :echo 'Testing ' . expand('%') . ':' . line('.')<CR>
+command! Testfile silent exec '!tmux send-keys -t 1 run-tests' . '\ ' . expand('%') . ' Enter'
+command! Testline silent exec '!tmux send-keys -t 1 run-tests' . '\ ' . expand('%') . ':' . line('.') . ' Enter'

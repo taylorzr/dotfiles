@@ -1,5 +1,5 @@
 " Generic static analysis
-autocmd! BufWritePost * Neomake
+" autocmd! BufWritePost * Neomake
 
 " Ruby
 autocmd Filetype ruby nnoremap <Leader>p orequire 'pry'; binding.pry<ESC>

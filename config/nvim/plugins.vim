@@ -52,7 +52,8 @@ Plug 'scrooloose/nerdtree'
      nnoremap <Leader>n :NERDTree<CR>
      nnoremap <Leader>f :NERDTreeFind<CR>
 
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
+Plug 'w0rp/ale'
 
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
      let g:deoplete#enable_at_startup = 1
