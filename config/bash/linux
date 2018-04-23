@@ -1,3 +1,5 @@
+# vim: ft=sh:
+
 # aws cli
 export PATH=~/.local/bin:$PATH # aws cli
 

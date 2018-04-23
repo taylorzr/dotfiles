@@ -1,3 +1,5 @@
+# vim: ft=sh:
+
 # reload
 alias reload='reload_bash && reload_tmux'
 alias r='reload'
