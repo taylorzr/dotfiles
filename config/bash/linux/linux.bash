@@ -1,7 +1,7 @@
 # vim: ft=sh:
 
 # aws cli
-export PATH=~/.local/bin:$PATH # aws cli
+prependPath "~/.local/bin"
 
 # chruby
 source /usr/share/chruby/chruby.sh
@@ -19,3 +19,7 @@ configure_keyboard() {
 alias rk='configure_keyboard'
 
 alias sys='systemctl'
+
+# external monitor
+alias dock='xrandr --output DP1 --auto --output eDP1 --off'
+alias undock='xrandr --auto'

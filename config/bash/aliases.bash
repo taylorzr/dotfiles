@@ -1,10 +1,7 @@
-# vim: ft=sh:
-
 # reload
-alias reload='reload_bash && reload_tmux'
-alias r='reload'
-alias rb='source ~/.bash_profile && echo "Bashrc reloaded!"'
-alias rt='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
+alias reload='reload-bash && reload-tmux'
+alias reload-bash='source ~/.bash_profile && echo "Bashrc reloaded!"'
+alias reload-tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
 
 # ls
 alias ls='ls -G'
@@ -61,7 +58,3 @@ alias dc='docker-compose'
 
 # heroku
 alias hrc='heroku run rails console'
-
-# external monitor
-alias dock='xrandr --output DP1 --auto --output eDP1 --off'
-alias undock='xrandr --auto'

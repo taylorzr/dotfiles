@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 
 # aws cli
-export PATH=/usr/local/bin/python:$PATH
+prependPath "/usr/local/bin/python"
 
 # chruby
 source /usr/local/share/chruby/chruby.sh

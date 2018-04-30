@@ -1,5 +1,3 @@
-# vim: ft=sh:
-
 prompt_command() {
   local last_exit_code=$?
 

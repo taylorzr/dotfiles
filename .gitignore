@@ -1,9 +1,9 @@
 tokens
-secrets
+secrets.bash
 **/qutebrowser/autoconfig.yml
 **/qutebrowser/qsettings/*
 config/nvim/autoload/*
 config/nvim/ftplugin/*
 config/nvim/plugged/*
-config/bash/local
+config/bash/local.bash
 docker/.buildNodeID
