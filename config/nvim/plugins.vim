@@ -78,4 +78,6 @@ Plug 'chrisbra/Colorizer'
 
 Plug 'tpope/vim-projectionist'
 
+Plug 'sebdah/vim-delve'
+
 call plug#end()

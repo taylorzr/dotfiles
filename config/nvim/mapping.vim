@@ -31,7 +31,9 @@ else
   nnoremap <Leader>cl :let @+=expand('%') . ':' . line('.') \| echo 'Filename & line copied to clipboard!'<CR>
 endif
 
+nnoremap <Leader>ta :Testall<CR> \| :echo 'Testing all the things'<CR>
 nnoremap <Leader>tf :Testfile<CR> \| :echo 'Testing ' . expand('%')<CR>
 nnoremap <Leader>tl :Testline<CR> \| :echo 'Testing ' . expand('%') . ':' . line('.')<CR>
+command! Testall silent exec '!tmux send-keys -t 1 run-tests ENTER'
 command! Testfile silent exec '!tmux send-keys -t 1 run-tests' . '\ ' . expand('%') . ' Enter'
 command! Testline silent exec '!tmux send-keys -t 1 run-tests' . '\ ' . expand('%') . ':' . line('.') . ' Enter'
