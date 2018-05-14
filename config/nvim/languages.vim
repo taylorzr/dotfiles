@@ -22,3 +22,6 @@ autocmd FileType make setlocal noexpandtab
 
 " Cron
 autocmd filetype crontab setlocal nobackup nowritebackup
+
+" R
+autocmd FileType r setlocal commentstring=#\ %s
