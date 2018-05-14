@@ -32,4 +32,16 @@ prompt_command() {
   fi
 }
 
+function alternative_prompt_command() {
+  PS1='$ '
+}
+
+function toggle_prompt() {
+  if [ "$PROMPT_COMMAND" == "prompt_command" ]; then
+    export PROMPT_COMMAND=alternative_prompt_command
+  else
+    export PROMPT_COMMAND=prompt_command
+  fi
+}
+
 export PROMPT_COMMAND=prompt_command

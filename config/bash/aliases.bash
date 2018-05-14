@@ -1,6 +1,7 @@
 # reload
 alias reload='reload-bash && reload-tmux'
 alias reload-bash='source ~/.bash_profile && echo "Bashrc reloaded!"'
+alias rb='reload-bash'
 alias reload-tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
 
 # ls
@@ -55,6 +56,18 @@ alias pr='pry-remote'
 
 # docker
 alias dc='docker-compose'
+
+function docker-bash()(
+  local image
+  image=$1
+  if [ -z "$image" ]; then
+    echo "You must specify an image name as the first argument"
+    exit 1
+  fi
+  docker run -it $image bash
+)
+
+alias db='docker-bash'
 
 # heroku
 alias hrc='heroku run rails console'
