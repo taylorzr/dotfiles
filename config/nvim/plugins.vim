@@ -24,6 +24,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'sheerun/vim-polyglot'
      let g:ruby_indent_block_style = 'do'
+     let g:vim_markdown_folding_disabled = 1
 
 Plug 'tpope/vim-endwise'    " Automatic insertion of block endings
 

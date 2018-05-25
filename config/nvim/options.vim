@@ -5,7 +5,7 @@ set scrolloff=10
 set list listchars=tab:\▸\ ,trail:·
 
 " Automatically wrap text
-set textwidth=80
+set textwidth=100
 set fo+=t
 
 " Expand tabs to spaces
