@@ -13,7 +13,7 @@ autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
 
 " colorcolumn
-set colorcolumn=80
+set colorcolumn=100
 highlight ColorColumn ctermbg=Black
 
 " Fix color of warning, without this it's barely visible
