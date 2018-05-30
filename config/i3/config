@@ -210,12 +210,6 @@ client.urgent           #002b36 #dc322f #fdf6e3 #002b36
 # Set background
 exec_always feh --bg-scale ~/dotfiles/graphics/ayb.png
 
-# Scratchpad
-# for_window [instance="_scratchpad"] move to scratchpad
-# bindsym $mod+grave scratchpad show
-# TODO: Fix scratchpad at start
-# exec --no-startup-id termite -t _scratchpad
-
 # Startup Polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
@@ -224,13 +218,8 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 #  `systemctl status NetworkManager`
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
-
-# TODO: Start up keyring
 exec --no-startup-id gnome-keyring
 
-# FIXME: Not working yet...
-# Assign and start default applications
-assign [class="qutebrowser"] 2
-assign [class="Franz"] 3
+assign [class="Google Chrome"] 2
 exec --no-startup-id termite
-exec --no-startup-id qutebrowser --enable-webengine-inspector
+exec --no-startup-id google-chrome-stable
