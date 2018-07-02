@@ -1,9 +1,8 @@
 # common
 ```
 git clone git@github.com:taylorzr/dotfiles.git
-ln -s ~/tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/{.bashrc,.bash_profile,.tmux.conf,.gitconfig} ~
 ln -s ~/dotfiles/config/nvim ~/.config/nvim
-ln -s ~/dotfiles/gitconfig ~/.gitconfig
 chmod 400 ~/.ssh/id_rsa
 ```
 
@@ -24,18 +23,15 @@ pip3 install neovim # Used by deoplete
 
 # arch
 ```
-sudo pacman -S acpi chruby git feh fzf htop hub i3 maim neovim pass polybar termite xorg xsel yaourt
-yaourt -S franz4-bin google-chrome neofetch the_silver_searcher
+sudo pacman -S acpi chruby git feh fzf htop hub i3 neovim polybar termite xorg xsel yaourt
+yaourt -S google-chrome neofetch the_silver_searcher
 ```
 
 ```
 ln -s ~/dotfiles/config/i3 ~/.config/i3
 ln -s ~/dotfiles/config/termite/config ~/.config/termite/config
 ln -s ~/dotfiles/config/polybar ~/.config/polybar
-ln -s ~/dotfiles/qutebrowser ~/.config/qutebrowser # TODO diff for OSX right?
-ln -s ~/dotfiles/xinitrc ~/.xinitrc
-ln -s ~/dotfiles/xmodmap ~/.xmodmap
-ln -s ~/dotfiles/Xresources ~/.Xresources
+ln -s ~/dotfiles/{xinitrc,Xresources} ~
 ```
 
 ```
