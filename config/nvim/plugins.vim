@@ -61,10 +61,12 @@ Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
      inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
      inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<s-tab>"
 
-Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'zchee/deoplete-go', { 'do': 'make' }
+Plug 'fishbullet/deoplete-ruby'
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
      let g:deoplete#sources#go#gocode_binary = '~/go/bin/gocode'
+Plug 'fszymanski/deoplete-emoji'
 
 Plug 'wellle/targets.vim'
 
