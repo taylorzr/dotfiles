@@ -71,3 +71,6 @@ alias db='docker-bash'
 
 # heroku
 alias hrc='heroku run rails console'
+
+# Groups on lines
+alias groups='groups | tr " " "\n"'
