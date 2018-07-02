@@ -12,3 +12,5 @@ zach_notes*
 .projections.json
 
 *.pyc
+
+.starscope.db
