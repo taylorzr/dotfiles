@@ -63,6 +63,8 @@ Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+     let g:go_auto_type_info = 1
+
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
      let g:deoplete#sources#go#gocode_binary = '~/go/bin/gocode'
 
