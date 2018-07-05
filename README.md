@@ -1,7 +1,7 @@
 # common
 ```
 git clone git@github.com:taylorzr/dotfiles.git
-ln -s ~/dotfiles/{.bashrc,.bash_profile,.tmux.conf,.gitconfig} ~
+ln -fs ~/dotfiles/{.bashrc,.bash_profile,.tmux.conf,.gitconfig,.zshrc} ~
 ln -s ~/dotfiles/config/nvim ~/.config/nvim
 chmod 400 ~/.ssh/id_rsa
 ```
