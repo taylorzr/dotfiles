@@ -1,6 +1,5 @@
 " Start scrolling before cursor reaches edge of screen
 set scrolloff=10
-
 " Show trailing tabs and spaces
 set list listchars=tab:\▸\ ,trail:·
 
@@ -28,3 +27,6 @@ set undofile
 
 " Spell checking on
 set spell
+
+" Folding by marker `{{{` and `}}}`
+set foldmethod=marker

@@ -19,6 +19,9 @@ noremap L $
 nnoremap > >>
 nnoremap < <<
 
+" Folding
+nnoremap <Space> za
+
 " Easier saving
 nnoremap <C-s> :update<CR>
 

@@ -1,5 +1,3 @@
-# vim: set ft=sh:
-
 # aws cli
 prependPath "/usr/local/bin/python"
 

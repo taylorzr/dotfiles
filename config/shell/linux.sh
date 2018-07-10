@@ -1,5 +1,3 @@
-# vim: ft=sh:
-
 # aws cli
 prependPath "~/.local/bin"
 
