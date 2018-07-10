@@ -18,25 +18,18 @@ compinit
 
 # Plugins
 # {{{
-source ~/.zplug/init.zsh
+source "${HOME}/.zgen/zgen.zsh"
 
-zplug "zsh-users/zsh-autosuggestions"
-zplug "Valiev/almostontop"
-zplug "desyncr/auto-ls"
-zplug "changyuheng/zsh-interactive-cd"
-zplug "popstas/zsh-command-time" # Not working :(
+if ! zgen saved; then
 
-# zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
+  # specify plugins here
+  zgen zsh-users/zsh-autosuggestions
+  zgen Valiev/almostontop
 
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
+  # generate the init script from plugins above
+  zgen save
 fi
 
-zplug load
 # }}}
 
 # Key bindings
