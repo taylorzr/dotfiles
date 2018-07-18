@@ -4,7 +4,7 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=10000
-setopt appendhistory autocd beep extendedglob nomatch notify
+setopt autocd beep extendedglob nomatch notify share_history
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
@@ -197,7 +197,7 @@ func precmd() { prompt_command; }
 # OS Specific Config
 # {{{
 
-if [[ $(uname -s) == Linux ]]; then
+if [ $(uname -s) = 'Linux' ]; then
   source ~/dotfiles/config/shell/linux.sh
 else
   source ~/dotfiles/config/shell/osx.sh
