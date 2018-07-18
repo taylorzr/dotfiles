@@ -203,5 +203,7 @@ else
   source ~/dotfiles/config/shell/osx.sh
 fi
 
+source ~/dotfiles/config/shell/local.sh
+
 # }}}
 
