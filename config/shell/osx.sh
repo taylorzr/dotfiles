@@ -8,7 +8,4 @@ source /usr/local/share/chruby/chruby.sh
 chruby 2.3
 source /usr/local/opt/chruby/share/chruby/auto.sh
 
-# brew managed bash auto-completion
-source /usr/local/share/bash-completion/bash_completion
-
 alias sys='brew services'
