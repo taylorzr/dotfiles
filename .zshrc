@@ -2,7 +2,7 @@
 # {{{
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=1000
+HISTSIZE=10000
 SAVEHIST=10000
 setopt autocd beep extendedglob nomatch notify share_history
 bindkey -e
@@ -20,15 +20,19 @@ compinit
 # {{{
 source "${HOME}/.zgen/zgen.zsh"
 
+
 if ! zgen saved; then
 
   # specify plugins here
-  zgen zsh-users/zsh-autosuggestions
-  zgen Valiev/almostontop
+  zgen load zsh-users/zsh-autosuggestions
+  zgen load Valiev/almostontop
 
   # generate the init script from plugins above
   zgen save
 fi
+
+# TODO: Needed on Linux?!?
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
 
 # }}}
 
@@ -37,6 +41,11 @@ fi
 
 bindkey "^a" vi-beginning-of-line
 bindkey "^e" vi-end-of-line
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
 
 # }}}
 
@@ -158,6 +167,9 @@ export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 
 prependPath "${GOPATH}/bin"
 
+# direnv
+eval "$(direnv hook zsh)"
+
 # }}}
 
 # Prompt
@@ -194,6 +206,11 @@ func precmd() { prompt_command; }
 
 # }}}
 
+# Env
+# {{{
+export EDITOR=nvim
+# }}}
+
 # OS Specific Config
 # {{{
 
@@ -206,4 +223,3 @@ fi
 source ~/dotfiles/config/shell/local.sh
 
 # }}}
-
