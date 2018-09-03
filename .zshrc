@@ -165,7 +165,9 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export GOPATH="$HOME/go"
 export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 
-prependPath "${GOPATH}/bin"
+
+path=("${GOPATH}/bin" $path)
+# prependPath "${GOPATH}/bin"
 
 # direnv
 eval "$(direnv hook zsh)"
