@@ -217,11 +217,11 @@ export EDITOR=nvim
 # {{{
 
 if [ $(uname -s) = 'Linux' ]; then
-  source ~/dotfiles/config/shell/linux.sh
+  source ~/.config/shell/linux.sh
 else
-  source ~/dotfiles/config/shell/osx.sh
+  source ~/.config/shell/osx.sh
 fi
 
-source ~/dotfiles/config/shell/local.sh
+source ~/.config/shell/local.sh
 
 # }}}
