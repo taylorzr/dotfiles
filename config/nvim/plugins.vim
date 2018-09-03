@@ -64,6 +64,7 @@ Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'zchee/deoplete-go', { 'do': 'make' }
      let g:go_auto_type_info = 1
+     let g:go_fmt_command = "goimports"
 
 Plug 'fishbullet/deoplete-ruby'
 
