@@ -1,40 +1,33 @@
-# common
+# general setup
+
+These dotfiles are setup as a bare repository. This avoids the need to symlink all the things, which
+is tedious. But because it is a bare repository, home is not a git directory, so all directories
+under home don't think they're within the dotfiles repository.
 ```
-git clone git@github.com:taylorzr/dotfiles.git
-ln -fs ~/dotfiles/{.bashrc,.bash_profile,.tmux.conf,.gitconfig,.zshrc} ~
-ln -s ~/dotfiles/config/nvim ~/.config/nvim
-chmod 400 ~/.ssh/id_rsa
+git clone --bare git@github.com:taylorzr/dotfiles.git $HOME/dotfiles
+alias dot='git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+dot checkout
+dot config --local status.showUntrackedFiles no
 ```
 
-### tmux
+### plugins for zsh, tmux, and vim
 ```
+# Zsh
+git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+
+# Tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # start tmux and run Prefix + I to install plugins
-```
 
-### vim
-```
+# Vim
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 pip3 install neovim # Used by deoplete
 # start vim and ensure plugins get auto-installed or run :PlugInstall
 ```
 
-
-
-# arch
+# keys
 ```
-sudo pacman -S acpi chruby git feh fzf htop hub i3 neovim polybar termite xorg xsel yaourt
-yaourt -S google-chrome neofetch the_silver_searcher
-```
-
-```
-ln -s ~/dotfiles/config/i3 ~/.config/i3
-ln -s ~/dotfiles/config/termite/config ~/.config/termite/config
-ln -s ~/dotfiles/config/polybar ~/.config/polybar
-ln -s ~/dotfiles/{xinitrc,Xresources} ~
-```
-
-```
+chmod 400 ~/.ssh/id_rsa
 gpg --import zach.asc
 gpg --edit-key zach
 gpg> trust
@@ -42,11 +35,18 @@ Your decision? 5 # Trust ultimately
 Do you really want to set this key to ultimate trust? (y/N) y
 ```
 
+# arch
+
+# {{{
 ### TODO
 - i3 split use current directory if shell
 - power managment, suspend to ram/disk
     maybe helpful: https://wiki.archlinux.org/index.php/I3#Shutdown.2C_reboot.2C_lock_screen
-- trackpad gestures, back/forward, prev/next workspace
+
+```
+sudo pacman -S acpi chruby git feh fzf htop hub i3 neovim polybar termite xorg xsel volumeicon yaourt
+yaourt -S google-chrome neofetch the_silver_searcher
+```
 
 ### Troubleshooting
 Microphone not working
@@ -62,14 +62,14 @@ f4 # View capture controls
 ### Docs
 Using swapfile: https://wiki.archlinux.org/index.php/Swap#Swapfile
 
-
+# }}}
 
 # osx
+# {{{
 
 ```
 brew install bash bash-completion2 fzf hub neovim the_silver_searcher tmux
 brew tap homebrew/services
-ln -s '~/dotfiles/Library/Application Support/Spectacle/Shortcuts.json' '~/Library/Application Support/Spectacle/Shortcuts.json' # Not sure if this works still
 ```
 
 ### Map CapsLock to Control
@@ -93,12 +93,4 @@ Keyboard > Shortcuts > Mission Control
 - Move right a space > Ctrl Command l
 - Application windows > Ctrl Command j
 - Mission Control > Ctrl Command k
-
-### Mission control shortcuts
-https://apple.stackexchange.com/questions/106559/keyboard-shorcut-to-switch-focus-between-multiple-displays-on-os-x-10-9-5-mav
-```
-Command Control h # Move previous screen
-Command Control l # Move next screen
-Command Control k # Show screens
-Command Control j # Hide screens
-```
+# }}}
