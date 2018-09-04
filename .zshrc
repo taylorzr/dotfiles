@@ -90,6 +90,8 @@ function tmux_project() (
 # Aliases
 # {{{
 
+alias dot='git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+
 # reload
 alias reload='reload-bash && reload-tmux'
 alias reload-bash='source ~/.bash_profile && echo "Bash reloaded!"'
