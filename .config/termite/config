@@ -3,39 +3,47 @@ font         = Monospace 18
 /* font         = Monospace 16 */
 visible_bell = false
 
+# Dracula theme for termite
+# https://github.com/dracula/termite
+# Copyright 2013-present, All rights reserved
+# Code licensed under the MIT license
+
 [colors]
-# Light-gray
-foreground = #8a8a8a
 
-# Lighter-gray
-foreground_bold = #eeeeee
+# special
+foreground      = #f8f8f2
+foreground_bold = #f8f8f2
+cursor          = #f8f8f2
+background      = #282a36
 
-# Another-gray
-foreground_dim = #888888
+# black
+color0  = #000000
+color8  = #4d4d4d
 
-# Dark-gray
-background = #1c1c1c
+# red
+color1  = #ff5555
+color9  = #ff6e67
 
-# Light-gray
-cursor = #8a8a8a
+# green
+color2  = #50fa7b
+color10 = #5af78e
 
-# Yellow-ish
-highlight = #87875F
+# yellow
+color3  = #f1fa8c
+color11 = #f4f99d
 
-# Black
-color8 = #303030
-# color8
-# Red
-color9 = #870000
-# Green
-color10 = #00875F
-# Yellow
-color11 = #87875F
-# Blue
-color12 = #2e5696
-# Magenta
-# color13 = #91418c
-# Cyan
-color14 = #5F8787
-# White
-# color15 = #1c1c1c
+# blue
+color4  = #bd93f9
+color12 = #caa9fa
+
+# magenta
+color5  = #ff79c6
+color13 = #ff92d0
+
+# cyan
+color6  = #8be9fd
+color14 = #9aedfe
+
+# white
+color7  = #bfbfbf
+color15 = #e6e6e6

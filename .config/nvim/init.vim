@@ -98,6 +98,8 @@ Plug 'tpope/vim-projectionist'
 
 Plug 'sebdah/vim-delve'
 
+Plug 'dracula/vim', { 'as': 'dracula' }
+
 call plug#end()
 " }}}
 
@@ -219,10 +221,8 @@ set foldmethod=marker
 
 " Color
 " {{{
-" colorscheme flattened_dark
-" (needs to come after loading plugins)
-" colorscheme spartan
-colorscheme fight-in-the-shade
+let g:dracula_colorterm = 0
+colorscheme dracula
 
 " obvious trailing whitespace
 " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
