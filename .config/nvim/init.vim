@@ -61,25 +61,28 @@ Plug 'scrooloose/nerdtree'
      nnoremap <Leader>n :NERDTree<CR>
      nnoremap <Leader>f :NERDTreeFind<CR>
 
-" Plug 'neomake/neomake'
 Plug 'w0rp/ale'
 
-Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-     let g:deoplete#enable_at_startup = 1
-     inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
-     inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<s-tab>"
-
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'zchee/deoplete-go', { 'do': 'make' }
-     let g:go_auto_type_info = 1
-     let g:go_fmt_command = "goimports"
+Plug 'vim-ruby/vim-ruby'
 
-Plug 'fishbullet/deoplete-ruby'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+
+" Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"      let g:deoplete#enable_at_startup = 1
+"      inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
+"      inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<s-tab>"
+
+" Plug 'fishbullet/deoplete-ruby'
+
+" Plug 'zchee/deoplete-go', { 'do': 'make' }
+"      let g:go_auto_type_info = 1
+"      let g:go_fmt_command = "goimports"
 
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
      let g:deoplete#sources#go#gocode_binary = '~/go/bin/gocode'
 
-Plug 'fszymanski/deoplete-emoji'
+Plug 'sebdah/vim-delve'
 
 Plug 'wellle/targets.vim'
 
@@ -87,16 +90,12 @@ Plug 'michaeljsmith/vim-indent-object'
 
 Plug 'tpope/vim-surround'
 
-Plug 'JarrodCTaylor/spartan'
-
 Plug 'mattn/emmet-vim'
 
 Plug 'chrisbra/Colorizer'
      :let g:colorizer_auto_color = 1
 
 Plug 'tpope/vim-projectionist'
-
-Plug 'sebdah/vim-delve'
 
 Plug 'dracula/vim', { 'as': 'dracula' }
 
