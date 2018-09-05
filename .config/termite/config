@@ -1,0 +1,41 @@
+[options]
+font         = Monospace 18
+/* font         = Monospace 16 */
+visible_bell = false
+
+[colors]
+# Light-gray
+foreground = #8a8a8a
+
+# Lighter-gray
+foreground_bold = #eeeeee
+
+# Another-gray
+foreground_dim = #888888
+
+# Dark-gray
+background = #1c1c1c
+
+# Light-gray
+cursor = #8a8a8a
+
+# Yellow-ish
+highlight = #87875F
+
+# Black
+color8 = #303030
+# color8
+# Red
+color9 = #870000
+# Green
+color10 = #00875F
+# Yellow
+color11 = #87875F
+# Blue
+color12 = #2e5696
+# Magenta
+# color13 = #91418c
+# Cyan
+color14 = #5F8787
+# White
+# color15 = #1c1c1c

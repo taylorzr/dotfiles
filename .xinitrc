@@ -1,5 +1,5 @@
 xrandr --dpi 168
-xrdb ~/dotfiles/Xresources
+xrdb ~/.Xresources
 xset r rate 200 25
 setxkbmap -layout us -option ctrl:nocaps
 exec i3

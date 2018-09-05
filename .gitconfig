@@ -23,7 +23,7 @@
   yolo = !git add . && git commit --amend --no-edit && git push -f
 [core]
   editor = nvim
-  excludesfile = ~/dotfiles/global_git_ignore
+  excludesfile = ~/.config/global_git_ignore
   pager = less
 [user]
   name = Zach Taylor

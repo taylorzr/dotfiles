@@ -1,8 +1,5 @@
-tokens
-**/qutebrowser/autoconfig.yml
-**/qutebrowser/qsettings/*
-config/nvim/autoload/*
-config/nvim/ftplugin/*
-config/nvim/plugged/*
-config/shell/local.sh
+.config/nvim/autoload/*
+.config/nvim/ftplugin/*
+.config/nvim/plugged/*
+.config/shell/local.sh
 docker/.buildNodeID
