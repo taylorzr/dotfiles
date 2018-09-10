@@ -92,8 +92,9 @@ Plug 'tpope/vim-surround'
 
 Plug 'mattn/emmet-vim'
 
-Plug 'chrisbra/Colorizer'
-     :let g:colorizer_auto_color = 1
+" Why is this so slow?!?!?!
+" Plug 'chrisbra/Colorizer'
+"      :let g:colorizer_auto_color = 1
 
 Plug 'tpope/vim-projectionist'
 
