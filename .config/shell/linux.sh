@@ -21,3 +21,5 @@ alias sys='systemctl'
 # external monitor
 alias dock='xrandr --output DP1 --auto --output eDP1 --off'
 alias undock='xrandr --auto'
+
+export BROWSER=/usr/bin/google-chrome-stable

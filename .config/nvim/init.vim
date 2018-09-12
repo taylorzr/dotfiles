@@ -138,6 +138,7 @@ autocmd FileType r setlocal commentstring=#\ %s
 " {{{
 " Easy config reloading
 command! Reload source $MYVIMRC
+command! Config edit $MYVIMRC
 
 " Switch ; & :
 " Quicker access to command mode
