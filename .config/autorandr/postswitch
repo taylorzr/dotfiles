@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+setxkbmap -layout us -option ctrl:nocaps
+xset r rate 200 25
