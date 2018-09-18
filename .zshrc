@@ -1,10 +1,17 @@
 # Config from zsh-newuser-install & compinstall
-# {{{
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
-setopt autocd beep extendedglob nomatch notify share_history
+setopt          \
+  autocd        \
+  beep          \
+  extendedglob  \
+  nomatch       \
+  notify        \
+  share_history \
+  hist_ignore_dups # Remove consecutive duplication commands in history
+
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
@@ -14,7 +21,6 @@ zstyle :compinstall filename '/home/zach/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
-# }}}
 
 # Plugins
 # {{{
