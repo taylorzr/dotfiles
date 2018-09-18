@@ -66,18 +66,18 @@ Plug 'w0rp/ale'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'vim-ruby/vim-ruby'
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+     let g:deoplete#enable_at_startup = 1
+     inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
+     inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<s-tab>"
 
-" Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"      let g:deoplete#enable_at_startup = 1
-"      inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
-"      inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<s-tab>"
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+      let g:LanguageClient_autoStop = 0
+      let g:LanguageClient_serverCommands = { 'ruby': ['tcp://localhost:7658'] }
 
-" Plug 'fishbullet/deoplete-ruby'
-
-" Plug 'zchee/deoplete-go', { 'do': 'make' }
-"      let g:go_auto_type_info = 1
-"      let g:go_fmt_command = "goimports"
+Plug 'zchee/deoplete-go', { 'do': 'make' }
+     let g:go_auto_type_info = 1
+     let g:go_fmt_command = 'goimports'
 
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
      let g:deoplete#sources#go#gocode_binary = '~/go/bin/gocode'
@@ -92,8 +92,9 @@ Plug 'tpope/vim-surround'
 
 Plug 'mattn/emmet-vim'
 
-Plug 'chrisbra/Colorizer'
-     :let g:colorizer_auto_color = 1
+" Why is this so slow?!?!?!
+" Plug 'chrisbra/Colorizer'
+"      :let g:colorizer_auto_color = 1
 
 Plug 'tpope/vim-projectionist'
 
@@ -137,6 +138,7 @@ autocmd FileType r setlocal commentstring=#\ %s
 " {{{
 " Easy config reloading
 command! Reload source $MYVIMRC
+command! Config edit $MYVIMRC
 
 " Switch ; & :
 " Quicker access to command mode
@@ -240,3 +242,9 @@ highlight ColorColumn ctermbg=Black
 " highlight NeomakeWarningMessage ctermfg=227
 " let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningMessage'}
 " }}}
+
+autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>

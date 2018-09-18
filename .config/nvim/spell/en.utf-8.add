@@ -84,3 +84,6 @@ jq
 dotfiles
 zsh
 tmux
+ctrl
+api
+init

@@ -36,7 +36,6 @@ Do you really want to set this key to ultimate trust? (y/N) y
 ```
 
 # arch
-
 # {{{
 ### TODO
 - i3 split use current directory if shell
@@ -44,7 +43,7 @@ Do you really want to set this key to ultimate trust? (y/N) y
     maybe helpful: https://wiki.archlinux.org/index.php/I3#Shutdown.2C_reboot.2C_lock_screen
 
 ```
-sudo pacman -S acpi chruby git feh fzf htop hub i3 neovim polybar termite xorg xsel volumeicon yaourt
+sudo pacman -S acpi chruby git glances feh fzf hub i3 neovim polybar termite xorg xsel volumeicon yaourt zsh
 yaourt -S google-chrome neofetch the_silver_searcher
 ```
 
@@ -66,11 +65,6 @@ Using swapfile: https://wiki.archlinux.org/index.php/Swap#Swapfile
 
 # osx
 # {{{
-
-```
-brew install bash bash-completion2 fzf hub neovim the_silver_searcher tmux
-brew tap homebrew/services
-```
 
 ### Map CapsLock to Control
 http://teohm.com/blog/mac-tips-use-caps-lock-as-control-key/
@@ -94,3 +88,9 @@ Keyboard > Shortcuts > Mission Control
 - Application windows > Ctrl Command j
 - Mission Control > Ctrl Command k
 # }}}
+
+# code completion
+Ruby:
+* `gem install solargraph`
+* `solargraph socket`
+* start vim, should get semantic code completion
