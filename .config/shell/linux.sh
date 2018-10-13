@@ -5,7 +5,7 @@ prependPath "~/.local/bin"
 source /usr/share/chruby/chruby.sh
 # NOTE: I believe setting a default ruby version needs to come before
 # the auto.sh so that the correct ruby version will be used
-chruby 2.4
+chruby 2.5
 source /usr/share/chruby/auto.sh
 
 configure_keyboard() {
