@@ -61,7 +61,8 @@ Plug 'scrooloose/nerdtree'
      nnoremap <Leader>n :NERDTree<CR>
      nnoremap <Leader>f :NERDTreeFind<CR>
 
-Plug 'w0rp/ale'
+" This is slow on large files why?!?!
+" Plug 'w0rp/ale'
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'vim-ruby/vim-ruby'
@@ -70,10 +71,6 @@ Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
      let g:deoplete#enable_at_startup = 1
      inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
      inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<s-tab>"
-
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
-      let g:LanguageClient_autoStop = 0
-      let g:LanguageClient_serverCommands = { 'ruby': ['tcp://localhost:7658'] }
 
 Plug 'zchee/deoplete-go', { 'do': 'make' }
      let g:go_auto_type_info = 1
@@ -163,6 +160,7 @@ nnoremap <Space> za
 
 " Easier saving
 nnoremap <C-s> :update<CR>
+inoremap <C-s> <C-o>:update<CR>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
@@ -170,6 +168,7 @@ cmap w!! w !sudo tee > /dev/null %
 " Copy/run tests by filename or line number
 if system('uname -s') == "Darwin\n"
   nnoremap <Leader>cf :let @*=expand('%') \| echo 'Filename copied to clipboard!'<CR>
+  nnoremap <Leader>cfa :let @*=expand('%:p') \| echo 'Filename copied to clipboard!'<CR>
   nnoremap <Leader>cl :let @*=expand('%') . ':' . line('.') \| echo 'Filename & line copied to clipboard!'<CR>
 else
   nnoremap <Leader>cf :let @+=expand('%') \| echo 'Filename copied to clipboard!'<CR>
@@ -248,3 +247,5 @@ nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
