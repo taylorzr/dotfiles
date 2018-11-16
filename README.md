@@ -94,3 +94,12 @@ Ruby:
 * `gem install solargraph`
 * `solargraph socket`
 * start vim, should get semantic code completion
+
+# Old .xinitrc config from raw arch
+```
+xrandr --dpi 168
+xrdb ~/.Xresources
+xset r rate 200 25
+setxkbmap -layout us -option ctrl:nocaps
+exec i3
+```
