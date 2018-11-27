@@ -1,3 +1,5 @@
+![life](life.png)
+
 # general setup
 
 These dotfiles are setup as a bare repository. This avoids the need to symlink all the things, which
