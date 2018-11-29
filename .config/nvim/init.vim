@@ -155,9 +155,6 @@ noremap L $
 nnoremap > >>
 nnoremap < <<
 
-" Folding
-nnoremap <Space> za
-
 " Easier saving
 nnoremap <C-s> :update<CR>
 inoremap <C-s> <C-o>:update<CR>
@@ -181,6 +178,10 @@ nnoremap <Leader>tl :Testline<CR> \| :echo 'Testing ' . expand('%') . ':' . line
 command! Testall silent exec '!tmux send-keys -t 1 run-tests ENTER'
 command! Testfile silent exec '!tmux send-keys -t 1 run-tests' . '\ ' . expand('%') . ' Enter'
 command! Testline silent exec '!tmux send-keys -t 1 run-tests' . '\ ' . expand('%') . ':' . line('.') . ' Enter'
+
+" Jump files instead of locations
+nnoremap <C-o> :bprevious<CR>
+nnoremap <C-i> :bnext<CR>
 " }}}
 
 " Options
@@ -217,6 +218,9 @@ set spell
 
 " Folding by marker `{{{` and `}}}`
 set foldmethod=marker
+nmap z] zo]z
+nmap z[ zo[z
+
 " }}}
 
 " Color
