@@ -7,6 +7,7 @@ setopt          \
   autocd        \
   beep          \
   extendedglob  \
+  dotglob       \
   nomatch       \
   notify        \
   share_history \
@@ -85,7 +86,7 @@ function tmux_project() (
   local session
   session=$1
   if ! tmux has-session -t $session 2>/dev/null; then
-    tmux new-session -d -s $session -c ~/$session
+    tmux new-session -d -s $session -c ~/code/$session
   fi
   tmux switch -t $session 2>/dev/null
   # Maybe creating 2 panes and starting vim in top?
@@ -147,6 +148,30 @@ alias dc='docker-compose'
 # Groups on lines
 alias groups='groups | tr " " "\n"'
 
+# postgresql
+alias pg='pg_ctl'
+
+function pg-stop() {
+  current_version=$(asdf current postgres | cut -f 1 -d ' ')
+
+  case "$current_version" in
+    9.6.*)
+      pg -D /Users/ztaylo43/.asdf/installs/postgres/9.4.11/data stop
+      ;;
+    9.4.*)
+      pg -D /Users/ztaylo43/.asdf/installs/postgres/9.6.10/data stop
+      ;;
+    *)
+      echo "Unknown postgres version"
+      ;;
+  esac
+}
+
+# cat -> bat
+alias cat='bat'
+
+alias a='avant'
+
 # }}}
 
 # Tools
@@ -205,3 +230,38 @@ source ~/.config/shell/local.sh
 source ~/.config/shell/prompt.sh
 
 # }}}
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+
+alias ts='tmux list-sessions | fzf | cut -d ':' -f 1 | xargs tmux switch-client -t'
+
+
+function run-tests() {
+  local current_directory
+  current_directory="${PWD##*/}"
+
+  if [ -z "$TEST_COMMAND" ]; then
+    bundle exec rspec "$@"
+  else
+    eval "$TEST_COMMAND" "$@"
+  fi
+}
+
+alias t='run-tests'
+
+function gco() {
+  git branch | fzf | xargs git checkout | cut -d ' ' -f 2
+}
+
+function db() {
+  local url_var prompt url
+  url_var=$(env | grep URL | grep "$1" | cut -d '=' -f 1)
+  prompt=$(echo $url_var | cut -d '=' -f 1 | sed 's/_URL//g')
+  url=$(print -rl -- ${(P)url_var})
+  psql -v "prompt=$prompt" "$url"
+}
