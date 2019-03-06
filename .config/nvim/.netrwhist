@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/Users/ztaylo43/testinghug'
+let g:netrw_dirhist_2='/Users/ztaylo43/testinghug/content'
+let g:netrw_dirhist_3='/Users/ztaylo43'
+let g:netrw_dirhist_4='/Users/ztaylo43/code/avant-basic-2'
+let g:netrw_dirhist_5='/Users/ztaylo43/code'
+let g:netrw_dirhist_6='/Users/ztaylo43/code/trees'
+let g:netrw_dirhist_7='/Users/ztaylo43/code'
+let g:netrw_dirhist_8='/Users/ztaylo43/code/trees'
+let g:netrw_dirhist_9='/Users/ztaylo43/code/avant-basic/lib/anonymize'

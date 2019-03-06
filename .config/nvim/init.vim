@@ -24,15 +24,17 @@ call plug#begin('~/.config/nvim/plugged')
 " <ctrl-\> => Previous split
 Plug 'christoomey/vim-tmux-navigator'
 
+Plug 'christoomey/vim-sort-motion'
+
 " Fuzzy Finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
      nnoremap <C-p> :FZF<CR>
      nnoremap <Leader>g :Ag <C-r><C-w><CR>
 
-Plug 'sheerun/vim-polyglot'
-     let g:ruby_indent_block_style = 'do'
-     let g:vim_markdown_folding_disabled = 1
+" Plug 'sheerun/vim-polyglot'
+"      let g:ruby_indent_block_style = 'do'
+"      let g:vim_markdown_folding_disabled = 1
 
 Plug 'tpope/vim-endwise'    " Automatic insertion of block endings
 
@@ -56,28 +58,37 @@ Plug 'airblade/vim-gitgutter'
 
 Plug 'vim-scripts/vim-auto-save'
      let g:auto_save = 1
+     let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 
-Plug 'scrooloose/nerdtree'
-     nnoremap <Leader>n :NERDTree<CR>
-     nnoremap <Leader>f :NERDTreeFind<CR>
+" FIXME: Remove if using :Lexplore works enough
+nnoremap <Leader>n :Lexplore<CR>
+" Plug 'scrooloose/nerdtree'
+"      nnoremap <Leader>n :NERDTree<CR>
+"      nnoremap <Leader>f :NERDTreeFind<CR>
 
 " This is slow on large files why?!?!
 " Plug 'w0rp/ale'
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+  let g:go_fmt_command = 'goimports'
+     " let g:go_auto_type_info = 1
+
 Plug 'vim-ruby/vim-ruby'
 
-Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-     let g:deoplete#enable_at_startup = 1
-     inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
-     inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<s-tab>"
+" Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'zchee/deoplete-go', { 'do': 'make' }
+" Plug 'takkii/Bignyanco' " Some kind of ruby completion
+" Plug 'fishbullet/deoplete-ruby'
+"      let g:deoplete#enable_at_startup = 1
+"      inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
+"      inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<s-tab>"
+     " let g:deoplete#sources#go#gocode_binary = '~/go/bin/gocode'
 
-Plug 'zchee/deoplete-go', { 'do': 'make' }
-     let g:go_auto_type_info = 1
-     let g:go_fmt_command = 'goimports'
+Plug 'lifepillar/vim-mucomplete'
+  set completeopt+=menuone
+  set completeopt+=noselect
 
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-     let g:deoplete#sources#go#gocode_binary = '~/go/bin/gocode'
+Plug 'stamblerre/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugged/gocode/vim/symlink.sh' }
 
 Plug 'sebdah/vim-delve'
 
@@ -85,9 +96,8 @@ Plug 'wellle/targets.vim'
 
 Plug 'michaeljsmith/vim-indent-object'
 
-Plug 'tpope/vim-surround'
-
-Plug 'mattn/emmet-vim'
+" Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 
 " Why is this so slow?!?!?!
 " Plug 'chrisbra/Colorizer'
@@ -96,6 +106,18 @@ Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-projectionist'
 
 Plug 'dracula/vim', { 'as': 'dracula' }
+
+Plug 'tpope/vim-eunuch'
+
+Plug 'SirVer/ultisnips'
+
+Plug 'ruby-formatter/rufo-vim'
+
+Plug 'AndrewRadev/splitjoin.vim'
+
+" HTML Plugins
+Plug 'alvan/vim-closetag'
+Plug 'mattn/emmet-vim'
 
 call plug#end()
 " }}}
@@ -172,16 +194,49 @@ else
   nnoremap <Leader>cl :let @+=expand('%') . ':' . line('.') \| echo 'Filename & line copied to clipboard!'<CR>
 endif
 
-nnoremap <Leader>ta :Testall<CR> \| :echo 'Testing all the things'<CR>
-nnoremap <Leader>tf :Testfile<CR> \| :echo 'Testing ' . expand('%')<CR>
-nnoremap <Leader>tl :Testline<CR> \| :echo 'Testing ' . expand('%') . ':' . line('.')<CR>
-command! Testall silent exec '!tmux send-keys -t 1 run-tests ENTER'
-command! Testfile silent exec '!tmux send-keys -t 1 run-tests' . '\ ' . expand('%') . ' Enter'
-command! Testline silent exec '!tmux send-keys -t 1 run-tests' . '\ ' . expand('%') . ':' . line('.') . ' Enter'
+nnoremap <Leader>ta :call Test('all', v:count1)<CR> \| :echo 'Testing all the things'<CR>
+nnoremap <Leader>tf :call Test('file', v:count1)<CR> \| :echo 'Testing ' . expand('%')<CR>
+nnoremap <Leader>tl :call Test('line', v:count1)<CR> \| :echo 'Testing ' . expand('%') . ':' . line('.')<CR>
+command! -nargs=* Testall :call Test("all", <f-args>)
+command! -nargs=* Testfile :call Test("file", <f-args>)
+command! -nargs=* Testline :call Test("line", <f-args>)
+
+function! Test(...)
+  let mode = get(a:, 1, 'file')
+  let window = get(a:, 2, 1)
+  let cmd = ''
+
+  if mode == 'all'
+    let cmd = 'run-tests'
+  elseif mode == 'file'
+    let cmd = 'run-tests\ ' . expand('%')
+  elseif mode == 'line'
+    let cmd = 'run-tests\ ' . expand('%') . ':' . line('.')
+  else
+    " TODO: Better error?
+    echoerr "Error!"
+  endif
+
+  let full_cmd = '!tmux send-keys -t ' . window . ' ' . cmd . '\ ' . ' Enter'
+
+  silent exec full_cmd
+endfunction
 
 " Jump files instead of locations
-nnoremap <C-o> :bprevious<CR>
-nnoremap <C-i> :bnext<CR>
+" Hmn, I think this is not the previously viewed file
+" nnoremap <C-o> :bnext<CR>
+" nnoremap <C-i> :bprevious<CR>
+"
+" This conflicts with jumplist out, find better binding
+" nnoremap <C-i> :edit ~/scratch.md<CR>
+
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<TAB>"
+
 " }}}
 
 " Options
@@ -253,3 +308,6 @@ nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
+" https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
+noremap * :keepjumps normal! mi*`i<CR>
