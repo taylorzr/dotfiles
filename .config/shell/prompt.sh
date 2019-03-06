@@ -5,20 +5,16 @@ function preexec() {
 function precmd() {
   local last_exit_code=$?
 
-  local git_branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/')
-
-  if [[ ! -z $(git status -s 2> /dev/null) ]]; then
-    git_branch="%F{yellow}${git_branch}%f"
-  fi
+  local git_branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/%F{yellow}:\1%f/')
+  local git_sha=$(git rev-parse --short HEAD 2> /dev/null)
 
   if [ $timer_start ]; then
     command_time=$(($SECONDS - $timer_start))
-    RPROMPT="${command_time}s"
     unset timer_start
   fi
 
-  PS1="%1d"
-  RPROMPT+="${git_branch}"
+  PS1="%1d${git_branch}"
+  RPROMPT="${command_time}s ${git_sha}"
 
   if [ "${last_exit_code}" -ge 1 ]; then
     if [[ $(uname -s) == Linux ]]; then
