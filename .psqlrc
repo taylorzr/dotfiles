@@ -1,1 +1,2 @@
-\set PROMPT1 '%n@%M/%/> '
+-- `prompt` gets passed in via the shell function `db`
+\set PROMPT1 '%:prompt:@%M > '
