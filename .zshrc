@@ -258,10 +258,45 @@ function gco() {
   git branch | fzf | xargs git checkout | cut -d ' ' -f 2
 }
 
-function db() {
+# Define env vars like `SOME_NAME_DB_URL='postgres://....'`
+# You then get a prompt like `SOME_NAME@localhost > _`
+function db() (
   local url_var prompt url
-  url_var=$(env | grep URL | grep "$1" | cut -d '=' -f 1)
-  prompt=$(echo $url_var | cut -d '=' -f 1 | sed 's/_URL//g')
+  if [ -z "$1" ]; then
+    echo "Error: Database url is empty"
+    exit 1
+  fi
+
+  env_match=$(env | grep _DB_URL | grep "$1")
+
+  if [ -z "$env_match" ]; then
+    echo "Error: Could not find env var named *_DB_URL, with value '$1'"
+    exit 1
+  fi
+
+  url_var=$(echo "$env_match" | cut -d '=' -f 1)
+
+  if [ "${url_var: -7}" != "_DB_URL" ]; then
+    echo "Error: The env var '${url_var}' must end in _DB_URL to be used with this db function"
+    exit 1
+  fi
+
+  prompt=$(echo $url_var | cut -d '=' -f 1 | sed 's/_DB_URL//g')
   url=$(print -rl -- ${(P)url_var})
   psql -v "prompt=$prompt" "$url"
+)
+
+# Use FZF to switch Tmux sessions:
+# bind-key s run "tmux new-window 'bash -ci fs'"
+# TODO: This is too slow
+fs() {
+	local -r fmt='#{session_id}:|#S|(#{session_attached} attached)'
+	{ tmux display-message -p -F "$fmt" && tmux list-sessions -F "$fmt"; } \
+		| awk '!seen[$1]++' \
+		| column -t -s'|' \
+		| fzf -q '$' --reverse --prompt 'switch session: ' -1 \
+		| cut -d':' -f1 \
+		| xargs tmux switch-client -t
 }
+
+export PGDATA='/usr/local/var/postgres'
