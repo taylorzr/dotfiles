@@ -21,6 +21,7 @@
   squash = rebase -i
   undo = reset --soft HEAD~1
   yolo = !git add . && git commit --amend --no-edit && git push -f
+  ignored = !git ls-files -v | grep "^[[:lower:]]"
 [core]
   editor = nvim
   excludesfile = ~/.config/global_git_ignore
