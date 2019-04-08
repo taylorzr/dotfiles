@@ -234,8 +234,6 @@ endfunction
 " let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-" inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<TAB>"
-" inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<TAB>"
 
 " }}}
 
@@ -311,3 +309,14 @@ command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'option
 
 " https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
 noremap * :keepjumps normal! mi*`i<CR>
+
+call deoplete#custom#option('auto_complete', v:false)
+
+inoremap <silent><expr> <TAB>
+\ pumvisible() ? "\<C-n>" :
+\ <SID>check_back_space() ? "\<TAB>" :
+\ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+let col = col('.') - 1
+return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
