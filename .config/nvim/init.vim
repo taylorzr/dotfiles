@@ -74,19 +74,19 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
      " let g:go_auto_type_info = 1
 
 Plug 'vim-ruby/vim-ruby'
+Plug 'leafgarland/typescript-vim'
 
-" Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'zchee/deoplete-go', { 'do': 'make' }
-" Plug 'takkii/Bignyanco' " Some kind of ruby completion
-" Plug 'fishbullet/deoplete-ruby'
-"      let g:deoplete#enable_at_startup = 1
-"      inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
-"      inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<s-tab>"
-     " let g:deoplete#sources#go#gocode_binary = '~/go/bin/gocode'
+Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-go', { 'do': 'make' }
+Plug 'takkii/Bignyanco' " Some kind of ruby completion
+Plug 'fishbullet/deoplete-ruby'
+  " let g:deoplete#enable_at_startup = 1
 
-Plug 'lifepillar/vim-mucomplete'
-  set completeopt+=menuone
-  set completeopt+=noselect
+     " inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+     " inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<TAB>"
+ let g:deoplete#sources#go#gocode_binary = '~/go/bin/gocode'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
 Plug 'stamblerre/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugged/gocode/vim/symlink.sh' }
 
@@ -201,6 +201,7 @@ command! -nargs=* Testall :call Test("all", <f-args>)
 command! -nargs=* Testfile :call Test("file", <f-args>)
 command! -nargs=* Testline :call Test("line", <f-args>)
 
+" TODO: Send Ctrl-u first (clear shell line)
 function! Test(...)
   let mode = get(a:, 1, 'file')
   let window = get(a:, 2, 1)
