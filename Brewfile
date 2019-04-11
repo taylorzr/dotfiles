@@ -1,102 +1,113 @@
-tap 'caskroom/cask'
-tap 'codeclimate/formulae'
-tap 'd12frosted/emacs-plus'
-tap 'homebrew/bundle'
-tap 'homebrew/core'
-tap 'homebrew/dupes'
-tap 'homebrew/php'
-tap 'homebrew/services'
-tap 'homebrew/versions'
-tap 'thoughtbot/formulae'
-brew 'clasp'
-brew 'gringo'
-brew 'aspcud'
-brew 'autoconf'
-brew 'automake'
-brew 'libpng'
-brew 'freetype'
-brew 'fontconfig'
-brew 'gettext'
-brew 'libffi'
-brew 'pcre'
-brew 'glib'
-brew 'pixman'
-brew 'cairo'
-brew 'ocaml'
-brew 'ocamlbuild'
-brew 'camlp4'
-brew 'cmake'
-brew 'consul'
-brew 'coreutils'
-brew 'ctags'
-brew 'docker-machine'
-brew 'libev'
-brew 'opam'
-brew 'docker-machine-driver-xhyve'
-brew 'openssl'
-brew 'jpeg'
-brew 'libtiff'
-brew 'wxmac'
-brew 'erlang'
-brew 'elixir'
-brew 'fortune'
-brew 'fzf'
-brew 'gdbm'
-brew 'pkg-config'
-brew 'gobject-introspection'
-brew 'gdk-pixbuf'
-brew 'gmp'
-brew 'libtasn1'
-brew 'nettle'
-brew 'gnutls'
-brew 'go'
-brew 'icu4c'
-brew 'harfbuzz'
-brew 'heroku'
-brew 'htop'
-brew 'libtool'
-brew 'xz'
-brew 'imagemagick'
-brew 'kubernetes-cli'
-brew 'kops'
-brew 'libcroco'
-brew 'libevent'
-brew 'libgpg-error'
-brew 'libksba'
-brew 'pango'
-brew 'librsvg'
-brew 'libyaml'
-brew 'maven'
-brew 'readline'
-brew 'sqlite'
-brew 'python'
-brew 'subversion'
-brew 'mesos'
-brew 'node'
-brew 'pandoc'
-brew 'qemu'
-brew 'qt@5.5'
-brew 'rabbitmq', restart_service: true
-brew 'reattach-to-user-namespace'
-brew 'redis', restart_service: true
-brew 'the_silver_searcher'
-brew 'thefuck'
-brew 'tmux'
-brew 'tree'
-brew 'unixodbc'
-brew 'vault'
-brew 'vim'
-brew 'xhyve'
-brew 'zookeeper'
-brew 'codeclimate/formulae/codeclimate'
-brew 'd12frosted/emacs-plus/emacs-plus', args: ['with-cocoa', 'with-gnutls', 'with-imagemagick', 'with-spacemacs-icon']
-brew 'homebrew/dupes/zlib'
-brew 'homebrew/php/php56'
-brew 'homebrew/versions/postgresql94'
-brew 'thoughtbot/formulae/gitsh'
-cask 'franz'
-cask 'iterm2'
-cask 'menumeters'
-cask 'slack'
-cask 'vagrant'
-cask 'vagrant-manager'
+tap "argoproj/tap"
+tap "buildkite/buildkite"
+tap "buildkite/cli"
+tap "caskroom/cask"
+tap "grpc/grpc"
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+tap "homebrew/services"
+tap "neovim/neovim"
+# brew "gdbm"
+# brew "libyaml"
+# brew "openssl"
+# brew "readline"
+brew "python"
+brew "ansible"
+# brew "autoconf"
+# brew "automake"
+brew "coreutils"
+# brew "libtool"
+brew "asdf"
+# brew "libffi"
+# brew "node"
+# brew "babel"
+# brew "bash"
+# brew "bash-completion@2", link: false
+brew "bat"
+brew "cask"
+# brew "chromedriver"
+brew "chruby"
+# brew "cmake"
+brew "pkg-config"
+# brew "crystal"
+brew "ctags"
+brew "direnv"
+# brew "erlang"
+# brew "elixir"
+# brew "exercism"
+# brew "exiftool"
+# brew "ext4fuse"
+# brew "fish"
+# brew "fn"
+# brew "freetds@0.91", link: true
+# brew "fswatch"
+brew "fzf"
+# brew "gcc"
+brew "git"
+brew "glances", link: false
+# brew "libksba"
+# brew "golang-migrate"
+brew "graphviz"
+# brew "python@2"
+brew "protobuf"
+brew "grpc"
+brew "htop"
+brew "hub"
+brew "hugo"
+# brew "jenkins"
+brew "jq"
+brew "kubernetes-cli", link: false
+brew "lastpass-cli"
+# brew "libgit2"
+# brew "lua"
+# brew "macvim"
+# brew "mitmproxy"
+# brew "youtube-dl", link: false
+brew "mpv", link: false
+brew "neofetch"
+brew "neovim"
+# brew "nmap"
+# brew "nvm"
+# brew "openconnect"
+# brew "openssl@1.1"
+# brew "openvpn"
+brew "parallel"
+brew "pgcli"
+brew "postgresql@9.6"
+brew "postgresql", link: false
+brew "postgresql@9.4", restart_service: true, link: true
+# brew "presto"
+# brew "pv"
+# brew "qemu"
+# brew "rabbitmq"
+brew "ranger"
+# brew "reattach-to-user-namespace"
+brew "redis", restart_service: true
+brew "ruby-build"
+brew "ruby-install"
+# brew "selenium-server-standalone"
+brew "shellcheck"
+# brew "swagger-codegen"
+brew "the_silver_searcher"
+brew "tmux"
+brew "tree"
+brew "vault"
+# brew "wget"
+# brew "yarn"
+brew "zsh"
+brew "argoproj/tap/argo"
+brew "argoproj/tap/argocd"
+# brew "buildkite/buildkite/buildkite-agent", args: ["token="]
+brew "buildkite/cli/bk"
+# cask "datadog-agent"
+cask "docker"
+# cask "fly"
+cask "flycut"
+cask "gimp"
+cask "google-chrome"
+cask "iterm2"
+# cask "kitty"
+cask "licecap"
+cask "minikube"
+cask "spectacle"
