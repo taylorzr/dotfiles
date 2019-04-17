@@ -97,12 +97,8 @@ function tmux_project() (
 # Aliases
 # {{{
 
-alias dot='git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
-
 # reload
-alias reload='reload-bash && reload-tmux'
-alias reload-bash='source ~/.bash_profile && echo "Bash reloaded!"'
-alias rb='reload-bash'
+alias reload='reload-zsh && reload-tmux'
 alias reload-zsh='source ~/.zshrc && echo "Zsh reloaded!"'
 alias rz='reload-zsh'
 alias reload-tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
@@ -125,22 +121,15 @@ alias ta='tmux attach || { (while ! tmux run-shell ~/.tmux/plugins/tmux-resurrec
 alias tp='tmux_project'
 
 # git
-alias g='git'
-alias gl='git log'
-alias ga="git add"
 alias gs='git status'
 alias gd='git diff'
 alias gds='git diff --staged'
-alias ga='git add .'
 alias gcm='git commit --message'
 
 # bundler/rails
 alias be='bundle exec'
-alias ber='bundle exec rspec'
-alias cber='BROWSER=chrome bundle exec rspec'
 alias rc='rails console'
 alias rs='rails server'
-alias pr='pry-remote'
 
 # docker
 alias dc='docker-compose'
@@ -286,9 +275,6 @@ function db() (
   psql -v "prompt=$prompt" "$url"
 )
 
-# Use FZF to switch Tmux sessions:
-# bind-key s run "tmux new-window 'bash -ci fs'"
-# TODO: This is too slow
 fs() {
 	local -r fmt='#{session_id}:|#S|(#{session_attached} attached)'
 	{ tmux display-message -p -F "$fmt" && tmux list-sessions -F "$fmt"; } \
@@ -298,3 +284,9 @@ fs() {
 		| cut -d':' -f1 \
 		| xargs tmux switch-client -t
 }
+
+# TODO: Test with new install
+if [ -z "$(ls ~/.tmux/plugins 2>/dev/null)" ]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  ~/.tmux/plugins/tpm/bin/install_plugins
+fi
