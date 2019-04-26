@@ -34,17 +34,19 @@ pip3 install neovim
 initdb
 brew services start postgresql
 createdb $USER
+
+# ruby
+ruby-install ruby
+ruby-install ruby 2.3.4
+
+# go
+# install from -> https://golang.org/dl/
+# in vim -> :GoInstallBinaries
 ```
 
 ### iterm2 config?
 - Import color scheme ~/Dracula.itermcolors
 - alt keys? dont recall exactly
-
-### ruby
-```
-ruby-install ruby
-ruby-install ruby 2.3.4
-```
 
 # osx
 
