@@ -290,3 +290,38 @@ if [ -z "$(ls ~/.tmux/plugins 2>/dev/null)" ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
   ~/.tmux/plugins/tpm/bin/install_plugins
 fi
+
+# TODO:
+#   - Don't hardcode switching between only 9.4 & 11.2
+#   - Automatically determine currently install normal postgres version instead of hardcoding
+function switch_postgres() (
+  set -euo pipefail
+
+  local to current
+  to="$1"
+  current=$(psql -V | cut -f 3 -d ' ' | cut -f 1,2 -d .)
+
+  if [ "$to" = "$current" ]; then
+    echo "Current postgres version is already $to"
+    exit 1
+  else
+    echo "Switching postgres from $current to $to..."
+    case "$to" in
+      9.4)
+        brew services stop postgresql
+        brew unlink postgresql
+        brew link postgresql@9.4 --force
+        brew services start postgresql@9.4
+        ;;
+      11.2)
+        brew services stop postgresql@9.4
+        brew unlink postgresql@9.4
+        brew link postgres
+        brew services start postgres
+        ;;
+      *)
+        echo "I don't know how to switch to postgres $to :("
+        exit 1
+    esac
+  fi
+)
