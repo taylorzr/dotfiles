@@ -86,7 +86,6 @@ Plug 'fishbullet/deoplete-ruby'
      " inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<TAB>"
  let g:deoplete#sources#go#gocode_binary = '~/go/bin/gocode'
 Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
 Plug 'stamblerre/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugged/gocode/vim/symlink.sh' }
 
@@ -118,6 +117,27 @@ Plug 'AndrewRadev/splitjoin.vim'
 " HTML Plugins
 Plug 'alvan/vim-closetag'
 Plug 'mattn/emmet-vim'
+
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+let g:LanguageClient_autoStart = 1
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
+autocmd FileType go setlocal omnifunc=LanguageClient#complete
+
+let g:LanguageClient_serverCommands = {
+    \ 'go':         ['gopls'],
+    \ 'ruby':       ['solargraph', 'stdio'],
+    \ 'typescript': ['typescript-language-server', '--stdio'],
+    \ }
+
+Plug 'rlue/vim-fold-rspec'
 
 call plug#end()
 " }}}
