@@ -188,7 +188,7 @@ export GOPATH="$HOME/go"
 export MYGOPATH="$GOPATH/src/github.com/taylorzr"
 
 
-path=("${GOPATH}/bin" $path)
+path=("${GOPATH}/bin" '/Users/zachtaylor/Library/Python/3.7/bin' $path)
 # prependPath "${GOPATH}/bin"
 
 # direnv
@@ -308,14 +308,17 @@ function switch_postgres() (
     echo "Switching postgres from $current to $to..."
     case "$to" in
       9.4)
-        brew services stop postgresql
-        brew unlink postgresql
+        stop_postgres "$current"
         brew link postgresql@9.4 --force
         brew services start postgresql@9.4
         ;;
-      11.2)
-        brew services stop postgresql@9.4
-        brew unlink postgresql@9.4
+      9.6)
+        stop_postgres "$current"
+        brew link postgresql@9.6 --force
+        brew services start postgresql@9.6
+        ;;
+      11.*)
+        stop_postgres "$current"
         brew link postgres
         brew services start postgres
         ;;
@@ -325,3 +328,26 @@ function switch_postgres() (
     esac
   fi
 )
+
+function stop_postgres() {
+  local version
+  version="$1"
+
+  case "$version" in
+    9.4)
+      brew services stop postgresql@9.4 2>/dev/null || echo "postgresql@9.4 not running"
+      brew unlink postgresql@9.4
+      ;;
+    9.6)
+      brew services stop postgresql@9.6 2>/dev/null || echo "postgresql@9.6 not running"
+      brew unlink postgresql@9.6
+      ;;
+    11.*)
+      brew services stop postgresql 2>/dev/null || echo "postgresql not running"
+      brew unlink postgresql
+      ;;
+    *)
+      echo "I don't know how to stop postgres $version :("
+      exit 1
+  esac
+}
