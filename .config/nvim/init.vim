@@ -150,6 +150,7 @@ call plug#end()
 " Ruby
 autocmd Filetype ruby nnoremap <Leader>p orequire 'pry'; binding.pry<ESC>
 autocmd Filetype ruby nnoremap <Leader>r orequire 'pry-remote'; binding.pry_remote<ESC>
+let g:ruby_indent_assignment_style = 'variable'
 
 " Elixir
 autocmd Filetype elixir nnoremap <Leader>p orequire IEx; IEx.pry<ESC>
