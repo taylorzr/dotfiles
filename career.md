@@ -1,50 +1,33 @@
 # Summary
 =========
-Hi, I'm a software engineer, mostly experienced with backend systems in Ruby, but also a bit of Python, Javascript, and Elixir. Dabbled with go, rust, and a variety of other languages. Worked with systems on both Heroku and AWS, notably building a task-runner backed by AWS Batch.
+Hi, I'm a software engineer, mostly experienced with backend systems in Ruby, and SQL (postgres).  I
+dabble in Go in my spare time, but I've also worked occasionally with python, javascript, elixir and
+R.
 
-Looking for the next step in my career, I'd probably be most effective in ruby, but would love to get some more experience in a typed, compiled language like Go. Open to working from downtown Chicago, western Chicago suburbs (live in Westmont), or would consider relocation.
+Senior Software Engineer - Dec 2018
+===================================
 
+Recent major projects:
 
-# Jr. Software Engineer
-=======================
+Encryption key rotation
+  Lead design and implementation of a system to rotate encryption keys for a large rails
+  application.
 
-Supported test suite
-- Wrote and refactored automated tests
-- Built and maintained a massive test suite
-- Debugged and fixed an unending number of "flaky" tests
+Database Fork Pipeline
+  Lead design and implementation of a system to create copies of production databases.
+  - re-encrypted all encrypted data to avoid sharing production encryption keys
+  - anonymized PII to avoid exposing customer information
 
-Migrated CI Providers (SolanoCi to CircleCi)
-  - decreased "real" test suite build time from ~35 minutes to ~15 minutes
-  - decreased cost of CI infrastructure
-  - enabled greater flexibility to support automated developer tools
+CI Migration
+  Lead migration of continuous integration from CircleCI to Buildkite.
+  - researched CI options
+  - implemented CI pipeline for high priority repositories
+  - supported migrating other repositories
 
+Task Runner
+  Lead design and rewrite of a task runner backed by AWS Batch.
+  - wrote Rails front and back end
+  - created docker runtimes and client libraries for python, ruby, and R
 
-# Software Engineer
-===================
-
-Built and maintained an internal test suite related application (skynet)
-  - provided test suite metrics for company projects
-  - provided github status checks for development process
-  - automated rspec bisect for failed master test failures
-  - automated master test failure tracking and notifications
-  - automated "time-travel" builds to provide failure notifications for future
-    dates ahead of time
-
-Built and maintained a tool to create quasi-realistic dev/test data (mannequin)
-  - automated data setup for training call center workers
-  - automated data setup for development, manual, and automated testing
-
-Rewrote automated deploy process
-  - replaced bash scripting with fully tested ruby scripting
-  - simplified Jenkins jobs and scripting
-  - integrated test suite status to safely deploy "green" code
-
-Maintained interal task runner tool written in elixir and python (garden)
-  - added logging and error reporting to support maintenance and bug fixing
-  - researched and presented backend alternatives to an unmaintainable series of manually
-    created ec2 machines
-  - migrated task runner backend to AWS Batch
-
-Rewrote internal task runner tool in ruby (roundup)
-
-Customer Application (basic)
+# Software Engineer - Jan 2016
+# Jr Software Engineer - Jan 2015
