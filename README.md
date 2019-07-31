@@ -47,6 +47,7 @@ ruby-install ruby 2.3.4
 ### iterm2 config?
 - Import color scheme ~/Dracula.itermcolors
 - alt keys? dont recall exactly
+  https://stackoverflow.com/questions/18923765/bash-keyboard-shortcuts-in-iterm-like-altd-and-altf
 
 # osx
 
@@ -55,9 +56,12 @@ http://teohm.com/blog/mac-tips-use-caps-lock-as-control-key/
 
 ### Key repeat speed
 ```
+# After setting anything run:
+#   killall SystemUIServer
 defaults write -g InitialKeyRepeat -int 13 # normal minimum is 15 (225 ms)
 defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 defaults write com.apple.finder AppleShowAllFiles YES
+defaults write com.apple.screencapture location $HOME/Downloads
 ```
 
 ### Keyboard

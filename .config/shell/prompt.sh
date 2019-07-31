@@ -14,13 +14,14 @@ function precmd() {
   fi
 
   PS1="%1d${git_branch}"
-  RPROMPT="${command_time}s ${git_sha}"
+  postgres_version=$(psql -V | cut -f 3 -d ' ' | cut -f 1,2 -d .)
+  RPROMPT="${command_time}s ${git_sha} 🐘 ${postgres_version}"
 
   if [ "${last_exit_code}" -ge 1 ]; then
     if [[ $(uname -s) == Linux ]]; then
-      echo oops | espeak 2> /dev/null
+      echo oops | espeak 2> /dev/null # TODO: Async here would be nice tho
     else
-      # TODO: Async oops
+      # TODO: Async oops, meh this seems ok on osx
       say oops
     fi
     PS1+=" %F{red}:(%f "

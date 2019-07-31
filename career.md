@@ -9,6 +9,9 @@ Senior Software Engineer - Dec 2018
 
 Recent major projects:
 
+Table partitioning
+  Lead design and implementation of automatic table partitioning in postgresql 9.4 & 9.6
+
 Encryption key rotation
   Lead design and implementation of a system to rotate encryption keys for a large rails
   application.
