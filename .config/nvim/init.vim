@@ -32,10 +32,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
      nnoremap <C-p> :FZF<CR>
      nnoremap <Leader>g :Ag <C-r><C-w><CR>
 
-" Plug 'sheerun/vim-polyglot'
-"      let g:ruby_indent_block_style = 'do'
-"      let g:vim_markdown_folding_disabled = 1
-
 Plug 'tpope/vim-endwise'    " Automatic insertion of block endings
 
 Plug 'tpope/vim-commentary' " Easily comment
@@ -85,12 +81,7 @@ Plug 'wellle/targets.vim'
 
 Plug 'michaeljsmith/vim-indent-object'
 
-" Plug 'tpope/vim-surround'
 Plug 'machakann/vim-sandwich'
-
-" Why is this so slow?!?!?!
-" Plug 'chrisbra/Colorizer'
-"      :let g:colorizer_auto_color = 1
 
 Plug 'tpope/vim-projectionist'
 
@@ -123,9 +114,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
       endfunction
 
       let g:coc_snippet_next = '<tab>'
-
-" Plug 'rlue/vim-fold-rspec'
-" let g:fold_rspec_foldlevel = 2
 
 call plug#end()
 " }}}
@@ -316,4 +304,5 @@ command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'option
 " https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
 noremap * :keepjumps normal! mi*`i<CR>
 
+" Paste without yanking
 vnoremap <leader>p "_dP
