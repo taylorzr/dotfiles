@@ -27,8 +27,8 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-sort-motion'
 
 " Fuzzy Finder
+" PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
      nnoremap <C-p> :FZF<CR>
      nnoremap <Leader>g :Ag <C-r><C-w><CR>
 
@@ -76,20 +76,10 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'vim-ruby/vim-ruby'
 Plug 'leafgarland/typescript-vim'
 
-Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-go', { 'do': 'make' }
-Plug 'takkii/Bignyanco' " Some kind of ruby completion
-Plug 'fishbullet/deoplete-ruby'
-  " let g:deoplete#enable_at_startup = 1
-
-     " inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<TAB>"
-     " inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<TAB>"
- let g:deoplete#sources#go#gocode_binary = '~/go/bin/gocode'
-Plug 'HerringtonDarkholme/yats.vim'
+Plug 'burner/vim-svelte'
+Plug 'elmcast/elm-vim'
 
 Plug 'stamblerre/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugged/gocode/vim/symlink.sh' }
-
-Plug 'sebdah/vim-delve'
 
 Plug 'wellle/targets.vim'
 
@@ -118,26 +108,24 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'alvan/vim-closetag'
 Plug 'mattn/emmet-vim'
 
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    " let g:UltiSnipsExpandTrigger = "<nop>"
+    " https://github.com/neoclide/coc.nvim/wiki/Using-snippets
+      inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
-let g:LanguageClient_autoStart = 1
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
-autocmd FileType go setlocal omnifunc=LanguageClient#complete
+      function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+      endfunction
 
-let g:LanguageClient_serverCommands = {
-    \ 'go':         ['gopls'],
-    \ 'ruby':       ['solargraph', 'stdio'],
-    \ 'typescript': ['typescript-language-server', '--stdio'],
-    \ }
+      let g:coc_snippet_next = '<tab>'
 
-Plug 'rlue/vim-fold-rspec'
+" Plug 'rlue/vim-fold-rspec'
+" let g:fold_rspec_foldlevel = 2
 
 call plug#end()
 " }}}
@@ -321,24 +309,11 @@ highlight ColorColumn ctermbg=Black
 " let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningMessage'}
 " }}}
 
-autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
+" Have :AG search hidden files
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden', <bang>0) " FIXME: This should just match shell $FZF_DEFAULT_COMMAND!?!?!? Or at least these should stay in sync
 command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 " https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
 noremap * :keepjumps normal! mi*`i<CR>
 
-call deoplete#custom#option('auto_complete', v:false)
-
-inoremap <silent><expr> <TAB>
-\ pumvisible() ? "\<C-n>" :
-\ <SID>check_back_space() ? "\<TAB>" :
-\ deoplete#mappings#manual_complete()
-function! s:check_back_space() abort "{{{
-let col = col('.') - 1
-return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
+vnoremap <leader>p "_dP

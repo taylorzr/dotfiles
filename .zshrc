@@ -32,7 +32,8 @@ if ! zgen saved; then
 
   # specify plugins here
   zgen load zsh-users/zsh-autosuggestions
-  zgen load Valiev/almostontop
+  # zgen load zsh-users/zsh-completions
+  # zgen load Valiev/almostontop
 
   # generate the init script from plugins above
   zgen save
@@ -116,11 +117,15 @@ alias vi='nvim'
 alias tl='tmux list-sessions'
 alias tk='tmux kill-session -t'
 alias td='tmux detach'
-alias ta='tmux attach || { (while ! tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/restore.sh; do sleep 0.2; done)& tmux ; }'
+# alias ta='tmux attach || { (while ! tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/restore.sh; do sleep 0.2; done)& tmux ; }'
+alias ta='tmux attach || ~/tmux_restore.sh'
 
 alias tp='tmux_project'
 
 # git
+alias g='git'
+alias ga='git add'
+alias gap='git add --patch'
 alias gs='git status'
 alias gd='git diff'
 alias gds='git diff --staged'
@@ -155,6 +160,9 @@ function pg-stop() {
       ;;
   esac
 }
+
+alias python='python3'
+alias pip='pip3'
 
 # cat -> bat
 alias cat='bat'
@@ -230,16 +238,25 @@ source ~/.config/shell/prompt.sh
 alias ts='tmux list-sessions | fzf | cut -d ':' -f 1 | xargs tmux switch-client -t'
 
 
-function run-tests() {
-  local current_directory
-  current_directory="${PWD##*/}"
+function run-tests() (
+  set -euo pipefail
 
-  if [ -z "$TEST_COMMAND" ]; then
+  local current_directory current_pg
+
+  current_directory="${PWD##*/}"
+  current_pg="$(current_postgres)"
+
+  if [ -n "${PGVERSION:-}" ] && [ "$current_pg" != "$PGVERSION" ]; then
+    echo "The current postgres versions $current_pg doesn't match the configured version $PGVERSION"
+    exit 1
+  fi
+
+  if [ -z "${TEST_COMMAND:-}" ]; then
     bundle exec rspec "$@"
   else
     eval "$TEST_COMMAND" "$@"
   fi
-}
+)
 
 alias t='run-tests'
 
@@ -292,14 +309,15 @@ if [ -z "$(ls ~/.tmux/plugins 2>/dev/null)" ]; then
 fi
 
 # TODO:
-#   - Don't hardcode switching between only 9.4 & 11.2
+#   - Don't hardcode switching between only 9.4 / 9.6 / 11
 #   - Automatically determine currently install normal postgres version instead of hardcoding
 function switch_postgres() (
   set -euo pipefail
 
   local to current
+
   to="$1"
-  current=$(psql -V | cut -f 3 -d ' ' | cut -f 1,2 -d .)
+  current=$(current_postgres)
 
   if [ "$to" = "$current" ]; then
     echo "Current postgres version is already $to"
@@ -328,6 +346,12 @@ function switch_postgres() (
     esac
   fi
 )
+
+function current_postgres() {
+  local current
+  current=$(psql -V | cut -f 3 -d ' ' | cut -f 1,2 -d .)
+  echo $current
+}
 
 function stop_postgres() {
   local version
