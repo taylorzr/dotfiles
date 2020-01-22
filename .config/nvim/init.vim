@@ -31,6 +31,7 @@ Plug 'christoomey/vim-sort-motion'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
      nnoremap <C-p> :FZF<CR>
      nnoremap <Leader>g :Ag <C-r><C-w><CR>
+Plug 'junegunn/fzf.vim'
 
 Plug 'tpope/vim-endwise'    " Automatic insertion of block endings
 
