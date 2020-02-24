@@ -65,11 +65,15 @@ case "$1" in
 esac
 
 # E.g.
-# ./cc.sh reset
-# ./cc.sh charge 0 500
-# ./cc.sh pay 15 200
-# ./cc.sh charge 25 100
-# ./cc.sh balance 30
+# $ ./cc.sh reset
+# $ ./cc.sh charge 0 500
+# $ ./cc.sh pay 15 200
+# $ ./cc.sh charge 25 100
+# $ ./cc.sh balance 30
+# 500 * 0.35 / 365 * (15 - 0)
+# 300 * 0.35 / 365 * (25 - 15)
+# 400 * 0.35 / 365 * (30 - 25)
+# 411.99
 #
 # TODO:
 # - Use flags instead of args so you don't confuse day/amount

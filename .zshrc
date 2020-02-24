@@ -23,24 +23,26 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-# Plugins
-# {{{
-source "${HOME}/.zgen/zgen.zsh"
+# Plugins (zplug)
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
 
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-syntax-highlighting"
 
-if ! zgen saved; then
-
-  # specify plugins here
-  zgen load zsh-users/zsh-autosuggestions
-  # zgen load zsh-users/zsh-completions
-  # zgen load Valiev/almostontop
-
-  # generate the init script from plugins above
-  zgen save
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
 fi
 
-# TODO: Needed on Linux?!?
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
+# Then, source plugins and add commands to $PATH
+zplug load
+
+# # TODO: Needed on Linux?!?
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
 
 # }}}
 
@@ -252,7 +254,11 @@ function run-tests() (
   fi
 
   if [ -z "${TEST_COMMAND:-}" ]; then
-    bundle exec rspec "$@"
+    if [ -f Gemfile ]; then
+      bundle exec rspec "$@"
+    else
+      rspec "$@"
+    fi
   else
     eval "$TEST_COMMAND" "$@"
   fi
