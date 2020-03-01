@@ -53,9 +53,17 @@ Plug 'junegunn/vim-easy-align'
 
 Plug 'airblade/vim-gitgutter'
 
-Plug 'vim-scripts/vim-auto-save'
-     let g:auto_save = 1
-     let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
+" Plug 'vim-scripts/vim-auto-save'
+"       let g:auto_save = 1
+"       let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
+"       " FIXME: Doesn't seem to work :(
+"       " https://github.com/907th/vim-auto-save/issues/33#issuecomment-275641614
+"       let g:auto_save_presave_hook = 'call AbortIfGo()'
+"       function! AbortIfGo()
+"         if &filetype == 'go'
+"           let g:auto_save_abort = 1
+"         endif
+"       endfunction
 
 " FIXME: Remove if using :Lexplore works enough
 nnoremap <Leader>n :Lexplore<CR>
@@ -90,7 +98,6 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 
 Plug 'tpope/vim-eunuch'
 
-Plug 'SirVer/ultisnips'
 
 Plug 'ruby-formatter/rufo-vim'
 
@@ -100,31 +107,34 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'alvan/vim-closetag'
 Plug 'mattn/emmet-vim'
 
+" https://github.com/neoclide/coc-snippets
+Plug 'SirVer/ultisnips'
+    let g:UltiSnipsExpandTrigger = "<nop>"
+Plug 'neoclide/coc-snippets'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    " let g:UltiSnipsExpandTrigger = "<nop>"
     " https://github.com/neoclide/coc.nvim/wiki/Using-snippets
-      inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+    inoremap <silent><expr> <TAB>
+    \ pumvisible() ? coc#_select_confirm() :
+    \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
 
-      function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-      endfunction
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
 
-      let g:coc_snippet_next = '<tab>'
+    let g:coc_snippet_next = '<tab>'
 
-      " Use `[g` and `]g` to navigate diagnostics
-      nmap <silent> [g <Plug>(coc-diagnostic-prev)
-      nmap <silent> ]g <Plug>(coc-diagnostic-next)
+    " Use `[g` and `]g` to navigate diagnostics
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-      " GoTo code navigation.
-      nmap <silent> gd <Plug>(coc-definition)
-      nmap <silent> gy <Plug>(coc-type-definition)
-      nmap <silent> gi <Plug>(coc-implementation)
-      nmap <silent> gr <Plug>(coc-references)
+    " GoTo code navigation.
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
 
 call plug#end()
 " }}}
