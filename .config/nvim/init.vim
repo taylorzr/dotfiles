@@ -3,6 +3,7 @@ set mouse=a
 
 " Leader (leader needs to be set before mappings are defined using leader)
 let mapleader="\<Space>"
+let maplocalleader="\<Space>" " Added for vim org mode, but useful elsewhere I guess
 
 " Plugins
 " {{{
@@ -53,17 +54,17 @@ Plug 'junegunn/vim-easy-align'
 
 Plug 'airblade/vim-gitgutter'
 
-" Plug 'vim-scripts/vim-auto-save'
-"       let g:auto_save = 1
-"       let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
-"       " FIXME: Doesn't seem to work :(
-"       " https://github.com/907th/vim-auto-save/issues/33#issuecomment-275641614
-"       let g:auto_save_presave_hook = 'call AbortIfGo()'
-"       function! AbortIfGo()
-"         if &filetype == 'go'
-"           let g:auto_save_abort = 1
-"         endif
-"       endfunction
+Plug 'vim-scripts/vim-auto-save'
+      let g:auto_save = 0 " off by default, turn on explicitly when needed
+      let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
+      " FIXME: Doesn't seem to work :(
+      " https://github.com/907th/vim-auto-save/issues/33#issuecomment-275641614
+      " let g:auto_save_presave_hook = 'call AbortIfGo()'
+      " function! AbortIfGo()
+      "   if &filetype == 'go'
+      "     let g:auto_save_abort = 1
+      "   endif
+      " endfunction
 
 " FIXME: Remove if using :Lexplore works enough
 nnoremap <Leader>n :Lexplore<CR>
@@ -135,6 +136,11 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
     nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gi <Plug>(coc-implementation)
     nmap <silent> gr <Plug>(coc-references)
+
+    " rename the current word in the cursor
+    nmap <leader>cr <Plug>(coc-rename)
+
+Plug 'jceb/vim-orgmode'
 
 call plug#end()
 " }}}
@@ -292,6 +298,9 @@ set spell
 set foldmethod=marker
 nmap z] zo]z
 nmap z[ zo[z
+" Trying folds by syntax
+" set foldmethod=syntax
+" TODO: How to set all open by default?!?!
 
 " }}}
 
