@@ -167,9 +167,6 @@ function pg-stop() {
 alias python='python3'
 alias pip='pip3'
 
-# cat -> bat
-alias cat='bat'
-
 alias a='avant'
 
 # }}}
@@ -181,12 +178,7 @@ alias a='avant'
 eval "$(hub alias -s)"
 
 # fzf
-if [[ $(uname -s) == Linux ]]; then
-  source /usr/share/fzf/key-bindings.zsh
-  source /usr/share/fzf/completion.zsh
-else
-  source ~/.fzf.zsh
-fi
+source ~/.fzf.zsh
 
 export FZF_DEFAULT_COMMAND='ag --all-types --hidden -g ""' # Find hidden and non-git files
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
