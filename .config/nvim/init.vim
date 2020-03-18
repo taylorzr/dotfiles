@@ -108,10 +108,10 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'alvan/vim-closetag'
 Plug 'mattn/emmet-vim'
 
-" https://github.com/neoclide/coc-snippets
 Plug 'SirVer/ultisnips'
+    " https://github.com/neoclide/coc-snippets
     let g:UltiSnipsExpandTrigger = "<nop>"
-Plug 'neoclide/coc-snippets'
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " https://github.com/neoclide/coc.nvim/wiki/Using-snippets
     inoremap <silent><expr> <TAB>
@@ -139,6 +139,12 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " rename the current word in the cursor
     nmap <leader>cr <Plug>(coc-rename)
+
+Plug 'neoclide/coc-solargraph'
+Plug 'neoclide/coc-python'
+Plug 'neoclide/coc-yaml'
+Plug 'neoclide/coc-json'
+Plug 'neoclide/coc-snippets'
 
 Plug 'jceb/vim-orgmode'
 
