@@ -21,14 +21,15 @@ git --git-dir=$HOME/dotfiles/ --work-tree=$HOME config --local status.showUntrac
 brew bundle install ~/Brewfile
 
 # zsh
-git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
 # tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # start tmux and run Prefix + I to install plugins
 
 # neovim
-pip3 install neovim
+pip3 install pynvim
+pip2 install pynvim
 
 # postgres
 initdb
@@ -37,7 +38,6 @@ createdb $USER
 
 # ruby
 ruby-install ruby
-ruby-install ruby 2.3.4
 
 # go
 # install from -> https://golang.org/dl/
