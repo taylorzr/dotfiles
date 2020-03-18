@@ -24,8 +24,13 @@ compinit
 # End of lines added by compinstall
 
 # Plugins (zplug)
-export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
+if [ $(uname -s) = 'Linux' ]; then
+  export ZPLUG_HOME=~/.zplug
+  source $ZPLUG_HOME/init.zsh
+else
+  export ZPLUG_HOME=/usr/local/opt/zplug
+  source $ZPLUG_HOME/init.zsh
+fi
 
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
