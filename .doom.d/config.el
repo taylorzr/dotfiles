@@ -54,3 +54,17 @@
 
 ;; Key bindings
 (global-set-key (kbd "C-s") 'save-buffer)
+(setq gofmt-command "goimports")
+
+(map! ;; Easier window movement
+      :n "C-h" 'evil-window-left
+      :n "C-j" 'evil-window-down
+      :n "C-k" 'evil-window-up
+      :n "C-l" 'evil-window-right)
+
+;; TODO
+;; - goimports
+;; - remap evil-ex to ; (how to map only normal mode?)
+;; tmux-navigator integration
+;; copy filename / run tests on filename / line number
+;; copy / paste system clipboard

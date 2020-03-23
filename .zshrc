@@ -33,7 +33,8 @@ else
 fi
 
 zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-completions"
+# maybe clobbers autosuggestions?!?
+# zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-syntax-highlighting"
 
 # Install plugins if there are plugins that have not been installed
@@ -379,3 +380,10 @@ function stop_postgres() {
       exit 1
   esac
 }
+
+# TODO: Keep git and home aliases in sync
+alias home="/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
+alias hs="home status"
+alias hd="home diff"
+alias hds="home diff --staged"
+alias hcm="home commit --message"
