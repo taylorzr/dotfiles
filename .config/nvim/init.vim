@@ -31,7 +31,7 @@ Plug 'christoomey/vim-sort-motion'
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
      nnoremap <C-p> :FZF<CR>
-     nnoremap <Leader>g :Ag <C-r><C-w><CR>
+     nnoremap <Leader>* :Ag <C-r><C-w><CR>
 Plug 'junegunn/fzf.vim'
 
 Plug 'tpope/vim-endwise'    " Automatic insertion of block endings
@@ -146,7 +146,7 @@ Plug 'neoclide/coc-yaml'
 Plug 'neoclide/coc-json'
 Plug 'neoclide/coc-snippets'
 
-Plug 'jceb/vim-orgmode'
+Plug 'majutsushi/tagbar'
 
 call plug#end()
 " }}}

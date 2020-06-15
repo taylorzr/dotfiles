@@ -20,9 +20,6 @@ git --git-dir=$HOME/dotfiles/ --work-tree=$HOME config --local status.showUntrac
 # apps
 brew bundle install ~/Brewfile
 
-# zsh
-curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-
 # tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # start tmux and run Prefix + I to install plugins

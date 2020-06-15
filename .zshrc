@@ -11,6 +11,7 @@ setopt          \
   nomatch       \
   notify        \
   share_history \
+  hist_ignore_space \
   hist_ignore_dups # Remove consecutive duplication commands in history
 
 bindkey -e
@@ -23,30 +24,16 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-# Plugins (zplug)
-if [ $(uname -s) = 'Linux' ]; then
-  export ZPLUG_HOME=~/.zplug
-  source $ZPLUG_HOME/init.zsh
-else
-  export ZPLUG_HOME=/usr/local/opt/zplug
-  source $ZPLUG_HOME/init.zsh
+if [ ! -d ~/.zsh/zsh-autosuggestions ]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 fi
 
-zplug "zsh-users/zsh-autosuggestions"
-# maybe clobbers autosuggestions?!?
-# zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-syntax-highlighting"
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
+if [ ! -d ~/.zsh/zsh-syntax-highlighting ]; then
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 fi
 
-# Then, source plugins and add commands to $PATH
-zplug load
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # # TODO: Needed on Linux?!?
 # ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
@@ -297,6 +284,9 @@ function db() (
   psql -v "prompt=$prompt" "$url"
 )
 
+# TODO: This should search not only open sessions, but any project in ~/code
+# It would then be more useful even though it's slow, and selecting a project without a session
+# would create a new session for that project
 fs() {
 	local -r fmt='#{session_id}:|#S|(#{session_attached} attached)'
 	{ tmux display-message -p -F "$fmt" && tmux list-sessions -F "$fmt"; } \
@@ -387,3 +377,4 @@ alias hs="home status"
 alias hd="home diff"
 alias hds="home diff --staged"
 alias hcm="home commit --message"
+alias hap="home add --patch"
