@@ -140,6 +140,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " rename the current word in the cursor
     nmap <leader>cr <Plug>(coc-rename)
 
+Plug 'neoclide/coc-go'
 Plug 'neoclide/coc-solargraph'
 Plug 'neoclide/coc-python'
 Plug 'neoclide/coc-yaml'

@@ -1,5 +1,3 @@
-# aws cli
-prependPath "~/.local/bin"
 
 # chruby
 # NOTE: On Fedora, install from source: https://github.com/postmodern/chruby#install
@@ -17,10 +15,5 @@ configure_keyboard() {
 }
 alias rk='configure_keyboard'
 
-alias sys='systemctl'
-
-# external monitor
-alias dock='xrandr --output DP1 --auto --output eDP1 --off'
-alias undock='xrandr --auto'
-
-export BROWSER=/usr/bin/google-chrome-stable
+# brew and aws cli
+path+=('/home/linuxbrew/.linuxbrew/bin' '~/.local/bin')

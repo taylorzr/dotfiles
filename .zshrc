@@ -1,31 +1,28 @@
 # NOTE: To profile zsh load time uncomment this and the zprof at EOF
 # zmodload zsh/zprof
 
-# Config from zsh-newuser-install & compinstall
-# Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
+
+export EDITOR=nvim
+bindkey -e
+
+# http://zsh.sourceforge.net/Doc/Release/Options.html
 setopt          \
-  autocd        \
   beep          \
+  autopushd     \
   extendedglob  \
   dotglob       \
   nomatch       \
   notify        \
   share_history \
   hist_ignore_space \
-  hist_ignore_dups # Remove consecutive duplication commands in history
-
-bindkey -e
-# End of lines configured by zsh-newuser-install
-
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/zach/.zshrc'
+  hist_ignore_all_dups
 
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
+
 
 if [ ! -d ~/.zsh/zsh-autosuggestions ]; then
   git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
@@ -59,24 +56,6 @@ bindkey '^x^e' edit-command-line
 # Functions
 # {{{
 
-function prependPath() {
-  local path
-
-  path=$1
-
-  if [[ ":$PATH:" != *":$path:"* ]]; then
-    PATH="$path:${PATH}"
-  fi
-}
-
-function build() {
-  local number="${1}"
-  local slug="${2:-avant-basic}"
-
-  curl -sH "Authorization: Bearer $BUILDKITE_TOKEN" \
-    "https://api.buildkite.com/v2/organizations/avant/pipelines/${slug}/builds/${number}"
-}
-
 function tmux_project() (
   set -e
   if [[ -z "$1" ]] ; then
@@ -91,150 +70,6 @@ function tmux_project() (
   tmux switch -t $session 2>/dev/null
   # Maybe creating 2 panes and starting vim in top?
 )
-
-# }}}
-
-# Aliases
-# {{{
-
-# reload
-alias reload='reload-zsh && reload-tmux'
-alias reload-zsh='source ~/.zshrc && echo "Zsh reloaded!"'
-alias rz='reload-zsh'
-alias reload-tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
-
-# ls
-alias ls='ls -G'
-alias la='ls -lah'
-alias l.='ls -d .*'
-
-# vim
-alias vim='nvim'
-alias vi='nvim'
-
-# tmux
-alias tl='tmux list-sessions'
-alias tk='tmux kill-session -t'
-alias td='tmux detach'
-# alias ta='tmux attach || { (while ! tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/restore.sh; do sleep 0.2; done)& tmux ; }'
-alias ta='tmux attach || ~/tmux_restore.sh'
-
-alias tp='tmux_project'
-
-# git
-alias g='git'
-alias ga='git add'
-alias gap='git add --patch'
-alias gs='git status'
-alias gd='git diff'
-alias gds='git diff --staged'
-alias gcm='git commit --message'
-# TODO: Keep git and home aliases in sync
-alias home="/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
-alias hs="home status"
-alias hd="home diff"
-alias hds="home diff --staged"
-alias hcm="home commit --message"
-alias hap="home add --patch"
-
-# bundler/rails
-alias be='bundle exec'
-alias rc='rails console'
-alias rs='rails server'
-
-# docker
-alias dc='docker-compose'
-
-# Groups on lines
-alias groups='groups | tr " " "\n"'
-
-# postgresql
-alias pg='pg_ctl'
-
-function pg-stop() {
-  current_version=$(asdf current postgres | cut -f 1 -d ' ')
-
-  case "$current_version" in
-    9.6.*)
-      pg -D /Users/ztaylo43/.asdf/installs/postgres/9.4.11/data stop
-      ;;
-    9.4.*)
-      pg -D /Users/ztaylo43/.asdf/installs/postgres/9.6.10/data stop
-      ;;
-    *)
-      echo "Unknown postgres version"
-      ;;
-  esac
-}
-
-alias python='python3'
-alias pip='pip3'
-
-alias a='avant'
-
-# }}}
-
-# Tools
-# {{{
-
-# hub
-eval "$(hub alias -s)"
-
-# fzf
-source ~/.fzf.zsh
-
-export FZF_DEFAULT_COMMAND='ag --all-types --hidden -g ""' # Find hidden and non-git files
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-# ag maybe?
-# alias ag='ag --all-types --hidden'
-
-# golang
-export GOPATH="$HOME/go"
-export MYGOPATH="$GOPATH/src/github.com/taylorzr"
-
-
-path=("${GOPATH}/bin" '/Users/zachtaylor/Library/Python/3.7/bin' $path)
-# prependPath "${GOPATH}/bin"
-
-# direnv
-eval "$(direnv hook zsh)"
-
-# asdf
-# source $HOME/.asdf/asdf.sh
-# source $HOME/.asdf/completions/asdf.bash
-
-# }}}
-
-# Env
-# {{{
-export EDITOR=nvim
-# }}}
-
-# OS Specific Config
-# {{{
-
-if [ $(uname -s) = 'Linux' ]; then
-  source ~/.config/shell/linux.sh
-else
-  source ~/.config/shell/osx.sh
-fi
-
-source ~/.config/shell/local.sh
-
-source ~/.config/shell/prompt.sh
-
-# }}}
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
-
-alias ts='tmux list-sessions | fzf | cut -d ':' -f 1 | xargs tmux switch-client -t'
-
 
 function run-tests() (
   set -euo pipefail
@@ -380,5 +215,136 @@ function stop_postgres() {
       exit 1
   esac
 }
+
+
+# }}}
+
+# Aliases
+# {{{
+
+# reload
+alias reload='reload-zsh && reload-tmux'
+alias reload-zsh='source ~/.zshrc && echo "Zsh reloaded!"'
+alias rz='reload-zsh'
+alias reload-tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
+
+# ls
+alias ls='ls -G'
+alias la='ls -lah'
+alias l.='ls -d .*'
+
+# vim
+alias vim='nvim'
+alias vi='nvim'
+
+# tmux
+alias tl='tmux list-sessions'
+alias tk='tmux kill-session -t'
+alias td='tmux detach'
+# alias ta='tmux attach || { (while ! tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/restore.sh; do sleep 0.2; done)& tmux ; }'
+alias ta='tmux attach || ~/tmux_restore.sh'
+
+alias tp='tmux_project'
+
+# git
+alias g='git'
+alias ga='git add'
+alias gap='git add --patch'
+alias gs='git status'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gcm='git commit --message'
+# TODO: Keep git and home aliases in sync
+alias home="/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
+alias hs="home status"
+alias hd="home diff"
+alias hds="home diff --staged"
+alias hcm="home commit --message"
+alias hap="home add --patch"
+
+# bundler/rails
+alias be='bundle exec'
+alias rc='rails console'
+alias rs='rails server'
+
+# docker
+alias dc='docker-compose'
+
+# Groups on lines
+alias groups='groups | tr " " "\n"'
+
+# postgresql
+function pg-stop() {
+  current_version=$(asdf current postgres | cut -f 1 -d ' ')
+
+  case "$current_version" in
+    9.6.*)
+      pg_ctl -D /Users/ztaylo43/.asdf/installs/postgres/9.4.11/data stop
+      ;;
+    9.4.*)
+      pg_ctl -D /Users/ztaylo43/.asdf/installs/postgres/9.6.10/data stop
+      ;;
+    *)
+      echo "Unknown postgres version"
+      ;;
+  esac
+}
+
+# Python
+alias python='python3'
+alias pip='pip3'
+
+# }}}
+
+# Tools
+# {{{
+
+# hub
+eval "$(hub alias -s)"
+
+# fzf
+source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='ag --all-types --hidden -g ""' # Find hidden and non-git files
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# ag maybe?
+# alias ag='ag --all-types --hidden'
+
+# direnv
+eval "$(direnv hook zsh)"
+
+# }}}
+
+# OS Specific Config
+# {{{
+
+if [ $(uname -s) = 'Linux' ]; then
+  source ~/.config/shell/linux.sh
+else
+  source ~/.config/shell/osx.sh
+fi
+
+source ~/.config/shell/local.sh
+
+source ~/.config/shell/prompt.sh
+
+# }}}
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+
+alias ts='tmux list-sessions | fzf | cut -d ':' -f 1 | xargs tmux switch-client -t'
+
+# PATHS
+
+typeset -U path
+
+export GOPATH="$HOME/go"
+
+path+=('/usr/local/go/bin' "${GOPATH}/bin")
 
 # zprof

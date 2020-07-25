@@ -82,3 +82,13 @@ gpg> trust
 Your decision? 5 # Trust ultimately
 Do you really want to set this key to ultimate trust? (y/N) y
 ```
+
+# WSL
+
+## Copy/paste in WSL
+- right click on wsl menubar
+- properties
+- check "Use ctrl-shift-c/v for copy/paste"
+
+## Turn on annoying bell noise in console
+sudo echo 'set bell-style none' > /etc/inputrc
