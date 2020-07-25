@@ -1,3 +1,6 @@
+# NOTE: To profile zsh load time uncomment this and the zprof at EOF
+# zmodload zsh/zprof
+
 # Config from zsh-newuser-install & compinstall
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -126,6 +129,13 @@ alias gs='git status'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gcm='git commit --message'
+# TODO: Keep git and home aliases in sync
+alias home="/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
+alias hs="home status"
+alias hd="home diff"
+alias hds="home diff --staged"
+alias hcm="home commit --message"
+alias hap="home add --patch"
 
 # bundler/rails
 alias be='bundle exec'
@@ -371,10 +381,4 @@ function stop_postgres() {
   esac
 }
 
-# TODO: Keep git and home aliases in sync
-alias home="/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
-alias hs="home status"
-alias hd="home diff"
-alias hds="home diff --staged"
-alias hcm="home commit --message"
-alias hap="home add --patch"
+# zprof

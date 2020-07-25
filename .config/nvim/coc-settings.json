@@ -1,0 +1,31 @@
+{
+  "languageserver": {
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh"],
+      "ignoredRootPaths": ["~"]
+    },
+    "terraform": {
+      "command": "terraform-ls",
+      "args": ["serve"],
+      "filetypes": [
+        "terraform",
+        "tf"
+      ],
+      "initializationOptions": {},
+      "settings": {}
+    }
+  }
+  , "solargraph.diagnostics": true
+  , "solargraph.hover": true
+  , "codeLens.enable": true
+  , "diagnostic-languageserver.filetypes": {
+    // lint `sh` (includes `bash`) files
+    "sh": "shellcheck"
+  }
+  , "diagnostic-languageserver.formatFiletypes": {
+    // format `sh` (includes `bash`) files using formatter defined below
+    "sh": "shfmt"
+  }
+}

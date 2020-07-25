@@ -40,3 +40,6 @@
 [mergetool "vimdiff"]
   path = nvim
   trustExitCode = false
+; Supports installing go binaries from private repositories
+[url "git@github.com:"]
+  insteadOf = https://github.com/

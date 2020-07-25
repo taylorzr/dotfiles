@@ -145,8 +145,13 @@ Plug 'neoclide/coc-python'
 Plug 'neoclide/coc-yaml'
 Plug 'neoclide/coc-json'
 Plug 'neoclide/coc-snippets'
+Plug 'fannheyward/coc-sql'
 
 Plug 'majutsushi/tagbar'
+
+Plug 'hashivim/vim-terraform'
+  let g:terraform_fmt_on_save=1
+" Install this guy -> https://github.com/juliosueiras/terraform-lsp
 
 call plug#end()
 " }}}
