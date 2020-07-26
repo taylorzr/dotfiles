@@ -1,4 +1,3 @@
-
 # chruby
 # NOTE: On Fedora, install from source: https://github.com/postmodern/chruby#install
 source /usr/local/share/chruby/chruby.sh
