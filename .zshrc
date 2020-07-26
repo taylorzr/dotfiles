@@ -1,6 +1,9 @@
 # NOTE: To profile zsh load time uncomment this and the zprof at EOF
 # zmodload zsh/zprof
 
+# Basic Config
+# {{{
+
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
@@ -23,7 +26,13 @@ setopt          \
 autoload -Uz compinit
 compinit
 
+typeset -U path
 
+export GOPATH="$HOME/go"
+
+path+=('/usr/local/go/bin' "${GOPATH}/bin")
+
+# Much easier and faster to just clone these zsh plugins than use some crazy slow zsh plugin manager
 if [ ! -d ~/.zsh/zsh-autosuggestions ]; then
   git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 fi
@@ -53,172 +62,6 @@ bindkey '^x^e' edit-command-line
 
 # }}}
 
-# Functions
-# {{{
-
-function tmux_project() (
-  set -e
-  if [[ -z "$1" ]] ; then
-    echo 'Missing argument (project name)'
-    exit 1
-  fi
-  local session
-  session=$1
-  if ! tmux has-session -t $session 2>/dev/null; then
-    tmux new-session -d -s $session -c ~/code/$session
-  fi
-  tmux switch -t $session 2>/dev/null
-  # Maybe creating 2 panes and starting vim in top?
-)
-
-function run-tests() (
-  set -euo pipefail
-
-  local current_directory current_pg
-
-  current_directory="${PWD##*/}"
-  current_pg="$(current_postgres)"
-
-  if [ -n "${PGVERSION:-}" ] && [ "$current_pg" != "$PGVERSION" ]; then
-    echo "The current postgres versions $current_pg doesn't match the configured version $PGVERSION"
-    exit 1
-  fi
-
-  if [ -z "${TEST_COMMAND:-}" ]; then
-    if [ -f Gemfile ]; then
-      bundle exec rspec "$@"
-    else
-      rspec "$@"
-    fi
-  else
-    eval "$TEST_COMMAND" "$@"
-  fi
-)
-
-alias t='run-tests'
-
-function gco() {
-  git branch | fzf | xargs git checkout | cut -d ' ' -f 2
-}
-
-# Define env vars like `SOME_NAME_DB_URL='postgres://....'`
-# You then get a prompt like `SOME_NAME@localhost > _`
-function db() (
-  local url_var prompt url
-  if [ -z "$1" ]; then
-    echo "Error: Database url is empty"
-    exit 1
-  fi
-
-  env_match=$(env | grep _DB_URL | grep "$1")
-
-  if [ -z "$env_match" ]; then
-    echo "Error: Could not find env var named *_DB_URL, with value '$1'"
-    exit 1
-  fi
-
-  url_var=$(echo "$env_match" | cut -d '=' -f 1)
-
-  if [ "${url_var: -7}" != "_DB_URL" ]; then
-    echo "Error: The env var '${url_var}' must end in _DB_URL to be used with this db function"
-    exit 1
-  fi
-
-  prompt=$(echo $url_var | cut -d '=' -f 1 | sed 's/_DB_URL//g')
-  url=$(print -rl -- ${(P)url_var})
-  psql -v "prompt=$prompt" "$url"
-)
-
-# TODO: This should search not only open sessions, but any project in ~/code
-# It would then be more useful even though it's slow, and selecting a project without a session
-# would create a new session for that project
-fs() {
-	local -r fmt='#{session_id}:|#S|(#{session_attached} attached)'
-	{ tmux display-message -p -F "$fmt" && tmux list-sessions -F "$fmt"; } \
-		| awk '!seen[$1]++' \
-		| column -t -s'|' \
-		| fzf -q '$' --reverse --prompt 'switch session: ' -1 \
-		| cut -d':' -f1 \
-		| xargs tmux switch-client -t
-}
-
-# TODO: Test with new install
-if [ -z "$(ls ~/.tmux/plugins 2>/dev/null)" ]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  ~/.tmux/plugins/tpm/bin/install_plugins
-fi
-
-# TODO:
-#   - Don't hardcode switching between only 9.4 / 9.6 / 11
-#   - Automatically determine currently install normal postgres version instead of hardcoding
-function switch_postgres() (
-  set -euo pipefail
-
-  local to current
-
-  to="$1"
-  current=$(current_postgres)
-
-  if [ "$to" = "$current" ]; then
-    echo "Current postgres version is already $to"
-    exit 1
-  else
-    echo "Switching postgres from $current to $to..."
-    case "$to" in
-      9.4)
-        stop_postgres "$current"
-        brew link postgresql@9.4 --force
-        brew services start postgresql@9.4
-        ;;
-      9.6)
-        stop_postgres "$current"
-        brew link postgresql@9.6 --force
-        brew services start postgresql@9.6
-        ;;
-      11.*)
-        stop_postgres "$current"
-        brew link postgres
-        brew services start postgres
-        ;;
-      *)
-        echo "I don't know how to switch to postgres $to :("
-        exit 1
-    esac
-  fi
-)
-
-function current_postgres() {
-  local current
-  current=$(psql -V | cut -f 3 -d ' ' | cut -f 1,2 -d .)
-  echo $current
-}
-
-function stop_postgres() {
-  local version
-  version="$1"
-
-  case "$version" in
-    9.4)
-      brew services stop postgresql@9.4 2>/dev/null || echo "postgresql@9.4 not running"
-      brew unlink postgresql@9.4
-      ;;
-    9.6)
-      brew services stop postgresql@9.6 2>/dev/null || echo "postgresql@9.6 not running"
-      brew unlink postgresql@9.6
-      ;;
-    11.*)
-      brew services stop postgresql 2>/dev/null || echo "postgresql not running"
-      brew unlink postgresql
-      ;;
-    *)
-      echo "I don't know how to stop postgres $version :("
-      exit 1
-  esac
-}
-
-
-# }}}
-
 # Aliases
 # {{{
 
@@ -243,8 +86,8 @@ alias tk='tmux kill-session -t'
 alias td='tmux detach'
 # alias ta='tmux attach || { (while ! tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/restore.sh; do sleep 0.2; done)& tmux ; }'
 alias ta='tmux attach || ~/tmux_restore.sh'
-
 alias tp='tmux_project'
+alias ts='tmux list-sessions | fzf | cut -d ':' -f 1 | xargs tmux switch-client -t'
 
 # git
 alias g='git'
@@ -313,9 +156,20 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # direnv
 eval "$(direnv hook zsh)"
 
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+if [ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]; then
+  source /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+fi
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+if [ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]; then
+  source /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+fi
+
 # }}}
 
-# OS Specific Config
+# OS Specific / Load Other Files
 # {{{
 
 if [ $(uname -s) = 'Linux' ]; then
@@ -325,26 +179,9 @@ else
 fi
 
 source ~/.config/shell/local.sh
-
+source ~/.config/shell/functions.sh
 source ~/.config/shell/prompt.sh
 
 # }}}
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
-
-alias ts='tmux list-sessions | fzf | cut -d ':' -f 1 | xargs tmux switch-client -t'
-
-# PATHS
-
-typeset -U path
-
-export GOPATH="$HOME/go"
-
-path+=('/usr/local/go/bin' "${GOPATH}/bin")
 
 # zprof
