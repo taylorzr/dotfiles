@@ -140,7 +140,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " rename the current word in the cursor
     nmap <leader>cr <Plug>(coc-rename)
 
-    let g:coc_global_extensions = ['coc-go', 'cco-solargraph', 'coc-python', 'coc-yaml', 'coc-json', 'coc-snippets', 'coc-sql', 'coc-diagnostic']
+    let g:coc_global_extensions = ['coc-go', 'coc-solargraph', 'coc-python', 'coc-yaml', 'coc-json', 'coc-snippets', 'coc-sql', 'coc-diagnostic']
 
 Plug 'majutsushi/tagbar'
 
