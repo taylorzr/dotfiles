@@ -148,6 +148,8 @@ Plug 'hashivim/vim-terraform'
   let g:terraform_fmt_on_save=1
 " Install this guy -> https://github.com/juliosueiras/terraform-lsp
 
+Plug 'jceb/vim-orgmode'
+
 call plug#end()
 " }}}
 
