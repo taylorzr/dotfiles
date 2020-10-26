@@ -137,6 +137,9 @@ function pg-stop() {
 alias python='python3'
 alias pip='pip3'
 
+# Terraform
+alias tf='terraform'
+
 # }}}
 
 # Tools
@@ -185,3 +188,6 @@ source ~/.config/shell/prompt.sh
 # }}}
 
 # zprof
+
+# TODO: Steal this cd function
+# https://github.com/natw/dotfiles/blob/master/zsh/fzf.zsh#L17-L26

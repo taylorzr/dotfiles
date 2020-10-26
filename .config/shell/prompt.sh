@@ -23,12 +23,14 @@ function precmd() {
   # PS1+=" pg(${postgres_version})"
 
   if [ "${last_exit_code}" -ge 1 ]; then
-    if [[ $(uname -s) == Linux ]]; then
-      echo oops | espeak 2> /dev/null # TODO: Async here would be nice tho
-    else
-      # TODO: Async oops, meh this seems ok on osx
-      # TODO: Allow disabling this
-      # say oops
+    if [ "$NO_OOPS" != 'true' ]; then
+      if [[ $(uname -s) == Linux ]]; then
+        echo oops | espeak 2> /dev/null # TODO: Async here would be nice tho
+      else
+        # TODO: Async oops, meh this seems ok on osx
+        # TODO: Allow disabling this
+        say oops
+      fi
     fi
     PS1="%F{red}:(%f $PS1 %F{red}${command_time}s ${last_exit_code}%f"
   else

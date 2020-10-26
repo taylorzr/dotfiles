@@ -4,12 +4,24 @@ function tmux_project() (
     echo 'Missing argument (project name)'
     exit 1
   fi
-  local session
-  session=$1
-  if ! tmux has-session -t $session 2>/dev/null; then
-    tmux new-session -d -s $session -c ~/code/$session
+  local project url
+  project=$1
+
+  if [[ "$1" = git@* ]]; then
+    url="$1"
+    project=$(echo $url | sed -E 's/.*\/(.*)\.git$/\1/g')
+  else
+    project="$1"
   fi
-  tmux switch -t $session 2>/dev/null
+
+  if [ -n "$url" ] && [ ! -d "$HOME/code/$project" ]; then
+    cd ~/code && git clone "$url"
+  fi
+
+  if ! tmux has-session -t $project 2>/dev/null; then
+    tmux new-session -d -s $project -c ~/code/$project
+  fi
+  tmux switch -t $project 2>/dev/null
   # Maybe creating 2 panes and starting vim in top?
 )
 

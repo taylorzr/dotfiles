@@ -77,7 +77,12 @@ nnoremap <Leader>n :Lexplore<CR>
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   let g:go_fmt_command = 'goimports'
-     " let g:go_auto_type_info = 1
+  let g:go_auto_type_info = 1
+
+Plug 'sebdah/vim-delve'
+  let g:delve_use_vimux = 1
+
+Plug 'benmills/vimux'
 
 Plug 'vim-ruby/vim-ruby'
 Plug 'leafgarland/typescript-vim'
@@ -148,6 +153,8 @@ Plug 'hashivim/vim-terraform'
   let g:terraform_fmt_on_save=1
 " Install this guy -> https://github.com/juliosueiras/terraform-lsp
 
+Plug 'juliosueiras/vim-terraform-completion'
+
 call plug#end()
 " }}}
 
@@ -172,6 +179,7 @@ autocmd FileType go setlocal noexpandtab
 autocmd FileType go setlocal tabstop=2
 autocmd FileType go setlocal shiftwidth=2
 autocmd FileType go nnoremap <Leader>e oif err != nil {<ENTER>return nil, err<ENTER>}<ESC>
+autocmd Filetype go nnoremap <Leader>p oruntime.Breakpoint()<ESC>
 
 " Make
 autocmd FileType make setlocal noexpandtab
@@ -231,7 +239,6 @@ command! -nargs=* Testall :call Test("all", <f-args>)
 command! -nargs=* Testfile :call Test("file", <f-args>)
 command! -nargs=* Testline :call Test("line", <f-args>)
 
-" TODO: Send Ctrl-u first (clear shell line)
 function! Test(...)
   let mode = get(a:, 1, 'file')
   let window = get(a:, 2, 1)
@@ -248,7 +255,7 @@ function! Test(...)
     echoerr "Error!"
   endif
 
-  let full_cmd = '!tmux send-keys -t ' . window . ' ' . cmd . '\ ' . ' Enter'
+  let full_cmd = '!tmux send-keys -t ' . window . ' ' . 'C-u ' . cmd . '\ ' . ' Enter'
 
   silent exec full_cmd
 endfunction
