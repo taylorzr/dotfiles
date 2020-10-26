@@ -155,6 +155,8 @@ Plug 'hashivim/vim-terraform'
 
 Plug 'juliosueiras/vim-terraform-completion'
 
+Plug 'jceb/vim-orgmode'
+
 call plug#end()
 " }}}
 

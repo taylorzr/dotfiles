@@ -36,13 +36,19 @@ path+=('/usr/local/go/bin' "${GOPATH}/bin")
 if [ ! -d ~/.zsh/zsh-autosuggestions ]; then
   git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 fi
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 if [ ! -d ~/.zsh/zsh-syntax-highlighting ]; then
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 fi
-
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+autoload bashcompinit && bashcompinit
+if [ ! -d ~/.zsh/fzf-tab-completion ]; then
+  git clone https://github.com/lincheney/fzf-tab-completion.git ~/.zsh/fzf-tab-completion
+fi
+source ~/.zsh/fzf-tab-completion/zsh/fzf-zsh-completion.sh
+bindkey '^I' fzf_completion
 
 # # TODO: Needed on Linux?!?
 # ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
@@ -191,3 +197,10 @@ source ~/.config/shell/prompt.sh
 
 # TODO: Steal this cd function
 # https://github.com/natw/dotfiles/blob/master/zsh/fzf.zsh#L17-L26
+
+function _fzf_complete_tp() {
+    _fzf_complete --multi --reverse --prompt="tmux-project> " -- "$@" < <(
+	tmux list-sessions -F '#{session_name}' ; ls -1 ~/code
+    )
+}
+# TODO: Add function to create tmux session by cloning from github
