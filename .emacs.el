@@ -12,7 +12,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (evil-commentary git-gutter evil-leader evil-org go-mode use-package ac-solargraph ruby-electric fzf tmux-pane naviate flycheck yasnippet company lsp-ui lsp-mode evil))))
+    (yaml-mode evil-surround evil-commentary git-gutter evil-leader evil-org go-mode use-package ac-solargraph ruby-electric fzf tmux-pane naviate flycheck yasnippet company lsp-ui lsp-mode evil))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -27,6 +27,7 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(setq make-backup-files nil)
 (menu-bar-mode -1)
 (global-set-key (kbd "C-s") 'save-buffer)
 (setq org-directory "/home/taylorzr/Dropbox/sync/")
@@ -53,9 +54,9 @@
 (use-package tmux-pane
   :ensure t
   :config
+  (global-set-key (kbd "C-H") 'help-command) ; because we bind C-h to window-left
   (global-set-key (kbd "C-l") 'tmux-pane-omni-window-right)
   (global-set-key (kbd "C-h") 'tmux-pane-omni-window-left)
-  (global-set-key (kbd "C-H") 'help-command) ; because we bind C-h to window-left
   (global-set-key (kbd "C-k") 'tmux-pane-omni-window-up)
   (global-set-key (kbd "C-j") 'tmux-pane-omni-window-down))
 
@@ -68,6 +69,11 @@
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
   "f" 'fzf
+  "y" 'pbcopy
+  "c" 'pbcopy
+  "p" 'pbpaste
+  "v" 'pbpaste
+  "x" 'pbcut
   )
 )
 
@@ -83,8 +89,13 @@
   (define-key evil-normal-state-map (kbd "C-p") nil)
   (global-set-key (kbd "C-p") 'helm-projectile-find-file)
   (global-set-key (kbd "C-g") 'helm-projectile-ag)
+  :after evil
 )
 
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
 
 (use-package evil-org
   :ensure t
@@ -101,7 +112,16 @@
   :config
   (evil-commentary-mode)
 )
+
 ;; end evil
+
+(use-package undo-fu
+  :ensure t
+  :config
+  (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
+  (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+  :after evil
+)
 
 (use-package lsp-mode
   :ensure t
@@ -155,3 +175,5 @@
 
 (use-package git-gutter :ensure t)
 (global-git-gutter-mode +1)
+
+(use-package yaml-mode :ensure t)
