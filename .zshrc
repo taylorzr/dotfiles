@@ -85,6 +85,8 @@ alias l.='ls -d .*'
 # vim
 alias vim='nvim'
 alias vi='nvim'
+alias emacs='emacs -nw'
+alias e='emacs'
 
 # tmux
 alias tl='tmux list-sessions'

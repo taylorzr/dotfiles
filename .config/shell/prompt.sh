@@ -23,6 +23,7 @@ function precmd() {
   # PS1+=" pg(${postgres_version})"
 
   if [ "${last_exit_code}" -ge 1 ]; then
+    # FIXME: Make this global, maybe write to a file or something
     if [ "$NO_OOPS" != 'true' ]; then
       if [[ $(uname -s) == Linux ]]; then
         echo oops | espeak 2> /dev/null # TODO: Async here would be nice tho

@@ -11,7 +11,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(ac-solargraph ruby-electric fzf tmux-pane naviate flycheck yasnippet company lsp-ui lsp-mode evil)))
+   (quote
+    (evil-commentary git-gutter evil-leader evil-org go-mode use-package ac-solargraph ruby-electric fzf tmux-pane naviate flycheck yasnippet company lsp-ui lsp-mode evil))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -24,22 +25,83 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (require 'use-package)
+(setq use-package-always-ensure t)
+
+(menu-bar-mode -1)
+(global-set-key (kbd "C-s") 'save-buffer)
+(setq org-directory "/home/taylorzr/Dropbox/sync/")
+(setq org-agenda-files '("~/Dropbox/sync/work.org"))
+
+(defun pbcopy ()
+  (interactive)
+  (call-process-region (point) (mark) "pbcopy")
+  (setq deactivate-mark t))
+
+(defun pbpaste ()
+  (interactive)
+  (call-process-region (point) (if mark-active (mark) (point)) "pbpaste" t t))
+
+(defun pbcut ()
+  (interactive)
+  (pbcopy)
+  (delete-region (region-beginning) (region-end)))
+
+(global-set-key (kbd "C-c c") 'pbcopy)
+(global-set-key (kbd "C-c v") 'pbpaste)
+(global-set-key (kbd "C-c x") 'pbcut)
+
+(use-package tmux-pane
+  :ensure t
+  :config
+  (global-set-key (kbd "C-l") 'tmux-pane-omni-window-right)
+  (global-set-key (kbd "C-h") 'tmux-pane-omni-window-left)
+  (global-set-key (kbd "C-H") 'help-command) ; because we bind C-h to window-left
+  (global-set-key (kbd "C-k") 'tmux-pane-omni-window-up)
+  (global-set-key (kbd "C-j") 'tmux-pane-omni-window-down))
+
+;; evil
+
+(use-package evil-leader
+  :ensure t
+  :config
+  (global-evil-leader-mode) ;; needs to be enabled before evil-mode
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key
+  "f" 'fzf
+  )
+)
 
 (use-package evil
+  :ensure t
   :init
   (setq evil-want-C-i-jump nil)
+  (setq evil-symbol-word-search t) ;; hmn, not working...
   :config
   (evil-mode 1)
   (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
   (define-key evil-motion-state-map (kbd ";") 'evil-ex)
   (define-key evil-normal-state-map (kbd "C-p") nil)
-  ;(define-key evil-normal-state-map (kbd "C-p") 'fzf)
-  (global-set-key (kbd "C-p") 'fzf)
+  (global-set-key (kbd "C-p") 'helm-projectile-find-file)
+  (global-set-key (kbd "C-g") 'helm-projectile-ag)
 )
 
-;; Go configuration
-(use-package go-mode
-  :ensure t)
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme)))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
+(use-package evil-commentary :ensure t
+  :config
+  (evil-commentary-mode)
+)
+;; end evil
 
 (use-package lsp-mode
   :ensure t
@@ -75,41 +137,21 @@
   :commands yas-minor-mode
   :hook (go-mode . yas-minor-mode))
 
-(setq org-directory "/home/taylorzr/Dropbox/sync/")
-(setq org-agenda-files '("~/Dropbox/sync/work.org"))
-
-;; End Go Configuration
-
-(use-package evil-org
-  :ensure t
-  :after org
-  :config
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme)))
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
-
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
 
-(use-package fzf
-  :ensure t)
+(use-package fzf :ensure t)
 
-(use-package tmux-pane
-  :ensure t
-  :config
-  (global-set-key (kbd "C-l") 'tmux-pane-omni-window-right)
-  (global-set-key (kbd "C-h") 'tmux-pane-omni-window-left)
-  (global-set-key (kbd "C-k") 'tmux-pane-omni-window-up)
-  (global-set-key (kbd "C-j") 'tmux-pane-omni-window-down))
+(use-package go-mode :ensure t)
 
-(global-set-key (kbd "C-s") 'save-buffer)
-
-(use-package ruby-electric
-  :ensure t)
+(use-package ruby-electric :ensure t)
 (add-hook 'ruby-mode-hook 'ruby-electric-mode)
 
-; TODO: Use system clipboard
+(use-package helm :ensure t :config (helm-mode t))
+(use-package projectile :ensure t)
+(use-package helm-projectile :ensure t)
+(use-package helm-ag :ensure t)
+
+(use-package git-gutter :ensure t)
+(global-git-gutter-mode +1)
