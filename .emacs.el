@@ -62,6 +62,25 @@
 
 ;; evil
 
+(use-package evil
+  :ensure t
+  :init
+  (setq evil-want-C-i-jump nil) ;; hmn, not working...
+  (setq evil-symbol-word-search t) ;; hmn, not working either :\ ...
+  :config
+  (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
+  (define-key evil-motion-state-map (kbd ";") 'evil-ex)
+  (define-key evil-normal-state-map (kbd "C-p") nil)
+  (define-key evil-normal-state-map (kbd "\t") nil)
+  (global-set-key (kbd "C-p") 'helm-projectile-find-file)
+  (global-set-key (kbd "C-g") 'helm-projectile-ag)
+  (setq evil-want-C-i-jump nil)
+  (setq evil-symbol-word-search t) ;; hmn, not working...
+  (evil-mode 1)
+)
+
+; NOTE: Hmn, leader docs say (global-evil-leader-mode) needs to come before evil but this breaks tab
+; key in org mode...
 (use-package evil-leader
   :ensure t
   :config
@@ -75,21 +94,6 @@
   "v" 'pbpaste
   "x" 'pbcut
   )
-)
-
-(use-package evil
-  :ensure t
-  :init
-  (setq evil-want-C-i-jump nil)
-  (setq evil-symbol-word-search t) ;; hmn, not working...
-  :config
-  (evil-mode 1)
-  (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
-  (define-key evil-motion-state-map (kbd ";") 'evil-ex)
-  (define-key evil-normal-state-map (kbd "C-p") nil)
-  (global-set-key (kbd "C-p") 'helm-projectile-find-file)
-  (global-set-key (kbd "C-g") 'helm-projectile-ag)
-  :after evil
 )
 
 (use-package evil-surround
@@ -106,7 +110,8 @@
             (lambda ()
               (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
+  (evil-org-agenda-set-keys)
+)
 
 (use-package evil-commentary :ensure t
   :config
