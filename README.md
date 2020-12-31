@@ -92,3 +92,9 @@ Do you really want to set this key to ultimate trust? (y/N) y
 
 ## Turn on annoying bell noise in console
 sudo echo 'set bell-style none' > /etc/inputrc
+
+## Mac "Turn off" dock
+https://apple.stackexchange.com/questions/59556/is-there-a-way-to-completely-disable-dock
+```
+defaults write com.apple.dock autohide-delay -float 1000; killall Dock
+```

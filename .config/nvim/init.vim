@@ -31,6 +31,7 @@ Plug 'christoomey/vim-sort-motion'
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
      nnoremap <C-p> :FZF<CR>
+     nnoremap <C-M-p> :Files <C-R>=expand('%:h')<CR><CR>
      nnoremap <Leader>* :Ag <C-r><C-w><CR>
 Plug 'junegunn/fzf.vim'
 
@@ -77,6 +78,8 @@ nnoremap <Leader>n :Lexplore<CR>
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   let g:go_fmt_command = 'goimports'
+  let g:go_def_mode='gopls'
+  let g:go_info_mode='gopls'
   let g:go_auto_type_info = 1
 
 Plug 'sebdah/vim-delve'
@@ -177,9 +180,7 @@ autocmd Filetype elixir nnoremap <Leader>p orequire IEx; IEx.pry<ESC>
 autocmd Filetype python nnoremap <Leader>p ofrom IPython import embed; embed()<ESC>
 
 " Go
-autocmd FileType go setlocal noexpandtab
-autocmd FileType go setlocal tabstop=2
-autocmd FileType go setlocal shiftwidth=2
+autocmd FileType go setlocal noexpandtab tabstop=2 shiftwidth=2
 autocmd FileType go nnoremap <Leader>e oif err != nil {<ENTER>return nil, err<ENTER>}<ESC>
 autocmd Filetype go nnoremap <Leader>p oruntime.Breakpoint()<ESC>
 
@@ -191,6 +192,11 @@ autocmd filetype crontab setlocal nobackup nowritebackup
 
 " R
 autocmd FileType r setlocal commentstring=#\ %s
+
+" in makefiles, don't expand tabs to spaces, since actual tab characters are
+" needed, and have indentation at 4 chars to be sure that all indents are tabs
+" (despite the mappings later):
+autocmd FileType make set noexpandtab shiftwidth=4 softtabstop=0
 " }}}
 
 " Mappings
@@ -288,7 +294,7 @@ set list listchars=tab:\▸\ ,trail:·
 set textwidth=100
 set fo+=t
 
-" Expand tabs to spaces
+" Expand tabs to spaces by default
 set tabstop=4
 set shiftwidth=2
 set expandtab

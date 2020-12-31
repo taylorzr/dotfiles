@@ -206,3 +206,6 @@ function _fzf_complete_tp() {
     )
 }
 # TODO: Add function to create tmux session by cloning from github
+
+alias k=kubectl
+alias kc=kubectx

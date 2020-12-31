@@ -47,10 +47,6 @@
   (pbcopy)
   (delete-region (region-beginning) (region-end)))
 
-(global-set-key (kbd "C-c c") 'pbcopy)
-(global-set-key (kbd "C-c v") 'pbpaste)
-(global-set-key (kbd "C-c x") 'pbcut)
-
 (use-package tmux-pane
   :ensure t
   :config
@@ -65,8 +61,8 @@
 (use-package evil
   :ensure t
   :init
-  (setq evil-want-C-i-jump nil) ;; hmn, not working...
-  (setq evil-symbol-word-search t) ;; hmn, not working either :\ ...
+  (setq evil-want-C-i-jump nil)
+  (setq evil-symbol-word-search t)
   :config
   (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
   (define-key evil-motion-state-map (kbd ";") 'evil-ex)
@@ -74,9 +70,8 @@
   (define-key evil-normal-state-map (kbd "\t") nil)
   (global-set-key (kbd "C-p") 'helm-projectile-find-file)
   (global-set-key (kbd "C-g") 'helm-projectile-ag)
-  (setq evil-want-C-i-jump nil)
-  (setq evil-symbol-word-search t) ;; hmn, not working...
-  (evil-mode 1)
+  ; (evil-mode 1) Enabled by evil-leader because
+  ; https://github.com/cofi/evil-leader#usage
 )
 
 ; NOTE: Hmn, leader docs say (global-evil-leader-mode) needs to come before evil but this breaks tab
@@ -84,16 +79,17 @@
 (use-package evil-leader
   :ensure t
   :config
-  (global-evil-leader-mode) ;; needs to be enabled before evil-mode
+  (global-evil-leader-mode) ;; supposedly needs to be enabled before evil-mode
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
   "f" 'fzf
   "y" 'pbcopy
-  "c" 'pbcopy
   "p" 'pbpaste
-  "v" 'pbpaste
-  "x" 'pbcut
+  "x" 'org-archive-subtree
+  "i" 'org-insert-heading-after-current
   )
+  (advice-add 'org-archive-subtree :after #'org-save-all-org-buffers)
+  (evil-mode 1)
 )
 
 (use-package evil-surround
@@ -111,6 +107,7 @@
               (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
+  (setq org-M-RET-may-split-line nil)
 )
 
 (use-package evil-commentary :ensure t
