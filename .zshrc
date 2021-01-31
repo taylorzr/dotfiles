@@ -113,48 +113,32 @@ alias hds="home diff --staged"
 alias hcm="home commit --message"
 alias hap="home add --patch"
 
-# bundler/rails
+# ruby
 alias be='bundle exec'
 alias rc='rails console'
 alias rs='rails server'
 
-# docker
-alias dc='docker-compose'
-
-# Groups on lines
-alias groups='groups | tr " " "\n"'
-
-# postgresql
-function pg-stop() {
-  current_version=$(asdf current postgres | cut -f 1 -d ' ')
-
-  case "$current_version" in
-    9.6.*)
-      pg_ctl -D /Users/ztaylo43/.asdf/installs/postgres/9.4.11/data stop
-      ;;
-    9.4.*)
-      pg_ctl -D /Users/ztaylo43/.asdf/installs/postgres/9.6.10/data stop
-      ;;
-    *)
-      echo "Unknown postgres version"
-      ;;
-  esac
-}
-
-# Python
+# python
 alias python='python3'
 alias pip='pip3'
 
 # Terraform
 alias tf='terraform'
 
+# Docker
+alias dc='docker-compose'
+
+# Groups on lines
+alias groups='groups | tr " " "\n"'
+
+# Kubernetes
+alias k=kubectl
+alias kc=kubectx
+
 # }}}
 
 # Tools
 # {{{
-
-# hub
-eval "$(hub alias -s)"
 
 # fzf
 source ~/.fzf.zsh
@@ -206,6 +190,3 @@ function _fzf_complete_tp() {
     )
 }
 # TODO: Add function to create tmux session by cloning from github
-
-alias k=kubectl
-alias kc=kubectx

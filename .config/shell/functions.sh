@@ -155,7 +155,7 @@ function stop_postgres() {
       brew services stop postgresql@9.6 2>/dev/null || echo "postgresql@9.6 not running"
       brew unlink postgresql@9.6
       ;;
-    11.*)
+    13.*)
       brew services stop postgresql 2>/dev/null || echo "postgresql not running"
       brew unlink postgresql
       ;;
