@@ -28,7 +28,8 @@
   pager = less
 [user]
   name = Zach Taylor
-  email = taylorzr@gmail.com
+  email = zach@taylorzr.com
+  signingkey = DA34B7CEE987677D
 [push]
   default = simple
 [rebase]
