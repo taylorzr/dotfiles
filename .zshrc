@@ -142,7 +142,16 @@ alias kc=kubectx
 
 # fzf
 source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='ag --all-types --hidden -g ""' # Find hidden and non-git files
+# fzf default command
+# prefer git ls-tree/ls-files, then ag, then find if needed
+# cat'ing ls-tree and ls-files because ls-tree doesn't know about 
+# untracked files
+# -- https://gist.github.com/bspaulding/387551e496b545df25fba23457860f64
+export FZF_DEFAULT_COMMAND='
+	({ git ls-tree -r --name-only HEAD ; git ls-files . --exclude-standard --others } ||
+		ag -g "" --ignore node_modules ||
+		find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
+		sed s/^..//) 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # ag maybe?
