@@ -349,7 +349,7 @@ highlight ColorColumn ctermbg=Black
 " }}}
 
 " Have :AG search hidden files
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden', <bang>0) " FIXME: This should just match shell $FZF_DEFAULT_COMMAND!?!?!? Or at least these should stay in sync
+" command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden', <bang>0) " FIXME: This should just match shell $FZF_DEFAULT_COMMAND!?!?!? Or at least these should stay in sync
 command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 " https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
