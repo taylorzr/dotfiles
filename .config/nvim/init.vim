@@ -77,10 +77,13 @@ nnoremap <Leader>n :Lexplore<CR>
 " Plug 'w0rp/ale'
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-  let g:go_fmt_command = 'goimports'
-  let g:go_def_mode='gopls'
-  let g:go_info_mode='gopls'
+  let g:go_highlight_types = 1
+  " let g:go_fmt_command = 'goimports'
+  " let g:go_def_mode='gopls'
+  " let g:go_info_mode='gopls'
   let g:go_auto_type_info = 1
+  let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+  let g:go_metalinter_autosave = 1
 
 Plug 'sebdah/vim-delve'
   let g:delve_use_vimux = 1
@@ -148,7 +151,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " rename the current word in the cursor
     nmap <leader>cr <Plug>(coc-rename)
 
-    let g:coc_global_extensions = ['coc-go', 'coc-solargraph', 'coc-python', 'coc-yaml', 'coc-json', 'coc-snippets', 'coc-sql', 'coc-diagnostic']
+    let g:coc_global_extensions = ['coc-go', 'coc-solargraph', 'coc-python', 'coc-yaml', 'coc-json', 'coc-snippets', 'coc-sql', 'coc-diagnostic', 'coc-html', 'coc-tsserver']
+
 
 Plug 'majutsushi/tagbar'
 
@@ -159,6 +163,10 @@ Plug 'hashivim/vim-terraform'
 Plug 'juliosueiras/vim-terraform-completion'
 
 Plug 'jceb/vim-orgmode'
+
+Plug 'ziglang/zig.vim'
+
+Plug 'dhruvasagar/vim-dotoo'
 
 call plug#end()
 " }}}
@@ -197,6 +205,10 @@ autocmd FileType r setlocal commentstring=#\ %s
 " needed, and have indentation at 4 chars to be sure that all indents are tabs
 " (despite the mappings later):
 autocmd FileType make set noexpandtab shiftwidth=4 softtabstop=0
+
+" html
+autocmd FileType html setlocal expandtab tabstop=2 shiftwidth=2
+
 " }}}
 
 " Mappings
@@ -357,3 +369,8 @@ noremap * :keepjumps normal! mi*`i<CR>
 
 " Paste without yanking
 vnoremap <leader>p "_dP
+
+" Quick notes
+nnoremap <leader>z :e ~/zach_notes.md<CR>
+nnoremap <leader>d :e ~/zach.dotoo<CR>
+

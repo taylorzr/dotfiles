@@ -1,6 +1,8 @@
 {
   "languageserver": {
     "bash": {
+      // https://github.com/bash-lsp/bash-language-server
+      // npm i -g bash-language-server
       "command": "bash-language-server",
       "args": ["start"],
       "filetypes": ["sh"],

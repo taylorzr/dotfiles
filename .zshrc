@@ -23,15 +23,23 @@ setopt          \
   hist_ignore_space \
   hist_ignore_all_dups
 
-autoload -Uz compinit
-compinit
+# autoload -Uz compinit
+# compinit
 
 typeset -U path
+
+# }}}
+
+# Path
+# {{{
 
 export GOPATH="$HOME/go"
 
 path+=('/usr/local/go/bin' "${GOPATH}/bin")
+# }}}
 
+# Plugins
+# {{{
 # Much easier and faster to just clone these zsh plugins than use some crazy slow zsh plugin manager
 if [ ! -d ~/.zsh/zsh-autosuggestions ]; then
   git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
@@ -43,12 +51,19 @@ if [ ! -d ~/.zsh/zsh-syntax-highlighting ]; then
 fi
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-autoload bashcompinit && bashcompinit
-if [ ! -d ~/.zsh/fzf-tab-completion ]; then
-  git clone https://github.com/lincheney/fzf-tab-completion.git ~/.zsh/fzf-tab-completion
+if [ ! -d ~/.zsh/zsh-vim-mode ]; then
+  git clone git@github.com:softmoth/zsh-vim-mode.git ~/.zsh/zsh-vim-mode
 fi
-source ~/.zsh/fzf-tab-completion/zsh/fzf-zsh-completion.sh
-bindkey '^I' fzf_completion
+source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh
+
+autoload bashcompinit && bashcompinit
+
+# FIXME: Not working on m1
+# if [ ! -d ~/.zsh/fzf-tab-completion ]; then
+#   git clone https://github.com/lincheney/fzf-tab-completion.git ~/.zsh/fzf-tab-completion
+# fi
+# source ~/.zsh/fzf-tab-completion/zsh/fzf-zsh-completion.sh
+# bindkey '^I' fzf_completion
 
 # # TODO: Needed on Linux?!?
 # ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
@@ -65,6 +80,9 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
+
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
 
 # }}}
 
@@ -134,6 +152,7 @@ alias groups='groups | tr " " "\n"'
 # Kubernetes
 alias k=kubectl
 alias kc=kubectx
+alias kn=kubens
 
 # }}}
 
@@ -147,11 +166,15 @@ source ~/.fzf.zsh
 # cat'ing ls-tree and ls-files because ls-tree doesn't know about 
 # untracked files
 # -- https://gist.github.com/bspaulding/387551e496b545df25fba23457860f64
+
+# FIXME: Trying to get home dir working but no luck so far
 export FZF_DEFAULT_COMMAND='
-	({ git ls-tree -r --name-only HEAD ; git ls-files . --exclude-standard --others } ||
-		ag -g "" --ignore node_modules ||
+	( { home ls-tree -r --name-only HEAD ; home ls-files ~ --exclude-standard } ||
+        { git ls-tree -r --name-only HEAD ; git ls-files . --exclude-standard --others } ||
+		ag -g "" --ignore node_modules --ignore .terraform ||
 		find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
-		sed s/^..//) 2> /dev/null'
+		sed s/^..//
+    ) 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # ag maybe?
@@ -198,4 +221,3 @@ function _fzf_complete_tp() {
 	tmux list-sessions -F '#{session_name}' ; ls -1 ~/code
     )
 }
-# TODO: Add function to create tmux session by cloning from github

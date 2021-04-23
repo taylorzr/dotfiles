@@ -124,7 +124,7 @@ function switch_postgres() (
         brew link postgresql@9.6 --force
         brew services start postgresql@9.6
         ;;
-      11.*)
+      latest)
         stop_postgres "$current"
         brew link postgres
         brew services start postgres
