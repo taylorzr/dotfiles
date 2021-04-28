@@ -144,7 +144,7 @@ alias pip='pip3'
 alias tf='terraform'
 
 # Docker
-alias dc='docker-compose'
+alias dc='docker compose'
 
 # Groups on lines
 alias groups='groups | tr " " "\n"'
