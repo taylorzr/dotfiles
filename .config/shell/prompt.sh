@@ -5,9 +5,8 @@ function preexec() {
 function precmd() {
   local last_exit_code=$?
 
-  is_git=$(git rev-parse --git-dir)
-
-  if [ "$is_git" ]; then
+  if git rev-parse --git-dir 2> /dev/null; then
+    is_git='true'
     local git_project=$(basename $(git rev-parse --show-toplevel))
     local git_path=$(sed "s#$(git rev-parse --show-toplevel)##" <(pwd))
     local git_branch=$(git rev-parse --abbrev-ref HEAD)
@@ -17,6 +16,8 @@ function precmd() {
       is_terraform='true'
 
       if [ "$last_tf_path" != "$git_path" ]; then
+        # these terraform commands are pretty slow, so tracking the last tf path let's us cache
+        # these variables until we cd to another directory
         export last_tf_path="$git_path"
         export tf_version=$(tfenv version-name)
         export tf_workspace=$(terraform workspace show)
