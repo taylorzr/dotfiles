@@ -304,7 +304,7 @@ set list listchars=tab:\▸\ ,trail:·
 
 " Automatically wrap text
 set textwidth=100
-set fo+=t
+set formatoptions+=t
 
 " Expand tabs to spaces by default
 set tabstop=4

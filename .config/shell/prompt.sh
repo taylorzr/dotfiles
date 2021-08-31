@@ -5,18 +5,42 @@ function preexec() {
 function precmd() {
   local last_exit_code=$?
 
-  local git_branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
-  local git_sha=$(git rev-parse --short HEAD 2> /dev/null)
+  is_git=$(git rev-parse --git-dir)
+
+  if [ "$is_git" ]; then
+    local git_project=$(basename $(git rev-parse --show-toplevel))
+    local git_path=$(sed "s#$(git rev-parse --show-toplevel)##" <(pwd))
+    local git_branch=$(git rev-parse --abbrev-ref HEAD)
+    local git_sha=$(git rev-parse --short HEAD)
+
+    if [ -d .terraform ]; then
+      is_terraform='true'
+
+      if [ "$last_tf_path" != "$git_path" ]; then
+        export last_tf_path="$git_path"
+        export tf_version=$(tfenv version-name)
+        export tf_workspace=$(terraform workspace show)
+      fi
+    else
+      is_terraform=''
+    fi
+  fi
 
   if [ $timer_start ]; then
     command_time=$(($SECONDS - $timer_start))
     unset timer_start
   fi
 
-  PS1="%1d"
+  if [ "$is_git" ]; then
+    PS1="%F{yellow}$git_project%f$git_path"
+    PS1+=" %F{yellow}git:${git_branch}(${git_sha})%f"
+  else
+  # PS1="%1d"
+    PS1="%/"
+  fi
 
-  if [ -n "${git_branch}" ]; then
-    PS1+="%F{yellow}:${git_branch}%f(${git_sha})"
+  if [ -n "${is_terraform}" ]; then
+    PS1+=" %F{blue}tf:$tf_version:$tf_workspace%f"
   fi
 
   # postgres_version=$(psql -V | cut -f 3 -d ' ' | cut -f 1,2 -d .)

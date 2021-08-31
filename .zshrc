@@ -51,10 +51,11 @@ if [ ! -d ~/.zsh/zsh-syntax-highlighting ]; then
 fi
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-if [ ! -d ~/.zsh/zsh-vim-mode ]; then
-  git clone git@github.com:softmoth/zsh-vim-mode.git ~/.zsh/zsh-vim-mode
-fi
-source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh
+# FIXME: Meh not sure if I like this or should just c-x c-e
+# if [ ! -d ~/.zsh/zsh-vim-mode ]; then
+#   git clone git@github.com:softmoth/zsh-vim-mode.git ~/.zsh/zsh-vim-mode
+# fi
+# source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh
 
 autoload bashcompinit && bashcompinit
 
@@ -116,6 +117,7 @@ alias tp='tmux_project'
 alias ts='tmux list-sessions | fzf | cut -d ':' -f 1 | xargs tmux switch-client -t'
 
 # git
+alias root='cd $(git rev-parse --show-toplevel)'
 alias g='git'
 alias ga='git add'
 alias gap='git add --patch'
@@ -144,6 +146,7 @@ alias pip='pip3'
 alias tf='terraform'
 
 # Docker
+alias d='docker'
 alias dc='docker compose'
 
 # Groups on lines
