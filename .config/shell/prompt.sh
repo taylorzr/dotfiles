@@ -5,7 +5,7 @@ function preexec() {
 function precmd() {
   local last_exit_code=$?
 
-  if git rev-parse --git-dir 2> /dev/null; then
+  if git rev-parse --git-dir &>/dev/null; then
     is_git='true'
     local git_project=$(basename $(git rev-parse --show-toplevel))
     local git_path=$(sed "s#$(git rev-parse --show-toplevel)##" <(pwd))
@@ -24,6 +24,7 @@ function precmd() {
       fi
     else
       is_terraform=''
+      is_git=''
     fi
   fi
 
@@ -32,7 +33,7 @@ function precmd() {
     unset timer_start
   fi
 
-  if [ "$is_git" ]; then
+  if [ -n "$is_git" ]; then
     PS1="%F{yellow}$git_project%f$git_path"
     PS1+=" %F{yellow}git:${git_branch}(${git_sha})%f"
   else

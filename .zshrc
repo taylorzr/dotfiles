@@ -23,8 +23,8 @@ setopt          \
   hist_ignore_space \
   hist_ignore_all_dups
 
-# autoload -Uz compinit
-# compinit
+autoload -Uz compinit
+compinit
 
 typeset -U path
 
