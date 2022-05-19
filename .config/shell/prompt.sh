@@ -12,9 +12,11 @@ function precmd() {
     local git_branch=$(git rev-parse --abbrev-ref HEAD)
     local git_sha=$(git rev-parse --short HEAD)
 
+    # FIXME: I guess technically you could have a terraform setup not tracked by git
     if [ -d .terraform ]; then
       is_terraform='true'
 
+      # FIXME: Doesn't change if I create/change .terraform-version file
       if [ "$last_tf_path" != "$git_path" ]; then
         # these terraform commands are pretty slow, so tracking the last tf path let's us cache
         # these variables until we cd to another directory
@@ -24,8 +26,9 @@ function precmd() {
       fi
     else
       is_terraform=''
-      is_git=''
     fi
+  else
+    is_git=''
   fi
 
   if [ $timer_start ]; then
@@ -34,8 +37,8 @@ function precmd() {
   fi
 
   if [ -n "$is_git" ]; then
-    PS1="%F{yellow}$git_project%f$git_path"
-    PS1+=" %F{yellow}git:${git_branch}(${git_sha})%f"
+    PS1="%F{yellow}$git_project%f$git_path" # root of project and path
+    PS1+=" %F{yellow}git:${git_branch}(${git_sha})%f" # branch and sha
   else
   # PS1="%1d"
     PS1="%/"

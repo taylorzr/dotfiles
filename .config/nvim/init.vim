@@ -40,8 +40,8 @@ Plug 'tpope/vim-endwise'    " Automatic insertion of block endings
 Plug 'tpope/vim-commentary' " Easily comment
 
 Plug 'tpope/vim-fugitive'   " Git blame, diff, browse, etc
-      nnoremap <Leader>gd :Gdiff<CR>
-      nnoremap <Leader>gb :Gblame<CR>
+      nnoremap <Leader>gd :Git diff<CR>
+      nnoremap <Leader>gb :Git blame<CR>
       nnoremap <Leader>gw :Gbrowse-<CR>
       nnoremap <Leader>gr :Gread<CR>
 
@@ -66,15 +66,6 @@ Plug 'vim-scripts/vim-auto-save'
       "     let g:auto_save_abort = 1
       "   endif
       " endfunction
-
-" FIXME: Remove if using :Lexplore works enough
-nnoremap <Leader>n :Lexplore<CR>
-" Plug 'scrooloose/nerdtree'
-"      nnoremap <Leader>n :NERDTree<CR>
-"      nnoremap <Leader>f :NERDTreeFind<CR>
-
-" This is slow on large files why?!?!
-" Plug 'w0rp/ale'
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   let g:go_highlight_types = 1
@@ -138,18 +129,13 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     let g:coc_snippet_next = '<tab>'
 
-    " Use `[g` and `]g` to navigate diagnostics
-    nmap <silent> [g <Plug>(coc-diagnostic-prev)
-    nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-    " GoTo code navigation.
+    nmap <silent> gp <Plug>(coc-diagnostic-prev)
+    nmap <silent> gn <Plug>(coc-diagnostic-next)
     nmap <silent> gd <Plug>(coc-definition)
     nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gi <Plug>(coc-implementation)
     nmap <silent> gr <Plug>(coc-references)
-
-    " rename the current word in the cursor
-    nmap <leader>cr <Plug>(coc-rename)
+    nmap <leader>r  <Plug>(coc-rename)
 
     let g:coc_global_extensions = ['coc-go', 'coc-solargraph', 'coc-python', 'coc-yaml', 'coc-json', 'coc-snippets', 'coc-sql', 'coc-diagnostic', 'coc-html', 'coc-tsserver']
 
@@ -157,8 +143,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'majutsushi/tagbar'
 
 Plug 'hashivim/vim-terraform'
-  let g:terraform_fmt_on_save=1
-" Install this guy -> https://github.com/juliosueiras/terraform-lsp
+  let g:terraform_fmt_on_save=1 " Install this guy -> https://github.com/juliosueiras/terraform-lsp
 
 Plug 'juliosueiras/vim-terraform-completion'
 
@@ -216,13 +201,6 @@ autocmd FileType html setlocal expandtab tabstop=2 shiftwidth=2
 " Easy config reloading
 command! Reload source $MYVIMRC
 command! Config edit $MYVIMRC
-
-" Switch ; & :
-" Quicker access to command mode
-nnoremap ; :
-vnoremap ; :
-nnoremap : ;
-vnoremap : ;
 
 " Clear search highlighting
 nnoremap <CR> :nohlsearch<CR>
@@ -374,3 +352,10 @@ vnoremap <leader>p "_dP
 nnoremap <leader>z :e ~/zach_notes.md<CR>
 nnoremap <leader>d :e ~/zach.dotoo<CR>
 
+" Using arrow keys on qmk layer instead of these so it feels natural on both qwerty and colemak
+" noremap j <Nop>
+" noremap k <Nop>
+" noremap h <Nop>
+" noremap l <Nop>
+
+nnoremap <Leader>f :Lexplore<CR>

@@ -29,7 +29,7 @@ fields:
   #
   # [Syntax Docs|https://amount.atlassian.net/secure/WikiRendererHelpAction.jspa?section=lists]
   description: |~
-    {{ or .overrides.description "" | indent 4 }}{{if .meta.fields.assignee}}
+    {{ or .overrides.description "As a <humans> I want to <do something> so that I can <do something>" | indent 4 }}{{if .meta.fields.assignee}}
   assignee:
     emailAddress: {{ or .overrides.assignee "" }}{{end}}{{if .meta.fields.reporter}}
   reporter:

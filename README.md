@@ -1,11 +1,14 @@
 ![life](life.png)
 # general setup
 
-These dotfiles are setup as a bare repository. This avoids the need to symlink all the things, which
-is tedious. Direnv is used to set GIT_DIR && GIT_WORK_TREE in the home directory so you only need to
-use `--git-dir=$HOME/dotfiles/ --work-tree=$HOME` when setting up the first time. All projects are
-kept at $HOME/code, where there is an empty .envrc so that any projects without a .envrc don't
-inherit the $HOME/.envrc.
+These dotfiles are setup as a bare repository. The git stuff it stored in ~/dotfiles, but the actual
+content stays in ~/. This avoids having an subdir of home be within the dotfiles repo. It also
+avoids problems with other dotfile stategies like the need to symlink all the things, which can be
+tedious.
+
+These dotfiles aren't intended to be re-used by anyone else, but may be a good reference. After
+initial setup changes to the dotfiles repo can be made using the `home` alias instead of git
+directly.
 
 ```
 # auth
@@ -17,16 +20,12 @@ git clone --bare git@github.com:taylorzr/dotfiles.git $HOME/dotfiles
 git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout
 git --git-dir=$HOME/dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
 
-# apps
-brew bundle install ~/Brewfile
-
 # tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # start tmux and run Prefix + I to install plugins
 
 # neovim
 pip3 install pynvim
-pip2 install pynvim
 
 # postgres
 initdb
@@ -37,7 +36,7 @@ createdb $USER
 ruby-install ruby
 
 # go
-# install from -> https://golang.org/dl/
+brew install golang
 # in vim -> :GoInstallBinaries
 ```
 
@@ -60,18 +59,6 @@ defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 defaults write com.apple.finder AppleShowAllFiles YES
 defaults write com.apple.screencapture location $HOME/Downloads
 ```
-
-### Keyboard
-Keyboard > Shortcuts > App Shortcuts
-- Sleep > Alt q
-- Copy > Ctrl c
-- Paste > Ctrl v
-
-Keyboard > Shortcuts > Mission Control
-- Move left a space > Ctrl Command h
-- Move right a space > Ctrl Command l
-- Application windows > Ctrl Command j
-- Mission Control > Ctrl Command k
 
 # Legacy
 ### keys

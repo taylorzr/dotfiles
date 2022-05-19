@@ -156,6 +156,8 @@ alias groups='groups | tr " " "\n"'
 alias k=kubectl
 alias kc=kubectx
 alias kn=kubens
+alias kar='kubectl argo rollouts'
+
 
 # }}}
 

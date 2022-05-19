@@ -1,6 +1,6 @@
 \set QUIET 1
 -- `prompt` gets passed in via the shell function `db`
-\set PROMPT1 '%:prompt:@%M > '
+-- \set PROMPT1 '%:prompt:@%M > '
 \x auto
 \timing on
 \pset null Ø

@@ -16,5 +16,7 @@ zach_notes*
 .starscope.db
 
 .envrc
+.envrc.local
+
 
 .tool-versions
