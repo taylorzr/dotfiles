@@ -2,7 +2,7 @@
 # general setup
 
 These dotfiles are setup as a bare repository. The git stuff it stored in ~/dotfiles, but the actual
-content stays in ~/. This avoids having an subdir of home be within the dotfiles repo. It also
+content stays in ~/. This avoids having any subdir of home be within the dotfiles repo. It also
 avoids problems with other dotfile stategies like the need to symlink all the things, which can be
 tedious.
 
