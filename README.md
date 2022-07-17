@@ -3,12 +3,8 @@
 
 These dotfiles are setup as a bare repository. The git stuff it stored in ~/dotfiles, but the actual
 content stays in ~/. This avoids having any subdir of home be within the dotfiles repo. It also
-avoids problems with other dotfile stategies like the need to symlink all the things, which can be
+avoids problems with other dotfile strategies like the need to symlink all the things, which can be
 tedious.
-
-These dotfiles aren't intended to be re-used by anyone else, but may be a good reference. After
-initial setup changes to the dotfiles repo can be made using the `home` alias instead of git
-directly.
 
 ```
 # auth

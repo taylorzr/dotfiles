@@ -125,13 +125,14 @@ alias gs='git status'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gcm='git commit --message'
-# TODO: Keep git and home aliases in sync
-alias home="/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
-alias hs="home status"
-alias hd="home diff"
-alias hds="home diff --staged"
-alias hcm="home commit --message"
-alias hap="home add --patch"
+# dotfiles are bare repo, so this makes git work in home dir
+function git() {
+  if [ "$PWD" = "$HOME" ]; then
+    /usr/bin/git --git-dir=/Users/ZachTaylor/dotfiles --work-tree=/Users/ZachTaylor "$@"
+  else
+    /usr/bin/git "$@"
+  fi
+}
 
 # ruby
 alias be='bundle exec'
@@ -225,4 +226,8 @@ function _fzf_complete_tp() {
     _fzf_complete --multi --reverse --prompt="tmux-project> " -- "$@" < <(
 	tmux list-sessions -F '#{session_name}' ; ls -1 ~/code
     )
+}
+
+function jwt() {
+  jq -R 'split(".") | .[1] | @base64d | fromjson'
 }
