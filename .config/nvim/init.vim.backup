@@ -17,149 +17,156 @@ endif
 " Clean with :PlugClean
 call plug#begin('~/.config/nvim/plugged')
 
-" Move between Vim panes and tmux splits seamlessly.
-" <ctrl-h> => Left
-" <ctrl-j> => Down
-" <ctrl-k> => Up
-" <ctrl-l> => Right
-" <ctrl-\> => Previous split
-Plug 'christoomey/vim-tmux-navigator'
+" CHOPPING BLOCK PLUGINS
+  Plug 'tpope/vim-endwise' " Automatic insertion of block endings but only for ruby?
+  Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'majutsushi/tagbar'
+  Plug 'leafgarland/typescript-vim'
 
-Plug 'christoomey/vim-sort-motion'
+  " Plug 'christoomey/vim-sort-motion'
+  " Plug 'elmcast/elm-vim'
 
-" Fuzzy Finder
-" PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-     nnoremap <C-p> :FZF<CR>
-     nnoremap <C-M-p> :Files <C-R>=expand('%:h')<CR><CR>
-     nnoremap <Leader>* :Ag <C-r><C-w><CR>
-Plug 'junegunn/fzf.vim'
+  " Plug 'burner/vim-svelte'
+  " Plug 'tpope/vim-projectionist'
+  " Plug 'michaeljsmith/vim-indent-object'
 
-Plug 'tpope/vim-endwise'    " Automatic insertion of block endings
+  " Plug 'jceb/vim-orgmode'
+  " Plug 'ziglang/zig.vim'
+  " Plug 'dhruvasagar/vim-dotoo'
+  " Plug 'plasticboy/vim-markdown'
+  " Plug 'AGhost-7/critiq.vim'
 
-Plug 'tpope/vim-commentary' " Easily comment
-
-Plug 'tpope/vim-fugitive'   " Git blame, diff, browse, etc
-      nnoremap <Leader>gd :Git diff<CR>
-      nnoremap <Leader>gb :Git blame<CR>
-      nnoremap <Leader>gw :Gbrowse-<CR>
-      nnoremap <Leader>gr :Gread<CR>
-
-Plug 'tpope/vim-rhubarb'
-
-Plug 'junegunn/vim-easy-align'
-     " Start interactive EasyAlign in visual mode (e.g. vipga)
-     xmap ga <Plug>(EasyAlign)
-     " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-     nmap ga <Plug>(EasyAlign)
-
-Plug 'airblade/vim-gitgutter'
-
-Plug 'vim-scripts/vim-auto-save'
-      let g:auto_save = 0 " off by default, turn on explicitly when needed
-      let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
-      " FIXME: Doesn't seem to work :(
-      " https://github.com/907th/vim-auto-save/issues/33#issuecomment-275641614
-      " let g:auto_save_presave_hook = 'call AbortIfGo()'
-      " function! AbortIfGo()
-      "   if &filetype == 'go'
-      "     let g:auto_save_abort = 1
-      "   endif
-      " endfunction
-
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-  let g:go_highlight_types = 1
-  " let g:go_fmt_command = 'goimports'
-  " let g:go_def_mode='gopls'
-  " let g:go_info_mode='gopls'
-  let g:go_auto_type_info = 1
-  let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-  let g:go_metalinter_autosave = 1
-
-Plug 'sebdah/vim-delve'
-  let g:delve_use_vimux = 1
-
-Plug 'benmills/vimux'
-
-Plug 'vim-ruby/vim-ruby'
-Plug 'leafgarland/typescript-vim'
-
-Plug 'burner/vim-svelte'
-Plug 'elmcast/elm-vim'
-
-Plug 'stamblerre/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugged/gocode/vim/symlink.sh' }
-
-Plug 'wellle/targets.vim'
-
-Plug 'michaeljsmith/vim-indent-object'
-
-Plug 'machakann/vim-sandwich'
-
-Plug 'tpope/vim-projectionist'
-
-Plug 'dracula/vim', { 'as': 'dracula' }
-
-Plug 'tpope/vim-eunuch'
+  " Plug 'vim-scripts/vim-auto-save'
+        let g:auto_save = 0 " off by default, turn on explicitly when needed
+        let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
+        " FIXME: Doesn't seem to work :(
+        " https://github.com/907th/vim-auto-save/issues/33#issuecomment-275641614
+        " let g:auto_save_presave_hook = 'call AbortIfGo()'
+        " function! AbortIfGo()
+        "   if &filetype == 'go'
+        "     let g:auto_save_abort = 1
+        "   endif
+        " endfunction
 
 
-Plug 'ruby-formatter/rufo-vim'
+" TESTING PLUGINS
 
-Plug 'AndrewRadev/splitjoin.vim'
+  " TODO probably needs more setup, read docs
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  " Automate this?
+  " :TSInstall go
 
-" HTML Plugins
-Plug 'alvan/vim-closetag'
-Plug 'mattn/emmet-vim'
+  " Do block maybe doesn't work, when you run this it should show a device code that you copy and
+  " paste into github.com link
+  Plug 'github/copilot.vim', { 'do': ':Copilot setup' }
 
-Plug 'SirVer/ultisnips'
-    " https://github.com/neoclide/coc-snippets
-    let g:UltiSnipsExpandTrigger = "<nop>"
+  Plug 'wellle/targets.vim'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    " https://github.com/neoclide/coc.nvim/wiki/Using-snippets
-    inoremap <silent><expr> <TAB>
-    \ pumvisible() ? coc#_select_confirm() :
-    \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
+  " TODO need rust stuff: https://github.com/michaelb/sniprun/blob/master/README.md#prerequisites--dependencies
+  " Plug 'michaelb/sniprun', {'do': 'bash install.sh'}
 
-    function! s:check_back_space() abort
-      let col = col('.') - 1
-      return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
-
-    let g:coc_snippet_next = '<tab>'
-
-    nmap <silent> gp <Plug>(coc-diagnostic-prev)
-    nmap <silent> gn <Plug>(coc-diagnostic-next)
-    nmap <silent> gd <Plug>(coc-definition)
-    nmap <silent> gy <Plug>(coc-type-definition)
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gr <Plug>(coc-references)
-    nmap <leader>r  <Plug>(coc-rename)
-
-    let g:coc_global_extensions = ['coc-go', 'coc-solargraph', 'coc-python', 'coc-yaml', 'coc-json', 'coc-snippets', 'coc-sql', 'coc-diagnostic', 'coc-html', 'coc-tsserver']
+  " Plug 'nvim-lua/plenary.nvim'
+  " Plug 'nvim-telescope/telescope.nvim'
+  " Plug 'kyazdani42/nvim-web-devicons'
+  " Plug 'pwntester/octo.nvim'
 
 
-Plug 'majutsushi/tagbar'
+" LANGUAGE RELATED PLUGINS
 
-Plug 'hashivim/vim-terraform'
-  let g:terraform_fmt_on_save=1 " Install this guy -> https://github.com/juliosueiras/terraform-lsp
+  " Ruby
+  Plug 'vim-ruby/vim-ruby'
+  Plug 'ruby-formatter/rufo-vim'
 
-Plug 'juliosueiras/vim-terraform-completion'
+  " Go
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+    let g:go_highlight_types = 1
+    " let g:go_fmt_command = 'goimports'
+    " let g:go_def_mode='gopls'
+    " let g:go_info_mode='gopls'
+    let g:go_auto_type_info = 1
+    let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+    let g:go_metalinter_autosave = 1
+  Plug 'stamblerre/gocode', { 'rtp': 'vim', 'do': '~/.config/nvim/plugged/gocode/vim/symlink.sh' }
+  Plug 'sebdah/vim-delve'
+    let g:delve_use_vimux = 1
+  Plug 'benmills/vimux'
 
-Plug 'jceb/vim-orgmode'
+  " Terraform
+  Plug 'hashivim/vim-terraform'
+    let g:terraform_fmt_on_save=1 " Install this guy -> https://github.com/juliosueiras/terraform-lsp
+  Plug 'juliosueiras/vim-terraform-completion'
 
-Plug 'ziglang/zig.vim'
+  " HTML Plugins
+  Plug 'alvan/vim-closetag'
+  Plug 'mattn/emmet-vim'
 
-Plug 'dhruvasagar/vim-dotoo'
+
+" SOLID PLUGINS
+
+  Plug 'christoomey/vim-tmux-navigator' " move between tmux/vim splits using same keys
+
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+       nnoremap <C-p> :FZF<CR>
+       nnoremap <C-M-p> :Files <C-R>=expand('%:h')<CR><CR>
+       nnoremap <Leader>* :Ag <C-r><C-w><CR>
+  Plug 'junegunn/fzf.vim'
+
+  Plug 'tpope/vim-commentary' " Easily comment
+
+  Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-rhubarb' " :GBrowse
+        nnoremap <Leader>gw :Gbrowse-<CR>
+  Plug 'tpope/vim-fugitive'   " Git blame, diff, browse, etc
+        nnoremap <Leader>gd :Git diff<CR>
+        nnoremap <Leader>gb :Git blame<CR>
+        nnoremap <Leader>gr :Gread<CR>
+
+  Plug 'junegunn/vim-easy-align'
+       " Start interactive EasyAlign in visual mode (e.g. vipga)
+       xmap ga <Plug>(EasyAlign)
+       " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+       nmap ga <Plug>(EasyAlign)
+
+  Plug 'machakann/vim-sandwich'
+
+  Plug 'dracula/vim', { 'as': 'dracula' }
+
+  Plug 'tpope/vim-eunuch' " linux helpers like :Delete and :Rename
+
+  Plug 'SirVer/ultisnips'
+      " https://github.com/neoclide/coc-snippets
+      let g:UltiSnipsExpandTrigger = "<nop>"
+
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+      " https://github.com/neoclide/coc.nvim/wiki/Using-snippets
+      inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+      function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+      endfunction
+
+      let g:coc_snippet_next = '<tab>'
+
+      nmap <silent> gp <Plug>(coc-diagnostic-prev)
+      nmap <silent> gn <Plug>(coc-diagnostic-next)
+      nmap <silent> gd <Plug>(coc-definition)
+      nmap <silent> gy <Plug>(coc-type-definition)
+      nmap <silent> gi <Plug>(coc-implementation)
+      nmap <silent> gr <Plug>(coc-references)
+      nmap <leader>r  <Plug>(coc-rename)
+
+      let g:coc_global_extensions = ['coc-go', 'coc-solargraph', 'coc-python', 'coc-yaml', 'coc-json', 'coc-snippets', 'coc-sql', 'coc-diagnostic', 'coc-html', 'coc-tsserver']
 
 call plug#end()
 " }}}
 
 " Languages
 " {{{
-" Generic static analysis
-" autocmd! BufWritePost * Neomake
 
 " Ruby
 autocmd Filetype ruby nnoremap <Leader>p orequire 'pry'; binding.pry<ESC>
@@ -193,6 +200,7 @@ autocmd FileType make set noexpandtab shiftwidth=4 softtabstop=0
 
 " html
 autocmd FileType html setlocal expandtab tabstop=2 shiftwidth=2
+
 
 " }}}
 
@@ -300,7 +308,10 @@ endif
 set noswapfile
 
 " Persistent undo
-set undofile
+" Error detected while processing /Users/ZachTaylor/.config/nvim/init.vim:
+" line  315:
+" E824: Incompatible undo file: /Users/ZachTaylor/.local/share/nvim/undo/%Users%ZachTaylor%.config%shell%functions.sh
+" set undofile
 
 " Spell checking on
 set spell
@@ -348,14 +359,7 @@ noremap * :keepjumps normal! mi*`i<CR>
 " Paste without yanking
 vnoremap <leader>p "_dP
 
-" Quick notes
-nnoremap <leader>z :e ~/zach_notes.md<CR>
-nnoremap <leader>d :e ~/zach.dotoo<CR>
+nnoremap <Leader>f :Explore<CR>
 
-" Using arrow keys on qmk layer instead of these so it feels natural on both qwerty and colemak
-" noremap j <Nop>
-" noremap k <Nop>
-" noremap h <Nop>
-" noremap l <Nop>
-
-nnoremap <Leader>f :Lexplore<CR>
+" repeat last ex command
+nnoremap <Leader>. @:

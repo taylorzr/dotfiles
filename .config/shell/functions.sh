@@ -124,6 +124,11 @@ function switch_postgres() (
         brew link postgresql@9.6 --force
         brew services start postgresql@9.6
         ;;
+      10)
+        stop_postgres "$current"
+        brew link postgresql@10 --force
+        brew services start postgresql@10
+        ;;
       latest)
         stop_postgres "$current"
         brew link postgres
@@ -155,7 +160,11 @@ function stop_postgres() {
       brew services stop postgresql@9.6 2>/dev/null || echo "postgresql@9.6 not running"
       brew unlink postgresql@9.6
       ;;
-    13.*)
+    10.*)
+      brew services stop postgresql@10 2>/dev/null || echo "postgresql@10 not running"
+      brew unlink postgresql@10
+      ;;
+    14.*)
       brew services stop postgresql 2>/dev/null || echo "postgresql not running"
       brew unlink postgresql
       ;;

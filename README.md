@@ -10,6 +10,7 @@ tedious.
 # auth
 # download your ssh key from whereever it's stored
 chmod 400 ~/.ssh/id_rsa
+# TODO: Document setting up signing for git
 
 # dotfiles
 git clone --bare git@github.com:taylorzr/dotfiles.git $HOME/dotfiles
@@ -22,29 +23,34 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # neovim
 pip3 install pynvim
+brew install lua-language-server
+
+# ruby
+ruby-install ruby
+brew install solargraph
+
+# go
+brew install golang
+
+# ruby
+ruby-install ruby
+brew install solargraph
+brew install gopls
 
 # postgres
 initdb
 brew services start postgresql
 createdb $USER
 
-# ruby
-ruby-install ruby
-
-# go
-brew install golang
-# in vim -> :GoInstallBinaries
+# other languages servers
+# TODO: maybe json and/or python?
+brew install hashicorp/tap/terraform-ls
+yarn global add yaml-language-server
+npm i -g bash-language-server
+npm i -g sql-language-server
 ```
 
-### iterm2 config?
-- Import color scheme ~/Dracula.itermcolors
-- alt keys? dont recall exactly
-  https://stackoverflow.com/questions/18923765/bash-keyboard-shortcuts-in-iterm-like-altd-and-altf
-
 # osx
-
-### Map CapsLock to Control
-http://teohm.com/blog/mac-tips-use-caps-lock-as-control-key/
 
 ### Key repeat speed
 ```
@@ -54,16 +60,6 @@ defaults write -g InitialKeyRepeat -int 13 # normal minimum is 15 (225 ms)
 defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 defaults write com.apple.finder AppleShowAllFiles YES
 defaults write com.apple.screencapture location $HOME/Downloads
-```
-
-# Legacy
-### keys
-```
-gpg --import zach.asc
-gpg --edit-key zach
-gpg> trust
-Your decision? 5 # Trust ultimately
-Do you really want to set this key to ultimate trust? (y/N) y
 ```
 
 # WSL
