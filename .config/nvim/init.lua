@@ -15,11 +15,12 @@ vim.g.mapleader = ' '
 
 -- this might be a stupid setting, but i'm trying to diff between tabs and spaces
 vim.opt.tabstop = 3
-vim.opt.shiftwidth = 3
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
 vim.opt.textwidth = 100
 
 -- keymaps
-vim.keymap.set("n", "<leader>q", "<cmd>bd<cr>")
+vim.keymap.set("n", "<leader>q", "<cmd>q<cr>")
 vim.keymap.set({ "n", "i" }, "<C-s>", "<cmd>write<cr>")
 -- terminal like begin/end line in insert mode
 vim.keymap.set("i", "<C-a>", "<C-o>^")
@@ -27,70 +28,121 @@ vim.keymap.set("i", "<C-e>", "<C-o>$")
 -- easier in/dedent
 vim.keymap.set("n", ">", ">>")
 vim.keymap.set("n", "<", "<<")
-vim.keymap.set("n", "<leader>f", "<cmd>Lexplore<CR>")
+vim.keymap.set("n", "<leader>o", "<cmd>Explore<CR>")
+
+vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>")
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<CR>")
+
+vim.api.nvim_create_augroup("zachwuzhere", { clear = true })
+
+-- language specific
+
+-- golang
+vim.api.nvim_create_autocmd("Filetype", {
+  group = "zachwuzhere",
+  pattern = { "go" },
+  callback = function()
+    vim.keymap.set("n", "<leader>p", "oruntime.Breakpoint()<ESC>")
+    vim.opt_local.shiftwidth = 3
+    vim.opt_local.expandtab = false
+  end
+})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  group = "zachwuzhere",
+  pattern = { "*" },
+  callback = function()
+    vim.cmd([[if search('{{.\+}}', 'nw') | setlocal filetype=gotmpl | endif]])
+  end
+})
+
+-- https://github.com/neovim/nvim-lspconfig/issues/115#issuecomment-1130373799
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = "zachwuzhere",
+  pattern = { "*.go" },
+  callback = function()
+    vim.lsp.buf.formatting_sync(nil, 1000)
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = "zachwuzhere",
+  pattern = { "*.go" },
+  callback = function()
+    local params = vim.lsp.util.make_range_params(nil, "utf-16")
+    params.context = { only = { "source.organizeImports" } }
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 5000)
+    for _, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          vim.lsp.util.apply_workspace_edit(r.edit, "utf-16")
+        else
+          vim.lsp.buf.execute_command(r.command)
+        end
+      end
+    end
+  end,
+})
 
 
--- languag specific
--- TODO autoimports for golang at least
--- it kinda works if you type a package name it adds it
--- but if you remove a package it doesn't pull it out
-vim.cmd('autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)')
--- TODO: Run goimports something like this
--- :%! goimports
--- or maybe use https://github.com/fatih/vim-go
-vim.cmd('autocmd Filetype go nnoremap <Leader>p oruntime.Breakpoint()<ESC>')
--- FIXME: autofmt lua keeps asking for which language server
--- vim.cmd('autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 1000)')
+-- lua
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = "zachwuzhere",
+  pattern = { "*.lua" },
+  callback = function()
+    vim.lsp.buf.formatting_sync(nil, 1000)
+  end
+})
 
-vim.cmd('autocmd Filetype ruby lua vim.opt_local.expandtab = true')
-vim.cmd("autocmd Filetype ruby nnoremap <Leader>p orequire 'pry'; binding.pry<ESC>")
 
--- https://www.getman.io/posts/programming-go-in-neovim/
--- not working exactly, close tho
-function Goimports(timeout_ms)
-	local context = { source = { organizeImports = true } }
-	vim.validate { context = { context, "t", true } }
+-- ruby
+vim.g.ruby_indent_assignment_style = "variable"
 
-	local params = vim.lsp.util.make_range_params()
-	params.context = context
+vim.api.nvim_create_autocmd("Filetype", {
+  group = "zachwuzhere",
+  pattern = { "ruby" },
+  callback = function()
+    vim.keymap.set("n", "<leader>p", "orequire 'pry'; binding.pry<ESC>")
+    vim.opt_local.expandtab = true
+  end
+})
 
-	-- See the implementation of the textDocument/codeAction callback
-	-- (lua/vim/lsp/handler.lua) for how to do this properly.
-	local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
-	if not result or next(result) == nil then return end
-	local actions = result[1].result
-	print(string.format("len of actions is %d\n", #actions))
-	if not actions then return end
-	local action = actions[1]
 
-	-- textDocument/codeAction can return either Command[] or CodeAction[]. If it
-	-- is a CodeAction, it can have either an edit, a command or both. Edits
-	-- should be executed first.
-	if action.edit --[[ and not next(action.edit) ]] or type(action.command) == "table" then
-		if action.edit then
-		-- 	for a,b in ipairs(action.edit) do
-		-- 		print(a,b)
-		-- 	end
-			vim.lsp.util.apply_workspace_edit(action.edit)
-		end
-		if type(action.command) == "table" then
-			vim.lsp.buf.execute_command(action.command)
-		end
-	else
-		vim.lsp.buf.execute_command(action)
-	end
-end
+-- terraform
+-- formatting terraform seems really slow... maybe make it manual?
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = "zachwuzhere",
+  pattern = { "*.tf", ".tfvar" },
+  callback = function()
+    -- FIXME this is reallllly slow
+    -- vim.lsp.buf.formatting_sync(nil, 10000)
+  end
+})
 
+-- groovy
+-- autocmd BufNewFile,BufRead *jenkinsfile* set filetype=groovy
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  group = "zachwuzhere",
+  pattern = { "*jenkinsfile*" },
+  callback = function()
+    vim.o.filetype = "groovy"
+  end
+})
 
 -- os dependent
 if vim.fn.has('macunix') then
-	vim.opt.clipboard = 'unnamedplus'
-	vim.keymap.set("n", "<leader>cf", "<cmd>let @*=expand('%') | echo 'path copied to clipboard!'<CR>")
-	vim.keymap.set("n", "<leader>ca", "<cmd>let @*=expand('%:p') | echo 'absolute path copied to clipboard!'<CR>")
-	vim.keymap.set("n", "<leader>cl", "<cmd>let @*=expand('%') . ':' . line('.') | echo 'filename:line copied to clipboard!'<CR>")
+  vim.opt.clipboard = 'unnamedplus'
+  vim.keymap.set("n", "<leader>cf", "<cmd>let @*=expand('%') | echo 'path copied to clipboard!'<CR>")
+  vim.keymap.set("n", "<leader>ca", "<cmd>let @*=expand('%:p') | echo 'absolute path copied to clipboard!'<CR>")
+  vim.keymap.set("n", "<leader>cl",
+    "<cmd>let @*=expand('%') . ':' . line('.') | echo 'filename:line copied to clipboard!'<CR>")
 else
-	vim.opt.clipboard = 'unnamed'
-	vim.keymap.set("n", "<leader>cf", "<cmd>let @+=expand('%') | echo 'path copied to clipboard!'<CR>")
-	vim.keymap.set("n", "<leader>ca", "<cmd>let @+=expand('%:p') | echo 'absolute path copied to clipboard!'<CR>")
-	vim.keymap.set("n", "<leader>cl", "<cmd>let @+=expand('%') . ':' . line('.') | echo 'filename:line copied to clipboard!'<CR>")
+  vim.opt.clipboard = 'unnamed'
+  vim.keymap.set("n", "<leader>cf", "<cmd>let @+=expand('%') | echo 'path copied to clipboard!'<CR>")
+  vim.keymap.set("n", "<leader>ca", "<cmd>let @+=expand('%:p') | echo 'absolute path copied to clipboard!'<CR>")
+  vim.keymap.set("n", "<leader>cl",
+    "<cmd>let @+=expand('%') . ':' . line('.') | echo 'filename:line copied to clipboard!'<CR>")
 end

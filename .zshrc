@@ -138,6 +138,7 @@ function git() {
 alias be='bundle exec'
 alias rc='rails console'
 alias rs='rails server'
+alias ber='bundle exec rspec'
 
 # python
 alias python='python3'

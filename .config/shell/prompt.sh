@@ -5,7 +5,7 @@ function preexec() {
 function precmd() {
   local last_exit_code=$?
 
-  if git rev-parse --git-dir &>/dev/null; then
+  if git rev-parse --git-dir &>/dev/null && git rev-parse --short HEAD &>/dev/null; then
     is_git='true'
     local git_project=$(basename $(git rev-parse --show-toplevel))
     local git_path=$(sed "s#$(git rev-parse --show-toplevel)##" <(pwd))
