@@ -34,8 +34,9 @@ typeset -U path
 # {{{
 
 export GOPATH="$HOME/go"
-
-path+=('/usr/local/go/bin' "${GOPATH}/bin")
+path+=('/usr/local/go/bin') # not sure i need this? no dir even on mac
+path+=("${GOPATH}/bin")
+path+=("$HOME/.rd/bin") # rancher desktop
 # }}}
 
 # Plugins
@@ -104,8 +105,7 @@ alias l.='ls -d .*'
 # vim
 alias vim='nvim'
 alias vi='nvim'
-alias emacs='emacs -nw'
-alias e='emacs'
+alias nv="VIMRUNTIME=$HOME/code/neovim/runtime $HOME/code/neovim/build/bin/nvim" # Nightly neovim
 
 # tmux
 alias tl='tmux list-sessions'
@@ -223,6 +223,7 @@ source ~/.config/shell/prompt.sh
 # TODO: Steal this cd function
 # https://github.com/natw/dotfiles/blob/master/zsh/fzf.zsh#L17-L26
 
+# TODO: Autocomplete should fuzzy find any github or local dirs
 function _fzf_complete_tp() {
     _fzf_complete --multi --reverse --prompt="tmux-project> " -- "$@" < <(
 	tmux list-sessions -F '#{session_name}' ; ls -1 ~/code

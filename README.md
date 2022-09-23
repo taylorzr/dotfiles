@@ -25,6 +25,11 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 pip3 install pynvim
 brew install lua-language-server
 
+# neovim master
+tp git@github.com:neovim/neovim.git
+make CMAKE_BUILD_TYPE=Release
+use nv alias to run
+
 # ruby
 ruby-install ruby
 brew install solargraph

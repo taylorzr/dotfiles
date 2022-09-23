@@ -8,6 +8,7 @@ return require('packer').startup(function(use)
       vim.cmd [[colorscheme catppuccin]]
     end
   }
+
   use {
     'wbthomason/packer.nvim',
 
@@ -131,15 +132,21 @@ return require('packer').startup(function(use)
     end
   }
 
+  use {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end
+  }
+
   -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   use {
     'neovim/nvim-lspconfig',
     config = function()
       local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local lsp = require('lspconfig')
 
-      -- FIXME: probably should just map these globally
-      -- I guess if we have a file where lsp isn't running it would error but maybe that's good
-      local on_attach = function()
+      local on_attach = function(_, bufnr)
         -- print("hello bro") -- used to test if this is being loaded
         -- see options with :h vim.lsp.buf....
         -- buffer = 0 means set for current buffer
@@ -152,10 +159,12 @@ return require('packer').startup(function(use)
         vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { buffer = 0 })
         vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = 0 })
         vim.keymap.set("n", "gR", vim.lsp.buf.rename, { buffer = 0 })
-        vim.keymap.set("n", "ga", vim.lsp.buf.code_action, { buffer = 0 })
+        vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = 0 })
+        -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
+        -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
+        vim.keymap.set("n", "<leader>fm", vim.lsp.buf.formatting, { buffer = 0 })
+        -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", {})
       end
-
-      local lsp = require('lspconfig')
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
       lsp.gopls.setup {
@@ -219,30 +228,30 @@ return require('packer').startup(function(use)
       -- }
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
-      lsp.sumneko_lua.setup {
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          Lua = {
-            runtime = {
-              -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-              version = 'LuaJIT',
-            },
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = { 'vim' },
-            },
-            workspace = {
-              -- Make the server aware of Neovim runtime files
-              library = vim.api.nvim_get_runtime_file("", true),
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {
-              enable = false,
-            },
-          },
-        },
-      }
+      -- lsp.sumneko_lua.setup {
+      --   capabilities = capabilities,
+      --   on_attach = on_attach,
+      --   settings = {
+      --     Lua = {
+      --       runtime = {
+      --         -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+      --         version = 'LuaJIT',
+      --       },
+      --       diagnostics = {
+      --         -- Get the language server to recognize the `vim` global
+      --         globals = { 'vim' },
+      --       },
+      --       workspace = {
+      --         -- Make the server aware of Neovim runtime files
+      --         library = vim.api.nvim_get_runtime_file("", true),
+      --       },
+      --       -- Do not send telemetry data containing a randomized but unique identifier
+      --       telemetry = {
+      --         enable = false,
+      --       },
+      --     },
+      --   },
+      -- }
     end
   }
 
@@ -250,7 +259,30 @@ return require('packer').startup(function(use)
     'jose-elias-alvarez/null-ls.nvim',
     config = function()
       local null_ls = require("null-ls")
+
+
+      local on_attach = function(_, bufnr)
+        -- print("hello bro") -- used to test if this is being loaded
+        -- see options with :h vim.lsp.buf....
+        -- buffer = 0 means set for current buffer
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
+        vim.keymap.set("n", "gn", vim.lsp.diagnostic.goto_next, { buffer = 0 })
+        vim.keymap.set("n", "gp", vim.lsp.diagnostic.goto_prev, { buffer = 0 })
+        vim.keymap.set("n", "gl", "<cmd>Telescope diagnostics<cr>", { buffer = 0 })
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = 0 })
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = 0 })
+        vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { buffer = 0 })
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = 0 })
+        vim.keymap.set("n", "gR", vim.lsp.buf.rename, { buffer = 0 })
+        vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = 0 })
+        vim.keymap.set("n", "<leader>fm", vim.lsp.buf.formatting, { buffer = 0 })
+        -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", {})
+      end
+
       null_ls.setup({
+        on_attach = on_attach,
+        -- See sources here:
+        -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
         sources = {
           -- spell seems like its just annoying
           -- null_ls.builtins.completion.spell,
@@ -258,6 +290,8 @@ return require('packer').startup(function(use)
           -- 	diagnostics_format = "[#{c}] #{m} (#{s})"
           -- }),
           null_ls.builtins.diagnostics.zsh,
+          null_ls.builtins.diagnostics.standardrb,
+          null_ls.builtins.formatting.standardrb,
         },
       })
     end
@@ -345,7 +379,10 @@ return require('packer').startup(function(use)
   use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
-    requires = { { 'nvim-lua/plenary.nvim' } },
+    requires = { 
+      { 'nvim-lua/plenary.nvim' },
+      { "nvim-telescope/telescope-live-grep-args.nvim" },
+    },
     config = function()
       vim.cmd('nnoremap <C-p> <cmd>Telescope find_files<cr>')
       vim.cmd('nnoremap <leader>ff <cmd>Telescope find_files<cr>')
@@ -368,6 +405,7 @@ return require('packer').startup(function(use)
       }
 
       telescope.load_extension('fzf')
+      telescope.load_extension("live_grep_args")
     end,
   }
 

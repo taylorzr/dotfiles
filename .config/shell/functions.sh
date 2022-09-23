@@ -9,7 +9,7 @@ function tmux_project() (
 
   if [[ "$1" = git@* ]]; then
     url="$1"
-    project=$(echo $url | sed -E 's/.*\/(.*)\.git$/\1/g')
+    project=$(echo "$url" | sed -E 's/.*\/(.*)\.git$/\1/g')
   else
     project="$1"
   fi
@@ -18,19 +18,18 @@ function tmux_project() (
     cd ~/code && git clone "$url"
   fi
 
-  if ! tmux has-session -t $project 2>/dev/null; then
-    tmux new-session -d -s $project -c ~/code/$project
+  if ! tmux has-session -t "$project" 2>/dev/null; then
+    tmux new-session -d -s "$project" -c ~/code/"$project"
   fi
-  tmux switch -t $project 2>/dev/null
+  tmux switch -t "$project" 2>/dev/null
   # Maybe creating 2 panes and starting vim in top?
 )
 
 function run-tests() (
   set -euo pipefail
 
-  local current_directory current_pg
+  local current_pg
 
-  current_directory="${PWD##*/}"
   current_pg="$(current_postgres)"
 
   if [ -n "${PGVERSION:-}" ] && [ "$current_pg" != "$PGVERSION" ]; then

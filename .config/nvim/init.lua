@@ -51,13 +51,15 @@ vim.api.nvim_create_autocmd("Filetype", {
   end
 })
 
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  group = "zachwuzhere",
-  pattern = { "*" },
-  callback = function()
-    vim.cmd([[if search('{{.\+}}', 'nw') | setlocal filetype=gotmpl | endif]])
-  end
-})
+-- FIXME: this thought this lua file was gotmpl, and i dont think this works anywho, probably just
+-- delete
+-- vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+--   group = "zachwuzhere",
+--   pattern = { "*" },
+--   callback = function()
+--     vim.cmd([[if search('{{.\+}}', 'nw') | setlocal filetype=gotmpl | endif]])
+--   end
+-- })
 
 -- https://github.com/neovim/nvim-lspconfig/issues/115#issuecomment-1130373799
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -109,6 +111,14 @@ vim.api.nvim_create_autocmd("Filetype", {
     vim.opt_local.expandtab = true
   end
 })
+
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   group = "zachwuzhere",
+--   pattern = { "*.rb" },
+--   callback = function()
+--     vim.lsp.buf.formatting_sync(nil, 5000)
+--   end
+-- })
 
 
 -- terraform
