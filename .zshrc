@@ -128,7 +128,7 @@ alias gcm='git commit --message'
 # dotfiles are bare repo, so this makes git work in home dir
 function git() {
   if [ "$PWD" = "$HOME" ]; then
-    /usr/bin/git --git-dir=/Users/ZachTaylor/dotfiles --work-tree=/Users/ZachTaylor "$@"
+    /usr/bin/git --git-dir="$HOME/dotfiles" --work-tree="$HOME" "$@"
   else
     /usr/bin/git "$@"
   fi

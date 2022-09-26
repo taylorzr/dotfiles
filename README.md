@@ -22,8 +22,14 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # start tmux and run Prefix + I to install plugins
 
 # neovim
+git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+:PackerCompile
 pip3 install pynvim
 brew install lua-language-server
+
+# fzf
+brew install fzf
+$(brew --prefix)/opt/fzf/install
 
 # neovim master
 tp git@github.com:neovim/neovim.git
