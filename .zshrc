@@ -233,3 +233,5 @@ function _fzf_complete_tp() {
 function jwt() {
   jq -R 'split(".") | .[1] | @base64d | fromjson'
 }
+
+eval "$(/opt/homebrew/bin/brew shellenv)"

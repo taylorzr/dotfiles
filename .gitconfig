@@ -31,6 +31,8 @@
 	name = Zach Taylor
 	email = zach@taylorzr.com
 	signingkey = 15473142EE665456
+[include]
+	path = ~/.local.gitconfig
 [push]
 	default = simple
 [rebase]
@@ -42,8 +44,9 @@
 [mergetool "vimdiff"]
 	path = nvim
 	trustExitCode = false
+; FIXME: Is this still necessary?
 ; Supports installing go binaries from private repositories
-[url "git@github.com:"]
-	insteadOf = https://github.com/
+; [url "git@github.com:"]
+; 	insteadOf = https://github.com/
 [commit]
 	gpgsign = true

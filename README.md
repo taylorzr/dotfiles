@@ -73,18 +73,6 @@ defaults write com.apple.finder AppleShowAllFiles YES
 defaults write com.apple.screencapture location $HOME/Downloads
 ```
 
-# WSL
-
-## Copy/paste in WSL
-- right click on wsl menubar
-- properties
-- check "Use ctrl-shift-c/v for copy/paste"
-
-## Turn on annoying bell noise in console
-sudo echo 'set bell-style none' > /etc/inputrc
-
-## Mac "Turn off" dock
-https://apple.stackexchange.com/questions/59556/is-there-a-way-to-completely-disable-dock
-```
-defaults write com.apple.dock autohide-delay -float 1000; killall Dock
-```
+### Manual stuff, maybe figure out how to do this in terminal someday
+* unset mission control re-arrange desktops
+* unset key shortcuts ctrl-up and ctrl-down
