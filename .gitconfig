@@ -30,7 +30,6 @@
 [user]
 	name = Zach Taylor
 	email = zach@taylorzr.com
-	signingkey = 15473142EE665456
 [include]
 	path = ~/.local.gitconfig
 [push]

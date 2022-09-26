@@ -12,6 +12,16 @@ tedious.
 chmod 400 ~/.ssh/id_rsa
 # TODO: Document setting up signing for git
 
+$ gpg --full-generate-key
+# choose: rsa & 4096
+
+$ gpg --list-secret-keys --keyid-format=long
+# copy sec id
+
+# then export public key, copy and save in github
+gpg --armor --export <key-id>
+
+
 # dotfiles
 git clone --bare git@github.com:taylorzr/dotfiles.git $HOME/dotfiles
 git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout
