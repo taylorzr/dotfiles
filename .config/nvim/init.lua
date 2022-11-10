@@ -18,6 +18,14 @@ vim.opt.tabstop = 3
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.textwidth = 100
+vim.opt.swapfile = false
+
+-- show and highlight trailing whitespace
+vim.opt.list = true
+-- FIXME
+-- vim.cmd("match errorMsg /\\s+$/")
+-- vim.cmd("autocmd ColorScheme * highlight errorMsg ctermbg=red guibg=red")
+
 
 -- keymaps
 vim.keymap.set("n", "<leader>q", "<cmd>q<cr>")
@@ -28,13 +36,14 @@ vim.keymap.set("i", "<C-e>", "<C-o>$")
 -- easier in/dedent
 vim.keymap.set("n", ">", ">>")
 vim.keymap.set("n", "<", "<<")
-vim.keymap.set("n", "<leader>o", "<cmd>Explore<CR>")
+vim.keymap.set("n", "<leader>o", "<cmd>Dirbuf<CR>")
 
 vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>")
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<CR>")
+vim.keymap.set("n", "*","<cmd>keepjumps normal! mi*`i<CR>") -- don't jump to next match when using *
 
 vim.api.nvim_create_augroup("zachwuzhere", { clear = true })
 
@@ -112,6 +121,17 @@ vim.api.nvim_create_autocmd("Filetype", {
   end
 })
 
+
+-- python
+vim.api.nvim_create_autocmd("Filetype", {
+  group = "zachwuzhere",
+  pattern = { "python" },
+  callback = function()
+    vim.keymap.set("n", "<leader>p", "oimport code; code.interact(local=dict(globals(), **locals()))<ESC>")
+    vim.opt_local.shiftwidth = 4
+  end
+})
+
 -- vim.api.nvim_create_autocmd("BufWritePre", {
 --   group = "zachwuzhere",
 --   pattern = { "*.rb" },
@@ -122,13 +142,11 @@ vim.api.nvim_create_autocmd("Filetype", {
 
 
 -- terraform
--- formatting terraform seems really slow... maybe make it manual?
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = "zachwuzhere",
-  pattern = { "*.tf", ".tfvar" },
+  pattern = { "*.tf", "*.tfvars" },
   callback = function()
-    -- FIXME this is reallllly slow
-    -- vim.lsp.buf.formatting_sync(nil, 10000)
+    vim.lsp.buf.formatting_sync(nil, 10000)
   end
 })
 

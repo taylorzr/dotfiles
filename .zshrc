@@ -37,6 +37,9 @@ export GOPATH="$HOME/go"
 path+=('/usr/local/go/bin') # not sure i need this? no dir even on mac
 path+=("${GOPATH}/bin")
 path+=("$HOME/.rd/bin") # rancher desktop
+path+=("/opt/homebrew/opt/python@3.10/libexec/bin") # FIXME prolly shuld use a python version manager
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
 # }}}
 
 # Plugins
@@ -95,7 +98,6 @@ bindkey "^[[B" history-beginning-search-forward
 alias reload='reload-zsh && reload-tmux'
 alias reload-zsh='source ~/.zshrc && echo "Zsh reloaded!"'
 alias rz='reload-zsh'
-alias reload-tmux='tmux source-file ~/.tmux.conf && echo "Tmux config reloaded!"'
 
 # ls
 alias ls='ls -G'
@@ -126,11 +128,13 @@ alias gd='git diff'
 alias gds='git diff --staged'
 alias gcm='git commit --message'
 # dotfiles are bare repo, so this makes git work in home dir
+# TODO: Set this up for linux too, maybe lookup the default git first?
+# TODO: If first arg is clone, then use system git
 function git() {
-  if [ "$PWD" = "$HOME" ]; then
-    /usr/bin/git --git-dir="$HOME/dotfiles" --work-tree="$HOME" "$@"
+  if [ "$PWD" = "$HOME" ] && [ "$1" != "clone" ]; then
+    /opt/homebrew/bin/git --git-dir="$HOME/dotfiles" --work-tree="$HOME" "$@"
   else
-    /usr/bin/git "$@"
+    /opt/homebrew/bin/git "$@"
   fi
 }
 
@@ -140,25 +144,28 @@ alias rc='rails console'
 alias rs='rails server'
 alias ber='bundle exec rspec'
 
-# python
-alias python='python3'
-alias pip='pip3'
-
 # Terraform
 alias tf='terraform'
 
-# Docker
+# "Docker"
 alias d='docker'
 alias dc='docker compose'
+alias n='nerdctl'
+alias nc='nerdctl compose'
 
 # Groups on lines
 alias groups='groups | tr " " "\n"'
 
 # Kubernetes
 alias k=kubectl
+alias kk="kubectx | fzf | xargs k9s --context "
 alias kc=kubectx
+alias kcc='echo context: $(kubectx -c) namespace: $(kubens -c)'
 alias kn=kubens
 alias kar='kubectl argo rollouts'
+
+alias rg="rg --hidden --glob '!.git'"
+export FZF_DEFAULT_COMMAND="rg --hidden --glob '!.git'"
 
 
 # }}}
@@ -223,15 +230,8 @@ source ~/.config/shell/prompt.sh
 # TODO: Steal this cd function
 # https://github.com/natw/dotfiles/blob/master/zsh/fzf.zsh#L17-L26
 
-# TODO: Autocomplete should fuzzy find any github or local dirs
-function _fzf_complete_tp() {
-    _fzf_complete --multi --reverse --prompt="tmux-project> " -- "$@" < <(
-	tmux list-sessions -F '#{session_name}' ; ls -1 ~/code
-    )
-}
-
 function jwt() {
   jq -R 'split(".") | .[1] | @base64d | fromjson'
 }
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+export GPG_TTY=$(tty)

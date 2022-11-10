@@ -10,26 +10,23 @@ tedious.
 # auth
 # download your ssh key from whereever it's stored
 chmod 400 ~/.ssh/id_rsa
-# TODO: Document setting up signing for git
 
 $ gpg --full-generate-key
 # choose: rsa & 4096
 
-$ gpg --list-secret-keys --keyid-format=long
+$ gpg --list-secret-keys --keyid-format=short
 # copy sec id
 
 # then export public key, copy and save in github
 gpg --armor --export <key-id>
-
 
 # dotfiles
 git clone --bare git@github.com:taylorzr/dotfiles.git $HOME/dotfiles
 git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout
 git --git-dir=$HOME/dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
 
-# tmux
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-# start tmux and run Prefix + I to install plugins
+# brew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # neovim
 git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
@@ -63,12 +60,13 @@ initdb
 brew services start postgresql
 createdb $USER
 
-# other languages servers
-# TODO: maybe json and/or python?
-brew install hashicorp/tap/terraform-ls
-yarn global add yaml-language-server
-npm i -g bash-language-server
-npm i -g sql-language-server
+use vim :Mason to install language servers
+TODO: get mason-lspconfig working 
+
+# other software
+rectangle, pastebot, gh, tldr, rg, pinentry-mac, jq, yq, gomplate
+rancher (includes kubectl, helm, nerdctl, “docker“, etc), kubectx, k9s
+tfenv, then tfenv install
 ```
 
 # osx

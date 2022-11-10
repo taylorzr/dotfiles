@@ -1,7 +1,27 @@
+code/
+dotfiles/
+
+.config/kitty/dont_commit_me.conf
 .config/shell/local.sh
 .config/shell/secrets.sh
 
-code/
+.zsh/
+.zsh_history
+.zsh_sessions/
+.zcompdump
+
+.fzf.bash
+.fzf.zsh
+.fzf/
+
+.config/direnv/
+.config/nvim/.netrwhist
+.config/nvim/autoload/
+.config/nvim/ftplugin/
+.config/nvim/plugged/
+.config/nvim/plugin/
+.config/nvim/spell/
+.config/pulse/
 
 .profile
 .bash_logout
@@ -11,11 +31,7 @@ code/
 .psql_history
 .python_history
 .rediscli_history
-.fzf.bash
-.fzf.zsh
-.fzf/
 .viminfo
-.zcompdump
 
 .bundle/
 .cache/
@@ -26,21 +42,17 @@ code/
 .local/
 .npm/
 .ssh/
-.sudo_as_admin_successful
 .rubies/
 .vim/
 .wget-hsts
-.zsh/
-docker/.buildNodeID
-dotfiles/
 go/
 src/
 
-.config/coc/
-.config/direnv/
-.config/nvim/.netrwhist
-.config/nvim/autoload/
-.config/nvim/ftplugin/
-.config/nvim/plugged/
-.config/nvim/spell/
-.config/pulse/
+# Mac directories
+Applications/
+Desktop/
+Documents/
+Downloads/
+Library/
+Movies/
+Public/

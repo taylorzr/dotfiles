@@ -23,13 +23,13 @@
 	yolo = !git add . && git commit --amend --no-edit && git push -f
 	ignored = !git ls-files -v | grep "^[[:lower:]]"
 	root = rev-parse --show-toplevel
+	latest-tag = !git tag | sort -V | tail -1
 [core]
 	editor = nvim
 	excludesfile = ~/.config/global_git_ignore
 	pager = less
 [user]
 	name = Zach Taylor
-	email = zach@taylorzr.com
 [include]
 	path = ~/.local.gitconfig
 [push]

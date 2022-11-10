@@ -9,6 +9,7 @@ return require('packer').startup(function(use)
     end
   }
 
+
   use {
     'wbthomason/packer.nvim',
 
@@ -27,6 +28,7 @@ return require('packer').startup(function(use)
   use "lukas-reineke/indent-blankline.nvim" -- lines for each indent level
   use 'machakann/vim-sandwich'
   use 'tpope/vim-eunuch' -- helpers for file commands like mv, rm, chmod
+  use "elihunter173/dirbuf.nvim"
 
   use {
     'junegunn/vim-easy-align',
@@ -132,10 +134,23 @@ return require('packer').startup(function(use)
     end
   }
 
+
+  -- https://github.com/williamboman/mason-lspconfig.nvim#setup
+  --
+  -- It's important that you set up the plugins in the following order:
+  --
+  --     mason.nvim
+  --     mason-lspconfig.nvim
+  --     lspconfig
   use {
     "williamboman/mason.nvim",
+    -- FIXME: For some reason this breaks mason...
+    -- "williamboman/mason-lspconfig.nvim",
     config = function()
-      require("mason").setup()
+      require("mason").setup({})
+      -- require("mason-lspconfig").setup({
+      --   ensure_installed = { "pylsp", "black", "gopls", "sumneko_lua" }
+      -- })
     end
   }
 
@@ -151,8 +166,8 @@ return require('packer').startup(function(use)
         -- see options with :h vim.lsp.buf....
         -- buffer = 0 means set for current buffer
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
-        vim.keymap.set("n", "gn", vim.lsp.diagnostic.goto_next, { buffer = 0 })
-        vim.keymap.set("n", "gp", vim.lsp.diagnostic.goto_prev, { buffer = 0 })
+        vim.keymap.set("n", "gn", vim.diagnostic.goto_next, { buffer = 0 })
+        vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, { buffer = 0 })
         vim.keymap.set("n", "gl", "<cmd>Telescope diagnostics<cr>", { buffer = 0 })
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = 0 })
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = 0 })
@@ -192,8 +207,8 @@ return require('packer').startup(function(use)
           pylsp = {
             plugins = {
               pycodestyle = {
-                ignore = { 'W391' },
-                maxLineLength = 100
+                ignore = { 'W391' }, -- blank line at end of file: https://www.flake8rules.com/rules/W391.html
+                maxLineLength = 200
               }
             }
           }
@@ -210,9 +225,13 @@ return require('packer').startup(function(use)
       lsp.sqlls.setup {}
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#bashls
-      lsp.bashls.setup {}
+      lsp.bashls.setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+      }
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls
+      lsp.yamlls.setup {}
       -- lsp.yamlls.setup {
       -- 	-- ... -- other configuration for setup {}
       -- 	settings = {
@@ -260,14 +279,13 @@ return require('packer').startup(function(use)
     config = function()
       local null_ls = require("null-ls")
 
-
       local on_attach = function(_, bufnr)
         -- print("hello bro") -- used to test if this is being loaded
         -- see options with :h vim.lsp.buf....
         -- buffer = 0 means set for current buffer
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
-        vim.keymap.set("n", "gn", vim.lsp.diagnostic.goto_next, { buffer = 0 })
-        vim.keymap.set("n", "gp", vim.lsp.diagnostic.goto_prev, { buffer = 0 })
+        vim.keymap.set("n", "gn", vim.diagnostic.goto_next, { buffer = 0 })
+        vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, { buffer = 0 })
         vim.keymap.set("n", "gl", "<cmd>Telescope diagnostics<cr>", { buffer = 0 })
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = 0 })
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = 0 })
@@ -275,6 +293,8 @@ return require('packer').startup(function(use)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = 0 })
         vim.keymap.set("n", "gR", vim.lsp.buf.rename, { buffer = 0 })
         vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = 0 })
+        -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
+        -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
         vim.keymap.set("n", "<leader>fm", vim.lsp.buf.formatting, { buffer = 0 })
         -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", {})
       end
@@ -290,28 +310,44 @@ return require('packer').startup(function(use)
           -- 	diagnostics_format = "[#{c}] #{m} (#{s})"
           -- }),
           null_ls.builtins.diagnostics.zsh,
-          null_ls.builtins.diagnostics.standardrb,
-          null_ls.builtins.formatting.standardrb,
+          -- null_ls.builtins.diagnostics.standardrb, -- ruby
+          -- null_ls.builtins.formatting.standardrb, -- ruby
+          null_ls.builtins.formatting.black, -- python formatter
+          null_ls.builtins.formatting.isort, -- sorts python imports
+          -- null_ls.builtins.diagnostics.flake8 -- python linter
         },
       })
     end
   }
 
   use {
-    'alexghergh/nvim-tmux-navigation',
-    config = function()
-      require 'nvim-tmux-navigation'.setup {
-        disable_when_zoomed = true, -- defaults to false
-        keybindings = {
-          left = "<C-h>",
-          down = "<C-j>",
-          up = "<C-k>",
-          right = "<C-l>",
-          last_active = "<C-\\>",
-        }
-      }
+    'knubie/vim-kitty-navigator',
+    -- FIXME: run didn't work, instead ran
+    -- cp ~/.local/share/nvim/site/pack/packer/start/vim-kitty-navigator/*.py ~/.config/kitty
+    run = 'cp ./*.py ~/.config/kitty/',
+    setup = function()
+      vim.cmd('nnoremap <silent> <C-left> :KittyNavigateLeft<cr>')
+      vim.cmd('nnoremap <silent> <C-down> :KittyNavigateDown<cr>')
+      vim.cmd('nnoremap <silent> <C-up> :KittyNavigateUp<cr>')
+      vim.cmd('nnoremap <silent> <C-right> :KittyNavigateRight<cr>')
     end
   }
+
+  -- use {
+  --   'alexghergh/nvim-tmux-navigation',
+  --   config = function()
+  --     require 'nvim-tmux-navigation'.setup {
+  --       disable_when_zoomed = true, -- defaults to false
+  --       keybindings = {
+  --         left = "<C-h>",
+  --         down = "<C-j>",
+  --         up = "<C-k>",
+  --         right = "<C-l>",
+  --         last_active = "<C-\\>",
+  --       }
+  --     }
+  --   end
+  -- }
 
   use 'nvim-treesitter/nvim-treesitter-context'
   use {
@@ -379,14 +415,20 @@ return require('packer').startup(function(use)
   use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
-    requires = { 
+    requires = {
       { 'nvim-lua/plenary.nvim' },
       { "nvim-telescope/telescope-live-grep-args.nvim" },
     },
     config = function()
-      vim.cmd('nnoremap <C-p> <cmd>Telescope find_files<cr>')
-      vim.cmd('nnoremap <leader>ff <cmd>Telescope find_files<cr>')
+      local builtin = require('telescope.builtin')
+      -- vim.cmd('nnoremap <C-p> <cmd>Telescope find_files<cr>')
+      vim.keymap.set("n", "<C-p>", (function() builtin.find_files({ find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' }})end))
       vim.cmd('nnoremap <leader>fg <cmd>Telescope live_grep<cr>')
+      -- FIXME: live grep args but using picker config below for searching hiddeng files
+      -- vim.cmd("nnoremap <leader>fg <cmd> lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
+      -- TODO: find hidden files using live grep 
+      -- find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
+      -- keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
       vim.cmd('nnoremap <leader>fw <cmd>Telescope grep_string<cr>')
       vim.cmd('nnoremap <leader>fb <cmd>Telescope buffers<cr>')
       vim.cmd('nnoremap <leader>fh <cmd>Telescope help_tags<cr>')
@@ -401,6 +443,14 @@ return require('packer').startup(function(use)
             i = { ["<c-t>"] = trouble.open_with_trouble },
             n = { ["<c-t>"] = trouble.open_with_trouble },
           },
+        },
+        pickers = {
+            live_grep = {
+                additional_args = function(opts)
+                    return {"--hidden"}
+                    -- return { '--files', '--iglob', '!.git', '--hidden' }
+                end
+            },
         },
       }
 
@@ -464,7 +514,7 @@ return require('packer').startup(function(use)
       require("luasnip.loaders.from_vscode").lazy_load()
       require 'luasnip'.filetype_extend("go", { "go" })
       require 'luasnip'.filetype_extend("ruby", { "rails" })
-      -- TODO python
+      require 'luasnip'.filetype_extend("python", { "python" })
     end
   }
 
