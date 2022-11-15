@@ -174,7 +174,7 @@ return require('packer').startup(function(use)
         vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { buffer = 0 })
         vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = 0 })
         vim.keymap.set("n", "gR", vim.lsp.buf.rename, { buffer = 0 })
-        vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = 0 })
+        vim.keymap.set("n", "gc", vim.lsp.buf.code_action, { buffer = 0 })
         -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
         -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
         vim.keymap.set("n", "<leader>fm", vim.lsp.buf.formatting, { buffer = 0 })
@@ -213,6 +213,13 @@ return require('packer').startup(function(use)
             }
           }
         }
+      }
+
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tsserver
+      lsp.tsserver.setup{
+        capabilities = capabilities,
+        on_attach = on_attach,
+
       }
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#terraformls
@@ -367,7 +374,7 @@ return require('packer').startup(function(use)
 
       require 'nvim-treesitter.configs'.setup {
         -- A list of parser names, or "all"
-        ensure_installed = { "lua", "go", "ruby", "python" },
+        ensure_installed = { "lua", "go", "ruby", "python", "typescript" },
 
         -- Automatically cmpinstall missing parsers when entering buffer
         auto_install = true,

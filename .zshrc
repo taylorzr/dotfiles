@@ -127,9 +127,9 @@ alias gs='git status'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gcm='git commit --message'
+alias gb="git branch --sort=-committerdate | fzf | tr -d ' *' | xargs git checkout"
 # dotfiles are bare repo, so this makes git work in home dir
 # TODO: Set this up for linux too, maybe lookup the default git first?
-# TODO: If first arg is clone, then use system git
 function git() {
   if [ "$PWD" = "$HOME" ] && [ "$1" != "clone" ]; then
     /opt/homebrew/bin/git --git-dir="$HOME/dotfiles" --work-tree="$HOME" "$@"
@@ -167,6 +167,11 @@ alias kar='kubectl argo rollouts'
 alias rg="rg --hidden --glob '!.git'"
 export FZF_DEFAULT_COMMAND="rg --hidden --glob '!.git'"
 
+# nvm is terribly slow, so instead
+alias nvm="unalias nvm && source /opt/homebrew/opt/nvm/nvm.sh && nvm"
+alias yarn="unalias yarn && source /opt/homebrew/opt/nvm/nvm.sh && yarn"
+# jfyi, nvm's typical loader:
+# [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
 
 # }}}
 
@@ -225,8 +230,6 @@ source ~/.config/shell/prompt.sh
 
 # }}}
 
-# zprof
-
 # TODO: Steal this cd function
 # https://github.com/natw/dotfiles/blob/master/zsh/fzf.zsh#L17-L26
 
@@ -235,3 +238,5 @@ function jwt() {
 }
 
 export GPG_TTY=$(tty)
+
+# zprof
