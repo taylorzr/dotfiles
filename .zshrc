@@ -37,9 +37,12 @@ export GOPATH="$HOME/go"
 path+=('/usr/local/go/bin') # not sure i need this? no dir even on mac
 path+=("${GOPATH}/bin")
 path+=("$HOME/.rd/bin") # rancher desktop
-path+=("/opt/homebrew/opt/python@3.10/libexec/bin") # FIXME prolly shuld use a python version manager
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ $(uname -s) = 'Darwin' ]; then
+  path+=("/opt/homebrew/opt/python@3.10/libexec/bin") # FIXME prolly shuld use a python version manager
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # }}}
 
 # Plugins
@@ -95,7 +98,6 @@ bindkey "^[[B" history-beginning-search-forward
 # {{{
 
 # reload
-alias reload='reload-zsh && reload-tmux'
 alias reload-zsh='source ~/.zshrc && echo "Zsh reloaded!"'
 alias rz='reload-zsh'
 
@@ -108,15 +110,6 @@ alias l.='ls -d .*'
 alias vim='nvim'
 alias vi='nvim'
 alias nv="VIMRUNTIME=$HOME/code/neovim/runtime $HOME/code/neovim/build/bin/nvim" # Nightly neovim
-
-# tmux
-alias tl='tmux list-sessions'
-alias tk='tmux kill-session -t'
-alias td='tmux detach'
-# alias ta='tmux attach || { (while ! tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/restore.sh; do sleep 0.2; done)& tmux ; }'
-alias ta='tmux attach || ~/tmux_restore.sh'
-alias tp='tmux_project'
-alias ts='tmux list-sessions | fzf | cut -d ':' -f 1 | xargs tmux switch-client -t'
 
 # git
 alias root='cd $(git rev-parse --show-toplevel)'
@@ -132,9 +125,9 @@ alias gb="git branch --sort=-committerdate | fzf | tr -d ' *' | xargs git checko
 # TODO: Set this up for linux too, maybe lookup the default git first?
 function git() {
   if [ "$PWD" = "$HOME" ] && [ "$1" != "clone" ]; then
-    /opt/homebrew/bin/git --git-dir="$HOME/dotfiles" --work-tree="$HOME" "$@"
+    command git --git-dir="$HOME/dotfiles" --work-tree="$HOME" "$@"
   else
-    /opt/homebrew/bin/git "$@"
+    command git "$@"
   fi
 }
 
@@ -179,7 +172,9 @@ alias yarn="unalias yarn && source /opt/homebrew/opt/nvm/nvm.sh && yarn"
 # {{{
 
 # fzf
-source ~/.fzf.zsh
+if [ $(uname -s) = 'Darwin' ]; then
+  source ~/.fzf.zsh
+fi
 # fzf default command
 # prefer git ls-tree/ls-files, then ag, then find if needed
 # cat'ing ls-tree and ls-files because ls-tree doesn't know about 
@@ -219,9 +214,18 @@ fi
 # {{{
 
 if [ $(uname -s) = 'Linux' ]; then
-  source ~/.config/shell/linux.sh
+  configure_keyboard() {
+    xset r rate 200 25
+    setxkbmap -layout us -option ctrl:nocaps
+    echo "Keyboard configured!"
+
+  }
+  alias rk='configure_keyboard'
+
+  # brew and aws cli
+  path+=('/home/linuxbrew/.linuxbrew/bin' '~/.local/bin')
 else
-  source ~/.config/shell/osx.sh
+  path+=("$HOME/Library/Python/3.10/bin")
 fi
 
 source ~/.config/shell/local.sh
