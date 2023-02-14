@@ -31,6 +31,14 @@ return require('packer').startup(function(use)
   use "elihunter173/dirbuf.nvim"
 
   use {
+    'lewis6991/gitsigns.nvim',
+    config = function()
+      require('gitsigns').setup()
+    end
+  }
+
+
+  use {
     'junegunn/vim-easy-align',
     config = function()
       vim.cmd([[
@@ -177,8 +185,7 @@ return require('packer').startup(function(use)
         vim.keymap.set("n", "gc", vim.lsp.buf.code_action, { buffer = 0 })
         -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
         -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
-        vim.keymap.set("n", "<leader>fm", vim.lsp.buf.formatting, { buffer = 0 })
-        -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", {})
+        vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { buffer = 0 })
       end
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
@@ -302,8 +309,7 @@ return require('packer').startup(function(use)
         vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = 0 })
         -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
         -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
-        vim.keymap.set("n", "<leader>fm", vim.lsp.buf.formatting, { buffer = 0 })
-        -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", {})
+        vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { buffer = 0 })
       end
 
       null_ls.setup({
@@ -322,7 +328,11 @@ return require('packer').startup(function(use)
           null_ls.builtins.formatting.black, -- python formatter
           null_ls.builtins.formatting.isort, -- sorts python imports
           -- null_ls.builtins.diagnostics.flake8 -- python linter
+          null_ls.builtins.formatting.isort, -- sorts python imports
+          -- https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md013---line-length
+          null_ls.builtins.diagnostics.markdownlint.with({ extra_args = { "--disable", "MD013" } }),
         },
+
       })
     end
   }

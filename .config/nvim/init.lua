@@ -160,6 +160,16 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   end
 })
 
+-- devicetree
+-- (zmk keymap filetype)
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  group = "zachwuzhere",
+  pattern = { "*.keymap" },
+  callback = function()
+    vim.o.filetype = "devicetree"
+  end
+})
+
 -- os dependent
 if vim.fn.has('macunix') then
   vim.opt.clipboard = 'unnamedplus'
