@@ -51,24 +51,6 @@ function db() (
   psql -v "prompt=$prompt" "$url"
 )
 
-# TODO: This should search not only open sessions, but any project in ~/code
-# It would then be more useful even though it's slow, and selecting a project without a session
-# would create a new session for that project
-fs() {
-  local -r fmt='#{session_id}:|#S|(#{session_attached} attached)'
-    { tmux display-message -p -F "$fmt" && tmux list-sessions -F "$fmt"; } \
-      | awk '!seen[$1]++' \
-      | column -t -s'|' \
-      | fzf -q '$' --reverse --prompt 'switch session: ' -1 \
-      | cut -d':' -f1 \
-      | xargs tmux switch-client -t
-}
-
-if [ -z "$(ls ~/.tmux/plugins 2>/dev/null)" ]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  ~/.tmux/plugins/tpm/bin/install_plugins
-fi
-
 # TODO:
 #   - Don't hardcode switching between only 9.4 / 9.6 / 11
 #   - Automatically determine currently install normal postgres version instead of hardcoding

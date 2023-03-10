@@ -1,4 +1,5 @@
 # NOTE: To profile zsh load time uncomment this and the zprof at EOF
+# https://medium.com/@dannysmith/little-thing-2-speeding-up-zsh-f1860390f92
 # zmodload zsh/zprof
 
 # Basic Config
@@ -23,10 +24,12 @@ setopt          \
   hist_ignore_space \
   hist_ignore_all_dups
 
-autoload -Uz compinit
-compinit
 
-typeset -U path
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
 
 # }}}
 
@@ -38,8 +41,12 @@ path+=('/usr/local/go/bin') # not sure i need this? no dir even on mac
 path+=("${GOPATH}/bin")
 path+=("$HOME/.rd/bin") # rancher desktop
 
-if [ $(uname -s) = 'Darwin' ]; then
-  path+=("/opt/homebrew/opt/python@3.10/libexec/bin") # FIXME prolly shuld use a python version manager
+if [ $(uname -s) = 'Linux' ]; then
+  # brew and aws cli
+  path+=('/home/linuxbrew/.linuxbrew/bin' '~/.local/bin')
+else
+  path+=("/opt/homebrew/opt/python/libexec/bin") # FIXME prolly should use a python version manager
+  path+=("/Users/zach.taylor/Library/Python/3.10/bin") # FIXME prolly should use a python version manager
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
@@ -58,11 +65,6 @@ if [ ! -d ~/.zsh/zsh-syntax-highlighting ]; then
 fi
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# FIXME: Meh not sure if I like this or should just c-x c-e
-# if [ ! -d ~/.zsh/zsh-vim-mode ]; then
-#   git clone git@github.com:softmoth/zsh-vim-mode.git ~/.zsh/zsh-vim-mode
-# fi
-# source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh
 
 autoload bashcompinit && bashcompinit
 
@@ -101,6 +103,11 @@ bindkey "^[[B" history-beginning-search-forward
 alias reload-zsh='source ~/.zshrc && echo "Zsh reloaded!"'
 alias rz='reload-zsh'
 
+# editing configs
+alias ez='vim ~/.zshrc'
+alias ezl='vim ~/.config/shell/local.sh'
+alias ek='vim ~/.config/kitty/kitty.conf'
+
 # ls
 alias ls='ls -G'
 alias la='ls -lah'
@@ -113,16 +120,24 @@ alias nv="VIMRUNTIME=$HOME/code/neovim/runtime $HOME/code/neovim/build/bin/nvim"
 
 # git
 alias root='cd $(git rev-parse --show-toplevel)'
-alias g='git'
+alias gl='git log'
+# TODO: if no arg get via fzf
 alias ga='git add'
+alias gna='git ls-files --others --exclude-standard | fzf --multi | git add'
+alias gnr='git ls-files --others --exclude-standard | fzf --multi | xargs rm'
 alias gap='git add --patch'
 alias gs='git status'
 alias gd='git diff'
 alias gds='git diff --staged'
+alias gco='git checkout'
 alias gcm='git commit --message'
-alias gb="git branch --sort=-committerdate | fzf | tr -d ' *' | xargs git checkout"
+alias gca='git commit --amend --no-edit'
+alias gcam='git commit --amend'
+alias gb="git branch --all --sort=-committerdate | fzf | tr -d ' *' | awk '{gsub(/remotes\/origin\//,\"\");}1' | xargs git checkout"
+alias gf="git fetch origin :$(git default-branch)"
+alias grc="git rebase --continue"
+
 # dotfiles are bare repo, so this makes git work in home dir
-# TODO: Set this up for linux too, maybe lookup the default git first?
 function git() {
   if [ "$PWD" = "$HOME" ] && [ "$1" != "clone" ]; then
     command git --git-dir="$HOME/dotfiles" --work-tree="$HOME" "$@"
@@ -151,19 +166,30 @@ alias groups='groups | tr " " "\n"'
 
 # Kubernetes
 alias k=kubectl
-alias kk="kubectx | fzf | xargs k9s --context "
+function kk() {
+  local cluster
+  cluster="$1"
+
+  if [ "$cluster" = "" ]; then
+    cluster=$(kubectx | fzf)
+  fi
+
+  k9s --context "$cluster"
+}
 alias kc=kubectx
 alias kcc='echo context: $(kubectx -c) namespace: $(kubens -c)'
 alias kn=kubens
 alias kar='kubectl argo rollouts'
+alias argo='argocd'
 
 alias rg="rg --hidden --glob '!.git'"
-export FZF_DEFAULT_COMMAND="rg --hidden --glob '!.git'"
+export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden --glob '!.git'"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # nvm is terribly slow, so instead
-alias nvm="unalias nvm && source /opt/homebrew/opt/nvm/nvm.sh && nvm"
-alias yarn="unalias yarn && source /opt/homebrew/opt/nvm/nvm.sh && yarn"
-# jfyi, nvm's typical loader:
+# alias nvm="unalias nvm && source /opt/homebrew/opt/nvm/nvm.sh && nvm"
+# alias yarn="unalias yarn && source /opt/homebrew/opt/nvm/nvm.sh && yarn"
+# or, nvm's typical stupid slor loader:
 # [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
 
 # }}}
@@ -182,20 +208,20 @@ fi
 # -- https://gist.github.com/bspaulding/387551e496b545df25fba23457860f64
 
 # FIXME: Trying to get home dir working but no luck so far
-export FZF_DEFAULT_COMMAND='
-	( { home ls-tree -r --name-only HEAD ; home ls-files ~ --exclude-standard } ||
-        { git ls-tree -r --name-only HEAD ; git ls-files . --exclude-standard --others } ||
-		ag -g "" --ignore node_modules --ignore .terraform ||
-		find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
-		sed s/^..//
-    ) 2> /dev/null'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# export FZF_DEFAULT_COMMAND='
+# 	( { home ls-tree -r --name-only HEAD ; home ls-files ~ --exclude-standard } ||
+#         { git ls-tree -r --name-only HEAD ; git ls-files . --exclude-standard --others } ||
+# 		ag -g "" --ignore node_modules --ignore .terraform ||
+# 		find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
+# 		sed s/^..//
+#     ) 2> /dev/null'
 
 # ag maybe?
 # alias ag='ag --all-types --hidden'
 
 # direnv
 eval "$(direnv hook zsh)"
+alias da="direnv allow"
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
@@ -221,11 +247,8 @@ if [ $(uname -s) = 'Linux' ]; then
 
   }
   alias rk='configure_keyboard'
-
-  # brew and aws cli
-  path+=('/home/linuxbrew/.linuxbrew/bin' '~/.local/bin')
 else
-  path+=("$HOME/Library/Python/3.10/bin")
+  # path+=("$HOME/Library/Python/3.10/bin")
 fi
 
 source ~/.config/shell/local.sh
@@ -242,5 +265,12 @@ function jwt() {
 }
 
 export GPG_TTY=$(tty)
+
+# Better shell history
+# eval "$(atuin init zsh --disable-up-arrow)"  # FIXME: disable up arrow not working
+export ATUIN_NOBIND="true"
+eval "$(atuin init zsh)"
+bindkey '^r' _atuin_search_widget
+
 
 # zprof

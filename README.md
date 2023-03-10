@@ -75,8 +75,10 @@ tfenv, then tfenv install
 ```
 # After setting anything run:
 #   killall SystemUIServer
-defaults write -g InitialKeyRepeat -int 13 # normal minimum is 15 (225 ms)
-defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+# normal initial minimum is 25 (225 ms)
+# normal repeat minimum is 6 (30 ms)
+defaults write -g InitialKeyRepeat -int 15
+defaults write -g KeyRepeat -int 2
 defaults write com.apple.finder AppleShowAllFiles YES
 defaults write com.apple.screencapture location $HOME/Downloads
 ```
