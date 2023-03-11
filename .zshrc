@@ -134,7 +134,8 @@ alias gcm='git commit --message'
 alias gca='git commit --amend --no-edit'
 alias gcam='git commit --amend'
 alias gb="git branch --all --sort=-committerdate | fzf | tr -d ' *' | awk '{gsub(/remotes\/origin\//,\"\");}1' | xargs git checkout"
-alias gf="git fetch origin :$(git default-branch)"
+alias gf="git fetch"
+alias gfo="git fetch origin :$(git default-branch)"
 alias grc="git rebase --continue"
 
 # dotfiles are bare repo, so this makes git work in home dir
@@ -200,6 +201,8 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # fzf
 if [ $(uname -s) = 'Darwin' ]; then
   source ~/.fzf.zsh
+else
+  source /usr/share/fzf/shell/key-bindings.zsh
 fi
 # fzf default command
 # prefer git ls-tree/ls-files, then ag, then find if needed

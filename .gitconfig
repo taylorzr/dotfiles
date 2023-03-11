@@ -15,6 +15,7 @@
 	pager = less
 [user]
 	name = Zach Taylor
+	email = 108883+taylorzr@users.noreply.github.com
 [include]
 	path = ~/.local.gitconfig
 [push]
