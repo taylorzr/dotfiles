@@ -49,6 +49,16 @@ vim.api.nvim_create_augroup("zachwuzhere", { clear = true })
 
 -- language specific
 
+-- devicetree
+-- (zmk keymap filetype)
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  group = "zachwuzhere",
+  pattern = { "*.keymap" },
+  callback = function()
+    vim.o.filetype = "devicetree"
+  end
+})
+
 -- golang
 vim.api.nvim_create_autocmd("Filetype", {
   group = "zachwuzhere",
