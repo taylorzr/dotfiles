@@ -4,7 +4,7 @@
 	root = rev-parse --show-toplevel
 	latest-tag = !git tag | sort -V | tail -1
 	sha = !git log origin/$(git default-branch).. --format='%h (%cd) %s' --date=relative | fzf --reverse | awk '{print $1}'
-	fixup = !git commit --fixup=$(SHA=$(git sha) && echo "${SHA}~1" | pbcopy | echo $SHA)
+	fixup = !git commit --fixup=$(SHA=$(git sha) && echo "${SHA}~1" | xsel --clipboard | echo $SHA)
 	churn = !git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort -n | awk 'BEGIN {print "count\tfile"} {print $1 "\t" $2}'
 	nuke = !git reset --hard && git clean -f
 	undo = reset --soft HEAD~1
@@ -36,3 +36,5 @@
 ; 	insteadOf = https://github.com/
 [commit]
 	gpgsign = true
+[interactive]
+  singleKey = true

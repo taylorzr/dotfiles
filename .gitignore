@@ -2,6 +2,7 @@ code/
 dotfiles/
 
 .config/kitty/dont_commit_me.conf
+.config/kitty/meow/
 .config/shell/local.sh
 .config/shell/secrets.sh
 
@@ -56,3 +57,7 @@ Downloads/
 Library/
 Movies/
 Public/
+
+# Linux directories
+snap/
+.var/

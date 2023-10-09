@@ -11,6 +11,7 @@
 --   maybe there are easy builtin ways though?
 
 vim.g.mapleader = ' '
+vim.g.maplocalleader = ','
 
 -- this might be a stupid setting, but i'm trying to diff between tabs and spaces
 vim.opt.tabstop = 3
@@ -18,6 +19,8 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.textwidth = 100
 vim.opt.swapfile = false
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 -- show and highlight trailing whitespace
 vim.opt.list = true
@@ -27,6 +30,7 @@ vim.opt.list = true
 
 
 -- keymaps
+vim.keymap.set("n", "<leader>z", "<cmd>ZenMode<cr>")
 vim.keymap.set("n", "<leader>q", "<cmd>q<cr>")
 vim.keymap.set({ "n", "i" }, "<C-s>", "<cmd>write<cr>")
 -- terminal like begin/end line in insert mode
@@ -35,14 +39,22 @@ vim.keymap.set("i", "<C-e>", "<C-o>$")
 -- easier in/dedent
 vim.keymap.set("n", ">", ">>")
 vim.keymap.set("n", "<", "<<")
-vim.keymap.set("n", "<leader>o", "<cmd>Dirbuf<CR>")
+-- don't jump to next match when using *
+vim.keymap.set("n", "*","<cmd>keepjumps normal! mi*`i<CR>")
 
+-- leader keymaps
+vim.keymap.set("n", "<leader>ni", "<cmd>Neorg index<cr>")
+vim.keymap.set("n", "<leader>nr", "<cmd>Neorg return<cr>")
+vim.keymap.set("n", "<leader>cn", "<cmd>cn<cr>")
+vim.keymap.set("n", "<leader>cp", "<cmd>cp<cr>")
+vim.keymap.set("n", "<leader>cl", "<cmd>ccl<cr>")
+vim.keymap.set("n", "<leader>ei", "<cmd>e ~/.config/nvim/init.lua<cr>")
+vim.keymap.set("n", "<leader>ep", "<cmd>e ~/.config/nvim/lua/plugins.lua<cr>")
 vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>")
+vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<CR>")
+
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-
-vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<CR>")
-vim.keymap.set("n", "*","<cmd>keepjumps normal! mi*`i<CR>") -- don't jump to next match when using *
 
 vim.api.nvim_create_augroup("zachwuzhere", { clear = true })
 
@@ -74,7 +86,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = "zachwuzhere",
   pattern = { "*.go" },
   callback = function()
-    vim.lsp.buf.formatting_sync(nil, 1000)
+    vim.lsp.buf.format(nil, 1000)
   end,
 })
 
@@ -103,7 +115,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = "zachwuzhere",
   pattern = { "*.lua" },
   callback = function()
-    vim.lsp.buf.formatting_sync(nil, 1000)
+    vim.lsp.buf.format(nil, 1000)
   end
 })
 
@@ -135,7 +147,7 @@ vim.api.nvim_create_autocmd("Filetype", {
 --   group = "zachwuzhere",
 --   pattern = { "*.rb" },
 --   callback = function()
---     vim.lsp.buf.formatting_sync(nil, 5000)
+--     vim.lsp.buf.format(nil, 5000)
 --   end
 -- })
 
@@ -145,7 +157,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = "zachwuzhere",
   pattern = { "*.tf", "*.tfvars" },
   callback = function()
-    vim.lsp.buf.formatting_sync(nil, 10000)
+    vim.lsp.buf.format(nil, 10000)
   end
 })
 
@@ -178,6 +190,12 @@ if vim.fn.has('macunix') then
     "<cmd>let @*=expand('%') . ':' . line('.') | echo 'filename:line copied to clipboard!'<CR>")
 else
   vim.opt.clipboard = 'unnamed'
+  -- TODO: maybe only have yank go to system clipboard?
+  -- so like delete would go to vim only clipboard
+  -- to avoid putting spam on clipboard
+  -- so then could only paste into vim with like ctrl-shift-v
+  -- vim.cmd('nnoremap y "*y')
+  -- vim.cmd('vnoremap y "*y')
   vim.keymap.set("n", "<leader>cf", "<cmd>let @+=expand('%') | echo 'path copied to clipboard!'<CR>")
   vim.keymap.set("n", "<leader>ca", "<cmd>let @+=expand('%:p') | echo 'absolute path copied to clipboard!'<CR>")
   vim.keymap.set("n", "<leader>cl",
@@ -196,4 +214,6 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+
+-- lua/plugins.lua
 require('plugins')

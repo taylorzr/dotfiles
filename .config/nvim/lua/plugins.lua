@@ -1,4 +1,30 @@
 return require('lazy').setup({
+  'preservim/tagbar',
+  'folke/zen-mode.nvim',
+  {
+    "nvim-neorg/neorg",
+    run = ":Neorg sync-parsers", -- This is the important bit!
+    config = function()
+      require("neorg").setup {
+        load = {
+          ["core.defaults"] = {},
+          ["core.concealer"] = {},
+          ["core.dirman"] = {
+            config = {
+              workspaces = {
+                zach = "~/notes/",
+              },
+              default_workspace = "zach",
+            }
+          },
+        }
+      }
+    end,
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    build = function() vim.fn["mkdp#util#install"]() end,
+  },
   {
     "catppuccin/nvim",
     as = "catppuccin",
@@ -170,7 +196,7 @@ return require('lazy').setup({
         vim.keymap.set("n", "gc", vim.lsp.buf.code_action, { buffer = 0 })
         -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
         -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
-        vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { buffer = 0 })
+        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { buffer = 0 })
       end
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
@@ -230,21 +256,21 @@ return require('lazy').setup({
       }
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls
-      lsp.yamlls.setup {}
-      -- lsp.yamlls.setup {
-      -- 	-- ... -- other configuration for setup {}
-      -- 	settings = {
-      -- 		yaml = {
-      -- 			-- ... -- other settings. note this overrides the lspconfig defaults.
-      -- 			schemas = {
-      -- 				-- ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-      -- 				-- ["../path/relative/to/file.yml"] = "/.github/workflows/*",
-      -- 				-- ["/path/from/root/of/project"] = "/.github/workflows/*",
-      -- 			},
-      -- 		},
-      -- 	}
-      -- }
+      lsp.yamlls.setup {
+        settings = {
+          yaml = {
+            schemas = {
+              ["https://raw.githubusercontent.com/DataDog/schema/main/service-catalog/version.schema.json"] = "service.datadog.yaml",
+              -- ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+              -- ["../path/relative/to/file.yml"] = "/.github/workflows/*",
+              -- ["/path/from/root/of/project"] = "/.github/workflows/*",
+            }
+          }
+        }
+      }
 
+      -- FIXME: new name i guess? need to install
+      -- lsp.lua_ls.setup{}
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
       -- lsp.sumneko_lua.setup {
       --   capabilities = capabilities,
@@ -294,7 +320,7 @@ return require('lazy').setup({
         vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = 0 })
         -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
         -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
-        vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { buffer = 0 })
+        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { buffer = 0 })
       end
 
       null_ls.setup({
@@ -409,11 +435,18 @@ return require('lazy').setup({
     'junegunn/fzf',
     config = function()
       -- vim.cmd('fzf#install()') -- FIXME this errors
-      vim.cmd('nnoremap <leader>r <cmd>Rg<cr>')
     end
   },
-  { 'junegunn/fzf.vim' },
 
+  { 
+    'junegunn/fzf.vim',
+    config = function()
+      vim.cmd('nnoremap <C-space> <cmd>Files<cr>')
+      vim.cmd("command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case --no-ignore-vcs --hidden --glob=!.git -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)")
+      vim.cmd("nnoremap <leader>r <cmd>Rg<CR>")
+      vim.cmd("nnoremap <leader>g <cmd>call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case --no-ignore-vcs --hidden --glob=!.git -- '.expand('<cword>'), 1, fzf#vim#with_preview())<CR>")
+    end
+  },
   {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
@@ -425,16 +458,16 @@ return require('lazy').setup({
       local builtin = require('telescope.builtin')
       -- vim.cmd('nnoremap <C-p> <cmd>Telescope find_files<cr>')
       -- TODO: maybe swap c-p and c-space
-      vim.keymap.set("n", "<C-p>", (function() builtin.find_files({ find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' }})end))
-      vim.cmd('nnoremap <leader>fg <cmd>Telescope live_grep<cr>')
+      -- vim.keymap.set("n", "<C-p>", (function() builtin.find_files({ find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' }})end))
+      -- vim.cmd('nnoremap <leader>fg <cmd>Telescope live_grep<cr>')
       -- FIXME: live grep args but using picker config below for searching hiddeng files
       -- vim.cmd("nnoremap <leader>fg <cmd> lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
       -- TODO: find hidden files using live grep 
       -- find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
       -- keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-      vim.cmd('nnoremap <leader>fw <cmd>Telescope grep_string<cr>')
-      vim.cmd('nnoremap <leader>fb <cmd>Telescope buffers<cr>')
-      vim.cmd('nnoremap <leader>fh <cmd>Telescope help_tags<cr>')
+      -- vim.cmd('nnoremap <leader>fw <cmd>Telescope grep_string<cr>')
+      -- vim.cmd('nnoremap <leader>fb <cmd>Telescope buffers<cr>')
+      -- vim.cmd('nnoremap <leader>fh <cmd>Telescope help_tags<cr>')
 
       -- local actions = require("telescope.actions")
       local trouble = require("trouble.providers.telescope")
@@ -533,3 +566,4 @@ return require('lazy').setup({
   --   end
   -- },
 })
+
