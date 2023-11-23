@@ -11,7 +11,7 @@ tedious.
 # dotfiles
 git clone --bare https://github.com/taylorzr/dotfiles.git $HOME/dotfiles
 git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout
-touch ~/.config/shell/local.sh
+git clone git@github.com:taylorzr/kitty-meow.git ~/.config/kitty/meow
 # after getting ssh setup
 git remote set-url origin git@github.com:taylorzr/dotfiles.git
 
@@ -62,8 +62,8 @@ tfenv, then tfenv install
 
 ### signal
 ```sh
-sudo dnf copr enable luminoso/Signal-Desktop
-sudo dnf install signal-desktop
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install com.discordapp.Discord
 ```
 
 # osx
@@ -87,5 +87,23 @@ defaults write com.apple.screencapture location $HOME/Downloads
 
 ```
 sudo dnf install zsh kitty gh ripgrep jq yq gomplate 
-include kitty-meow in the default setup
 ```
+
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+sudo dnf -y install terraform vault
+
+sudo dnf install helm
+
+sudo dnf install snapd
+sudo snap install bw yq
+
+install krew -> https://krew.sigs.k8s.io/docs/user-guide/setup/install/
+krew for kubectl ctx & ns
+
+go install github.com/derailed/k9s@latest # snap didn't work right
+go install github.com/hairyhenderson/gomplate/v4/cmd/gomplate@latest
+
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin

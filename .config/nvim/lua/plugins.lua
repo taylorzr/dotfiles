@@ -1,5 +1,31 @@
-return require('packer').startup(function(use)
-  use {
+return require('lazy').setup({
+  'preservim/tagbar',
+  'folke/zen-mode.nvim',
+  {
+    "nvim-neorg/neorg",
+    run = ":Neorg sync-parsers", -- This is the important bit!
+    config = function()
+      require("neorg").setup {
+        load = {
+          ["core.defaults"] = {},
+          ["core.concealer"] = {},
+          ["core.dirman"] = {
+            config = {
+              workspaces = {
+                zach = "~/notes/",
+              },
+              default_workspace = "zach",
+            }
+          },
+        }
+      }
+    end,
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    build = function() vim.fn["mkdp#util#install"]() end,
+  },
+  {
     "catppuccin/nvim",
     as = "catppuccin",
     config = function()
@@ -7,38 +33,23 @@ return require('packer').startup(function(use)
       vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
       vim.cmd [[colorscheme catppuccin]]
     end
-  }
-
-
-  use {
-    'wbthomason/packer.nvim',
-
-    config = function()
-      vim.cmd([[
-      augroup packer_user_config
-      autocmd!
-      autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-      augroup end
-      ]])
-
-    end
-  }
+  },
 
   -- Put plugins without config here
-  use "lukas-reineke/indent-blankline.nvim" -- lines for each indent level
-  use 'machakann/vim-sandwich'
-  use 'tpope/vim-eunuch' -- helpers for file commands like mv, rm, chmod
-  use "elihunter173/dirbuf.nvim"
+  "lukas-reineke/indent-blankline.nvim", -- lines for each indent level
+  'machakann/vim-sandwich',
+  'tpope/vim-eunuch', -- helpers for file commands like mv, rm, chmod
+  "elihunter173/dirbuf.nvim",
 
-  use {
+  {
     'lewis6991/gitsigns.nvim',
     config = function()
       require('gitsigns').setup()
     end
-  }
+  },
 
 
-  use {
+  {
     'junegunn/vim-easy-align',
     config = function()
       vim.cmd([[
@@ -46,17 +57,17 @@ return require('packer').startup(function(use)
       xmap ga <Plug>(EasyAlign)
       ]])
     end
-  }
+  },
 
-  use {
+  {
     'tpope/vim-fugitive',
-    requires = {
+    dependencies = {
       'tpope/vim-rhubarb',
     },
-  }
+  },
 
-  use 'L3MON4D3/LuaSnip'
-  use {
+  'L3MON4D3/LuaSnip',
+  {
     'saadparwaiz1/cmp_luasnip',
     config = function()
       vim.cmd([[
@@ -69,13 +80,13 @@ return require('packer').startup(function(use)
 
       ]])
     end
-  }
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-nvim-lua'
-  use 'hrsh7th/cmp-nvim-lsp'
+  },
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-nvim-lua',
+  'hrsh7th/cmp-nvim-lsp',
 
-  use {
+  {
     'hrsh7th/nvim-cmp',
     config = function()
       vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -140,7 +151,7 @@ return require('packer').startup(function(use)
         })
       })
     end
-  }
+  },
 
 
   -- https://github.com/williamboman/mason-lspconfig.nvim#setup
@@ -150,7 +161,7 @@ return require('packer').startup(function(use)
   --     mason.nvim
   --     mason-lspconfig.nvim
   --     lspconfig
-  use {
+  {
     "williamboman/mason.nvim",
     -- FIXME: For some reason this breaks mason...
     -- "williamboman/mason-lspconfig.nvim",
@@ -160,13 +171,13 @@ return require('packer').startup(function(use)
       --   ensure_installed = { "pylsp", "black", "gopls", "sumneko_lua" }
       -- })
     end
-  }
+  },
 
   -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-  use {
+  {
     'neovim/nvim-lspconfig',
     config = function()
-      local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
       local lsp = require('lspconfig')
 
       local on_attach = function(_, bufnr)
@@ -185,7 +196,7 @@ return require('packer').startup(function(use)
         vim.keymap.set("n", "gc", vim.lsp.buf.code_action, { buffer = 0 })
         -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
         -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
-        vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { buffer = 0 })
+        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { buffer = 0 })
       end
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
@@ -245,21 +256,21 @@ return require('packer').startup(function(use)
       }
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls
-      lsp.yamlls.setup {}
-      -- lsp.yamlls.setup {
-      -- 	-- ... -- other configuration for setup {}
-      -- 	settings = {
-      -- 		yaml = {
-      -- 			-- ... -- other settings. note this overrides the lspconfig defaults.
-      -- 			schemas = {
-      -- 				-- ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-      -- 				-- ["../path/relative/to/file.yml"] = "/.github/workflows/*",
-      -- 				-- ["/path/from/root/of/project"] = "/.github/workflows/*",
-      -- 			},
-      -- 		},
-      -- 	}
-      -- }
+      lsp.yamlls.setup {
+        settings = {
+          yaml = {
+            schemas = {
+              ["https://raw.githubusercontent.com/DataDog/schema/main/service-catalog/version.schema.json"] = "service.datadog.yaml",
+              -- ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+              -- ["../path/relative/to/file.yml"] = "/.github/workflows/*",
+              -- ["/path/from/root/of/project"] = "/.github/workflows/*",
+            }
+          }
+        }
+      }
 
+      -- FIXME: new name i guess? need to install
+      -- lsp.lua_ls.setup{}
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
       -- lsp.sumneko_lua.setup {
       --   capabilities = capabilities,
@@ -286,9 +297,9 @@ return require('packer').startup(function(use)
       --   },
       -- }
     end
-  }
+  },
 
-  use {
+  {
     'jose-elias-alvarez/null-ls.nvim',
     config = function()
       local null_ls = require("null-ls")
@@ -309,7 +320,7 @@ return require('packer').startup(function(use)
         vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = 0 })
         -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
         -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
-        vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { buffer = 0 })
+        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { buffer = 0 })
       end
 
       null_ls.setup({
@@ -335,22 +346,22 @@ return require('packer').startup(function(use)
 
       })
     end
-  }
+  },
 
-  use {
+  {
     'knubie/vim-kitty-navigator',
     -- FIXME: run didn't work, instead ran
     -- cp ~/.local/share/nvim/site/pack/packer/start/vim-kitty-navigator/*.py ~/.config/kitty
-    run = 'cp ./*.py ~/.config/kitty/',
-    setup = function()
+    build = 'cp ./*.py ~/.config/kitty/',
+    init = function()
       vim.cmd('nnoremap <silent> <C-left> :KittyNavigateLeft<cr>')
       vim.cmd('nnoremap <silent> <C-down> :KittyNavigateDown<cr>')
       vim.cmd('nnoremap <silent> <C-up> :KittyNavigateUp<cr>')
       vim.cmd('nnoremap <silent> <C-right> :KittyNavigateRight<cr>')
     end
-  }
+  },
 
-  -- use {
+  -- {
   --   'alexghergh/nvim-tmux-navigation',
   --   config = function()
   --     require 'nvim-tmux-navigation'.setup {
@@ -364,12 +375,12 @@ return require('packer').startup(function(use)
   --       }
   --     }
   --   end
-  -- }
+  -- },
 
-  use 'nvim-treesitter/nvim-treesitter-context'
-  use {
+  'nvim-treesitter/nvim-treesitter-context',
+  {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
+    build = ':TSUpdate',
     config = function()
       local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
 
@@ -407,48 +418,56 @@ return require('packer').startup(function(use)
         },
       }
     end
-  }
+  },
 
   -- Lua
-  use {
+  {
     "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
+    dependencies = "kyazdani42/nvim-web-devicons",
     config = function()
       require("trouble").setup()
     end
-  }
+  },
 
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
 
-  use {
+  {
     'junegunn/fzf',
     config = function()
       -- vim.cmd('fzf#install()') -- FIXME this errors
-      vim.cmd('nnoremap <leader>r <cmd>Rg<cr>')
     end
-  }
-  use { 'junegunn/fzf.vim' }
+  },
 
-  use {
+  { 
+    'junegunn/fzf.vim',
+    config = function()
+      vim.cmd('nnoremap <C-space> <cmd>Files<cr>')
+      vim.cmd("command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case --no-ignore-vcs --hidden --glob=!.git -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)")
+      vim.cmd("nnoremap <leader>r <cmd>Rg<CR>")
+      vim.cmd("nnoremap <leader>g <cmd>call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case --no-ignore-vcs --hidden --glob=!.git -- '.expand('<cword>'), 1, fzf#vim#with_preview())<CR>")
+    end
+  },
+  {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
-    requires = {
+    dependencies = {
       { 'nvim-lua/plenary.nvim' },
       { "nvim-telescope/telescope-live-grep-args.nvim" },
     },
     config = function()
       local builtin = require('telescope.builtin')
       -- vim.cmd('nnoremap <C-p> <cmd>Telescope find_files<cr>')
-      vim.keymap.set("n", "<C-p>", (function() builtin.find_files({ find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' }})end))
-      vim.cmd('nnoremap <leader>fg <cmd>Telescope live_grep<cr>')
+      -- TODO: maybe swap c-p and c-space
+      -- vim.keymap.set("n", "<C-p>", (function() builtin.find_files({ find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' }})end))
+      -- vim.cmd('nnoremap <leader>fg <cmd>Telescope live_grep<cr>')
       -- FIXME: live grep args but using picker config below for searching hiddeng files
       -- vim.cmd("nnoremap <leader>fg <cmd> lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
       -- TODO: find hidden files using live grep 
       -- find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
       -- keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-      vim.cmd('nnoremap <leader>fw <cmd>Telescope grep_string<cr>')
-      vim.cmd('nnoremap <leader>fb <cmd>Telescope buffers<cr>')
-      vim.cmd('nnoremap <leader>fh <cmd>Telescope help_tags<cr>')
+      -- vim.cmd('nnoremap <leader>fw <cmd>Telescope grep_string<cr>')
+      -- vim.cmd('nnoremap <leader>fb <cmd>Telescope buffers<cr>')
+      -- vim.cmd('nnoremap <leader>fh <cmd>Telescope help_tags<cr>')
 
       -- local actions = require("telescope.actions")
       local trouble = require("trouble.providers.telescope")
@@ -474,10 +493,10 @@ return require('packer').startup(function(use)
       telescope.load_extension('fzf')
       telescope.load_extension("live_grep_args")
     end,
-  }
+  },
 
 
-  use {
+  {
     'mfussenegger/nvim-dap',
     config = function()
 
@@ -499,33 +518,33 @@ return require('packer').startup(function(use)
         dap.repl.close()
       end
     end
-  }
+  },
 
-  use {
+  {
     'leoluz/nvim-dap-go',
     config = function()
 
       require('dap-go').setup()
     end
 
-  }
+  },
 
-  use {
+  {
     'theHamsta/nvim-dap-virtual-text',
     config = function()
       require('nvim-dap-virtual-text').setup()
     end
-  }
+  },
 
-  use {
+  {
     'numToStr/Comment.nvim',
     config = function()
       require('Comment').setup()
     end
 
-  }
+  },
 
-  use {
+  {
     "rafamadriz/friendly-snippets",
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load()
@@ -533,17 +552,18 @@ return require('packer').startup(function(use)
       require 'luasnip'.filetype_extend("ruby", { "rails" })
       require 'luasnip'.filetype_extend("python", { "python" })
     end
-  }
+  },
 
-  use {
-    'pwntester/octo.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-      'kyazdani42/nvim-web-devicons',
-    },
-    config = function()
-      require "octo".setup()
-    end
-  }
-end)
+  -- {
+  --   'pwntester/octo.nvim',
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --     'nvim-telescope/telescope.nvim',
+  --     'kyazdani42/nvim-web-devicons',
+  --   },
+  --   config = function()
+  --     require "octo".setup()
+  --   end
+  -- },
+})
+

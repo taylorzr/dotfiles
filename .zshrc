@@ -37,13 +37,14 @@ compinit -C
 # {{{
 
 export GOPATH="$HOME/go"
-path+=('/usr/local/go/bin') # not sure i need this? no dir even on mac
 path+=("${GOPATH}/bin")
 path+=("$HOME/.rd/bin") # rancher desktop
 
 if [ $(uname -s) = 'Linux' ]; then
   # brew and aws cli
-  path+=('/home/linuxbrew/.linuxbrew/bin' '~/.local/bin')
+  path+=("$HOME/.local/bin")
+  path+=("/var/lib/snapd/snap/bin")
+  path+=("${KREW_ROOT:-$HOME/.krew}/bin")
 else
   path+=("/opt/homebrew/opt/python/libexec/bin") # FIXME prolly should use a python version manager
   path+=("/Users/zach.taylor/Library/Python/3.10/bin") # FIXME prolly should use a python version manager
@@ -65,15 +66,13 @@ if [ ! -d ~/.zsh/zsh-syntax-highlighting ]; then
 fi
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+if [ ! -d ~/.zsh/fzf-tab ]; then
+  git clone https://github.com/Aloxaf/fzf-tab ~/.zsh/fzf-tab
+fi
+source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
 
 autoload bashcompinit && bashcompinit
-
-# FIXME: Not working on m1
-# if [ ! -d ~/.zsh/fzf-tab-completion ]; then
-#   git clone https://github.com/lincheney/fzf-tab-completion.git ~/.zsh/fzf-tab-completion
-# fi
-# source ~/.zsh/fzf-tab-completion/zsh/fzf-zsh-completion.sh
-# bindkey '^I' fzf_completion
+complete -C '/usr/local/bin/aws_completer' aws
 
 # # TODO: Needed on Linux?!?
 # ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
@@ -99,6 +98,9 @@ bindkey "^[[B" history-beginning-search-forward
 # Aliases
 # {{{
 
+# fzf cd
+alias cf="cd \$(find * -type d -not -path '.git*' | fzf || pwd)"
+
 # reload
 alias reload-zsh='source ~/.zshrc && echo "Zsh reloaded!"'
 alias rz='reload-zsh'
@@ -107,6 +109,9 @@ alias rz='reload-zsh'
 alias ez='vim ~/.zshrc'
 alias ezl='vim ~/.config/shell/local.sh'
 alias ek='vim ~/.config/kitty/kitty.conf'
+
+# kitty
+alias s='kitty +kitten ssh'
 
 # ls
 alias ls='ls -G'
@@ -119,33 +124,60 @@ alias vi='nvim'
 alias nv="VIMRUNTIME=$HOME/code/neovim/runtime $HOME/code/neovim/build/bin/nvim" # Nightly neovim
 
 # git
+alias ghpr='gh pr create --draft'
+alias ghprb='gh pr create --draft --body '
+alias pr=ghprb
 alias root='cd $(git rev-parse --show-toplevel)'
 alias gl='git log'
 # TODO: if no arg get via fzf
 alias ga='git add'
-alias gna='git ls-files --others --exclude-standard | fzf --multi | git add'
-alias gnr='git ls-files --others --exclude-standard | fzf --multi | xargs rm'
+alias gr='git reset'
+alias gau='git add -u'
+alias gan='git ls-files --others --exclude-standard | fzf --multi | xargs git add -N'
+alias grn='git ls-files --others --exclude-standard | fzf --multi | xargs rm'
 alias gap='git add --patch'
 alias gs='git status'
+alias gsh='git show'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gco='git checkout'
+alias gcom='git checkout $(git default-branch)'
 alias gcm='git commit --message'
 alias gca='git commit --amend --no-edit'
 alias gcam='git commit --amend'
-alias gb="git branch --all --sort=-committerdate | fzf | tr -d ' *' | awk '{gsub(/remotes\/origin\//,\"\");}1' | xargs git checkout"
-alias gf="git fetch"
-alias gfo="git fetch origin :$(git default-branch)"
-alias grc="git rebase --continue"
+function gb() {
+  branch=$(
+    git branch --list --sort=-committerdate \
+    | fzf \
+        --header 'ctrl-r: remote | alt-l: local' \
+        --prompt='branch> ' \
+        --bind='alt-l:change-prompt(local> )+reload(git branch --list --sort=-committerdate),ctrl-r:change-prompt(remote> )+reload(git branch --all --sort=-committerdate)' \
+  )
 
-# dotfiles are bare repo, so this makes git work in home dir
-function git() {
-  if [ "$PWD" = "$HOME" ] && [ "$1" != "clone" ]; then
-    command git --git-dir="$HOME/dotfiles" --work-tree="$HOME" "$@"
-  else
-    command git "$@"
+  if [ -n "$branch" ]; then
+    tr -d ' *' <<< "$branch" \
+    | awk '{gsub(/remotes\/origin\//,"");}1' \
+    | xargs git checkout
   fi
 }
+alias gbm="git branch -m"
+alias gf="git fetch"
+alias gfm='git fetch && git fetch origin :$(git default-branch)'
+# TODO: just git continue, lookup what is currently in progress
+alias grc="git rebase --continue"
+alias gmc="git merge --continue"
+alias gcpc="git cherry-pick --continue"
+alias grom='git rebase origin/$(git default-branch) --autostash'
+alias gri='git rebase -i'
+alias gmom='git merge origin/$(git default-branch) --autostash'
+alias grhm='git reset --hard origin/$(git default-branch)'
+function grin() {
+  git rebase --autostash -i "HEAD~$1"
+}
+alias gmt='git mergetool'
+
+# ocaml
+[[ ! -r /home/zach/.opam/opam-init/init.zsh ]] || source /home/zach/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
 # ruby
 alias be='bundle exec'
@@ -165,21 +197,48 @@ alias nc='nerdctl compose'
 # Groups on lines
 alias groups='groups | tr " " "\n"'
 
-# Kubernetes
+# kubernetes
 alias k=kubectl
+source <(kubectl completion zsh)
+# alias kubectx='kubectl ctx'
+alias kc='kubectl ctx'
+alias kn=kubectl ns
 function kk() {
-  local cluster
-  cluster="$1"
+  local cluster namespace
 
-  if [ "$cluster" = "" ]; then
-    cluster=$(kubectx | fzf)
+  while getopts "n:c:" opt; do
+    case $opt in
+      c)
+          cluster="$OPTARG"
+          ;;
+      n)
+          namespace="$OPTARG"
+          ;;
+      *)
+          return
+          ;;
+    esac
+  done
+
+  if [ "$cluster" = "" ]; then # no -c flag given
+    # TODO: change kubectx too?
+    cluster=$(kubectl ctx | fzf)
+    if [ "$cluster" = "" ]; then
+      return
+    fi
+    # if [ "$namespace" = "" ]; then # no -n flag given
+    #   kubectl auth can-i get namespace > /dev/null # so we can enter totp
+    #   namespace=$(kubectl --context $cluster get --no-headers namespaces > /dev/null | fzf)
+    #   if [ "$namespace" = "" ]; then
+    #     return
+    #   fi
+    # fi
   fi
 
+  # k9s --context "$cluster" --namespace "$namepace"
   k9s --context "$cluster"
 }
-alias kc=kubectx
 alias kcc='echo context: $(kubectx -c) namespace: $(kubens -c)'
-alias kn=kubens
 alias kar='kubectl argo rollouts'
 alias argo='argocd'
 
@@ -203,39 +262,17 @@ if [ $(uname -s) = 'Darwin' ]; then
   source ~/.fzf.zsh
 else
   source /usr/share/fzf/shell/key-bindings.zsh
+  source /usr/share/zsh/site-functions/fzf
 fi
-# fzf default command
-# prefer git ls-tree/ls-files, then ag, then find if needed
-# cat'ing ls-tree and ls-files because ls-tree doesn't know about 
-# untracked files
-# -- https://gist.github.com/bspaulding/387551e496b545df25fba23457860f64
-
-# FIXME: Trying to get home dir working but no luck so far
-# export FZF_DEFAULT_COMMAND='
-# 	( { home ls-tree -r --name-only HEAD ; home ls-files ~ --exclude-standard } ||
-#         { git ls-tree -r --name-only HEAD ; git ls-files . --exclude-standard --others } ||
-# 		ag -g "" --ignore node_modules --ignore .terraform ||
-# 		find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
-# 		sed s/^..//
-#     ) 2> /dev/null'
-
-# ag maybe?
-# alias ag='ag --all-types --hidden'
+# https://github.com/catppuccin/fzf
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 # direnv
 eval "$(direnv hook zsh)"
 alias da="direnv allow"
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-if [ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]; then
-  source /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-fi
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-if [ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]; then
-  source /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
-fi
 
 # }}}
 
@@ -271,9 +308,11 @@ export GPG_TTY=$(tty)
 
 # Better shell history
 # eval "$(atuin init zsh --disable-up-arrow)"  # FIXME: disable up arrow not working
-export ATUIN_NOBIND="true"
-eval "$(atuin init zsh)"
-bindkey '^r' _atuin_search_widget
-
+# export ATUIN_NOBIND="true"
+# eval "$(atuin init zsh)"
+# bindkey '^r' _atuin_search_widget
 
 # zprof
+
+# opam configuration
+[[ ! -r /home/zach/.opam/opam-init/init.zsh ]] || source /home/zach/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null

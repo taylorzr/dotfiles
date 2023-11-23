@@ -21,7 +21,8 @@ function run-tests() (
   fi
 )
 
-alias t='run-tests'
+# alias t='run-tests'
+alias t='make test'
 
 # Define env vars like `SOME_NAME_DB_URL='postgres://....'`
 # You then get a prompt like `SOME_NAME@localhost > _`
