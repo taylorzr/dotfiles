@@ -1,13 +1,16 @@
 ![life](life.png)
 # general setup
 
-These dotfiles are setup as a bare repository. The git stuff it stored in ~/dotfiles, but the actual
-content stays in ~/. This avoids having any subdir of home be within the dotfiles repo. It also
-avoids problems with other dotfile strategies like the need to symlink all the things, which can be
-tedious.
-
+```
+git clone https://github.com/taylorzr/dotfiles.git $HOME/code/dotfiles
+cd ~/code/dotfiles
+install stow
+stow --target ~ git kitty neovim zsh
+# after getting ssh setup
+git remote set-url origin git@github.com:taylorzr/dotfiles.git
 ```
 
+```
 # dotfiles
 git clone --bare https://github.com/taylorzr/dotfiles.git $HOME/dotfiles
 git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout
