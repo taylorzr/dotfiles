@@ -1,0 +1,14 @@
+# vim ctags file
+tags
+
+# osx directory cache
+.DS_Store
+
+*.pyc
+
+.envrc
+.envrc.local
+
+.tool-versions
+
+**/.terraform/*

@@ -1,4 +1,5 @@
 ![life](life.png)
+
 # general setup
 
 ```
@@ -8,23 +9,12 @@ install stow
 stow --target ~ git kitty neovim zsh
 # after getting ssh setup
 git remote set-url origin git@github.com:taylorzr/dotfiles.git
-```
-
-```
-# dotfiles
-git clone --bare https://github.com/taylorzr/dotfiles.git $HOME/dotfiles
-git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout
-git clone git@github.com:taylorzr/kitty-meow.git ~/.config/kitty/meow
-# after getting ssh setup
-git remote set-url origin git@github.com:taylorzr/dotfiles.git
-
 
 # brew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # install
 zsh kitty vim fzf tldr jq yq gomplate ripgrep golang
-git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 # generate ssh and gpg keys
 $ ssh-keygen -t ed25519 -C "<email>"
@@ -53,7 +43,7 @@ brew services start postgresql
 createdb $USER
 
 use vim :Mason to install language servers
-TODO: get mason-lspconfig working 
+TODO: get mason-lspconfig working
 
 # other software
 rectangle, pastebot, pinentry-mac
@@ -63,15 +53,34 @@ tfenv, then tfenv install
 
 # fedora
 
-### signal
 ```sh
+# signal
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install com.discordapp.Discord
+
+# hashi stuff
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+sudo dnf -y install terraform vault
+
+# snaps
+sudo dnf install snapd
+sudo snap install bw yq
+
+# go installs
+go install github.com/derailed/k9s@latest # snap didn't work right
+go install github.com/hairyhenderson/gomplate/v4/cmd/gomplate@latest
 ```
+
+install krew -> https://krew.sigs.k8s.io/docs/user-guide/setup/install/
+krew for kubectl ctx & ns
+
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 
 # osx
 
 ### Key repeat speed
+
 ```
 # After setting anything run:
 #   killall SystemUIServer
@@ -84,29 +93,6 @@ defaults write com.apple.screencapture location $HOME/Downloads
 ```
 
 ### Manual stuff, maybe figure out how to do this in terminal someday
-* unset mission control re-arrange desktops
-* unset key shortcuts ctrl-up and ctrl-down
 
-
-```
-sudo dnf install zsh kitty gh ripgrep jq yq gomplate 
-```
-
-sudo dnf install -y dnf-plugins-core
-sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
-sudo dnf -y install terraform vault
-
-sudo dnf install helm
-
-sudo dnf install snapd
-sudo snap install bw yq
-
-install krew -> https://krew.sigs.k8s.io/docs/user-guide/setup/install/
-krew for kubectl ctx & ns
-
-go install github.com/derailed/k9s@latest # snap didn't work right
-go install github.com/hairyhenderson/gomplate/v4/cmd/gomplate@latest
-
-https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
-
-curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+- unset mission control re-arrange desktops
+- unset key shortcuts ctrl-up and ctrl-down
