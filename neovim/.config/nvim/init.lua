@@ -1,4 +1,3 @@
-
 -- TODO
 -- test octo, see docs https://github.com/pwntester/octo.nvim#-examples
 --   meh seems a bit complicated, maybe try some more to get used to it?
@@ -40,7 +39,7 @@ vim.keymap.set("i", "<C-e>", "<C-o>$")
 vim.keymap.set("n", ">", ">>")
 vim.keymap.set("n", "<", "<<")
 -- don't jump to next match when using *
-vim.keymap.set("n", "*","<cmd>keepjumps normal! mi*`i<CR>")
+vim.keymap.set("n", "*", "<cmd>keepjumps normal! mi*`i<CR>")
 
 -- leader keymaps
 vim.keymap.set("n", "<leader>no", "<cmd>edit ~/notes.md<cr>")
@@ -55,6 +54,22 @@ vim.keymap.set("n", "<leader>cp", "<cmd>cp<cr>")
 vim.keymap.set("n", "<leader>cl", "<cmd>ccl<cr>")
 vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>")
 vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<CR>")
+
+-- lsp bindings
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
+vim.keymap.set("n", "gK", vim.diagnostic.open_float)
+vim.keymap.set("n", "gn", vim.diagnostic.goto_next)
+vim.keymap.set("n", "gp", vim.diagnostic.goto_prev)
+-- vim.keymap.set("n", "gl", "<cmd>Telescope diagnostics<cr>", { buffer = 0 })
+vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
+vim.keymap.set("n", "gt", vim.lsp.buf.type_definition)
+vim.keymap.set("n", "gr", vim.lsp.buf.references)
+vim.keymap.set("n", "gR", vim.lsp.buf.rename)
+vim.keymap.set("n", "gA", vim.lsp.buf.code_action)
+-- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
+-- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true

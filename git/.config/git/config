@@ -9,6 +9,7 @@
 	nuke = !git reset --hard && git clean -f
 	undo = reset --soft HEAD~1
 	ignored = !git ls-files -v | grep "^[[:lower:]]"
+	force = push --force-with-lease
 [core]
 	editor = nvim
 	excludesfile = ~/.config/git/global_git_ignore

@@ -1,29 +1,11 @@
 return require('lazy').setup({
+  -- Put plugins without config here
+  "lukas-reineke/indent-blankline.nvim", -- lines for each indent level
+  'machakann/vim-sandwich',
+  'tpope/vim-eunuch',                    -- helpers for file commands like mv, rm, chmod
+  "elihunter173/dirbuf.nvim",
   'preservim/tagbar',
   'folke/zen-mode.nvim',
-  {
-    "nvim-neorg/neorg",
-    run = ":Neorg sync-parsers", -- This is the important bit!
-    config = function()
-      require("neorg").setup {
-        load = {
-          ["core.defaults"] = {},
-          ["core.concealer"] = {},
-          ["core.promo"] = {},
-          -- doesn't work? docs say gonna re-write, check again later
-          -- ["core.presenter"] = { config = { zen_mode = "zen-mode"}},
-          ["core.dirman"] = {
-            config = {
-              workspaces = {
-                zach = "~/notes/",
-              },
-              default_workspace = "zach",
-            }
-          },
-        }
-      }
-    end,
-  },
   {
     "iamcco/markdown-preview.nvim",
     build = function() vim.fn["mkdp#util#install"]() end,
@@ -37,21 +19,12 @@ return require('lazy').setup({
       vim.cmd [[colorscheme catppuccin]]
     end
   },
-
-  -- Put plugins without config here
-  "lukas-reineke/indent-blankline.nvim", -- lines for each indent level
-  'machakann/vim-sandwich',
-  'tpope/vim-eunuch', -- helpers for file commands like mv, rm, chmod
-  "elihunter173/dirbuf.nvim",
-
   {
     'lewis6991/gitsigns.nvim',
     config = function()
       require('gitsigns').setup()
     end
   },
-
-
   {
     'junegunn/vim-easy-align',
     config = function()
@@ -74,7 +47,7 @@ return require('lazy').setup({
     'saadparwaiz1/cmp_luasnip',
     config = function()
       vim.cmd([[
-      imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+      imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
       " -1 for jumping backwards.
       inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
 
@@ -84,31 +57,31 @@ return require('lazy').setup({
       ]])
     end
   },
-  'hrsh7th/cmp-buffer',
-  'hrsh7th/cmp-path',
-  'hrsh7th/cmp-nvim-lua',
-  'hrsh7th/cmp-nvim-lsp',
-
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    -- event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      })
-    end,
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    config = function ()
-      require("copilot_cmp").setup()
-    end
-  },
-
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   -- event = "InsertEnter",
+  --   config = function()
+  --     require("copilot").setup({
+  --       suggestion = { enabled = false },
+  --       panel = { enabled = false },
+  --     })
+  --   end,
+  -- },
+  -- {
+  --   "zbirenbaum/copilot-cmp",
+  --   config = function()
+  --     require("copilot_cmp").setup()
+  --   end
+  -- },
   {
     'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-nvim-lua',
+      'hrsh7th/cmp-nvim-lsp',
+    },
     config = function()
       vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
@@ -152,12 +125,12 @@ return require('lazy').setup({
           end, { "i", "s" }),
         }),
         sources = cmp.config.sources({
-          { name = "copilot", group_index = 2 },
+          { name = "copilot",                group_index = 2 },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'nvim_lsp_signature_help' },
           { name = 'nvim_lua' },
-          { name = 'buffer', option = { keyword_length = 4 } },
+          { name = 'buffer',                 option = { keyword_length = 4 } },
         }),
         experimental = {
           ghost_text = true
@@ -177,21 +150,65 @@ return require('lazy').setup({
 
 
   -- https://github.com/williamboman/mason-lspconfig.nvim#setup
-  --
-  -- It's important that you set up the plugins in the following order:
-  --
-  --     mason.nvim
-  --     mason-lspconfig.nvim
-  --     lspconfig
+  -- NOTE: It's important that you set up the plugins in the following order:
+  --   - mason.nvim
+  --   - mason-lspconfig.nvim
+  --   - lspconfig
   {
     "williamboman/mason.nvim",
-    -- FIXME: For some reason this breaks mason...
-    -- "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason").setup({})
-      -- require("mason-lspconfig").setup({
-      --   ensure_installed = { "pylsp", "black", "gopls", "sumneko_lua" }
-      -- })
+    end
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      require("mason-lspconfig").setup {
+        -- https://github.com/williamboman/mason-lspconfig.nvim?tab=readme-ov-file#available-lsp-servers
+        -- ensure_installed = { "pylsp", "gopls", "bashls", "sqlls", "terraformls", "tsserver", "yamlls" },
+        -- installs any lsps that are configured below
+        automatic_installation = true,
+      }
+      -- TODO: setup lsp's here
+      -- see :h mason-lspconfig-automatic-server-setup
+      local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local lspconfig = require('lspconfig')
+      require("mason-lspconfig").setup_handlers {
+        function(server_name) -- default handler (optional)
+          require("lspconfig")[server_name].setup {
+            capabilities = capabilities,
+          }
+        end,
+        -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sqlls
+        ["sqlls"] = function()
+          lspconfig.sqlls.setup {}
+        end,
+        ["lua_ls"] = function()
+          lspconfig.lua_ls.setup {
+            settings = {
+              Lua = {
+                diagnostics = {
+                  globals = { "vim" }
+                }
+              }
+            }
+          }
+        end,
+        ["pylsp"] = function()
+          lspconfig.pylsp.setup {
+            settings = {
+              pylsp = {
+                plugins = {
+                  pycodestyle = {
+                    ignore = { 'W391' }, -- blank line at end of file: https://www.flake8rules.com/rules/W391.html
+                    maxLineLength = 200
+                  }
+                }
+              }
+            }
+          }
+        end
+      }
     end
   },
 
@@ -202,63 +219,29 @@ return require('lazy').setup({
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
       local lsp = require('lspconfig')
 
-      local on_attach = function(_, bufnr)
-        -- print("hello bro") -- used to test if this is being loaded
-        -- see options with :h vim.lsp.buf....
-        -- buffer = 0 means set for current buffer
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
-        vim.keymap.set("n", "gn", vim.diagnostic.goto_next, { buffer = 0 })
-        vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, { buffer = 0 })
-        vim.keymap.set("n", "gl", "<cmd>Telescope diagnostics<cr>", { buffer = 0 })
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = 0 })
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = 0 })
-        vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { buffer = 0 })
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = 0 })
-        vim.keymap.set("n", "gR", vim.lsp.buf.rename, { buffer = 0 })
-        vim.keymap.set("n", "gc", vim.lsp.buf.code_action, { buffer = 0 })
-        -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
-        -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
-        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { buffer = 0 })
-      end
-
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
       lsp.gopls.setup {
         capabilities = capabilities,
-        on_attach = on_attach,
       }
-
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#solargraph
-      lsp.solargraph.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        formatting = false, -- this is just not what i want most the time
-        settings = {
-          solargraph = {
-            diagnostics = false --pretty noisy, can tune?
-          }
-        }
-      })
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pylsp
-      lsp.pylsp.setup {
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          pylsp = {
-            plugins = {
-              pycodestyle = {
-                ignore = { 'W391' }, -- blank line at end of file: https://www.flake8rules.com/rules/W391.html
-                maxLineLength = 200
-              }
-            }
-          }
-        }
-      }
+      -- lsp.pylsp.setup {
+      -- capabilities = capabilities,
+      -- settings = {
+      --   pylsp = {
+      --     plugins = {
+      --       pycodestyle = {
+      --         ignore = { 'W391' }, -- blank line at end of file: https://www.flake8rules.com/rules/W391.html
+      --         maxLineLength = 200
+      --       }
+      --     }
+      --   }
+      -- }
+      -- }
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tsserver
-      lsp.tsserver.setup{
+      lsp.tsserver.setup {
         capabilities = capabilities,
-        -- on_attach = on_attach,
         on_attach = function(client)
           client.resolved_capabilities.document_formatting = false
         end,
@@ -267,7 +250,6 @@ return require('lazy').setup({
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#terraformls
       lsp.terraformls.setup {
         capabilities = capabilities,
-        on_attach = on_attach,
       }
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sqlls
@@ -276,7 +258,6 @@ return require('lazy').setup({
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#bashls
       lsp.bashls.setup {
         capabilities = capabilities,
-        on_attach = on_attach,
       }
 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls
@@ -293,29 +274,13 @@ return require('lazy').setup({
         }
       }
 
-      -- FIXME: new name i guess? need to install
-      -- lsp.lua_ls.setup{}
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
-      -- lsp.sumneko_lua.setup {
-      --   capabilities = capabilities,
-      --   on_attach = on_attach,
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
+      -- lsp.lua_ls.setup {
       --   settings = {
       --     Lua = {
-      --       runtime = {
-      --         -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-      --         version = 'LuaJIT',
-      --       },
       --       diagnostics = {
       --         -- Get the language server to recognize the `vim` global
       --         globals = { 'vim' },
-      --       },
-      --       workspace = {
-      --         -- Make the server aware of Neovim runtime files
-      --         library = vim.api.nvim_get_runtime_file("", true),
-      --       },
-      --       -- Do not send telemetry data containing a randomized but unique identifier
-      --       telemetry = {
-      --         enable = false,
       --       },
       --     },
       --   },
@@ -325,30 +290,13 @@ return require('lazy').setup({
 
   {
     'jose-elias-alvarez/null-ls.nvim',
+    dependencies = {
+      { 'nvim-lua/plenary.nvim' },
+    },
     config = function()
       local null_ls = require("null-ls")
 
-      local on_attach = function(_, bufnr)
-        -- print("hello bro") -- used to test if this is being loaded
-        -- see options with :h vim.lsp.buf....
-        -- buffer = 0 means set for current buffer
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
-        vim.keymap.set("n", "gn", vim.diagnostic.goto_next, { buffer = 0 })
-        vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, { buffer = 0 })
-        vim.keymap.set("n", "gl", "<cmd>Telescope diagnostics<cr>", { buffer = 0 })
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = 0 })
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = 0 })
-        vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { buffer = 0 })
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = 0 })
-        vim.keymap.set("n", "gR", vim.lsp.buf.rename, { buffer = 0 })
-        vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = 0 })
-        -- FIXME: If you have a lsp, and null-ls config, it'll ask you which to use each time
-        -- https://github.com/neovim/nvim-lspconfig/wiki/Multiple-language-servers-FAQ#i-see-multiple-formatting-options-and-i-want-a-single-server-to-format-how-do-i-do-this
-        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { buffer = 0 })
-      end
-
       null_ls.setup({
-        on_attach = on_attach,
         -- See sources here:
         -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
         sources = {
@@ -358,8 +306,6 @@ return require('lazy').setup({
           -- 	diagnostics_format = "[#{c}] #{m} (#{s})"
           -- }),
           null_ls.builtins.diagnostics.zsh,
-          -- null_ls.builtins.diagnostics.standardrb, -- ruby
-          -- null_ls.builtins.formatting.standardrb, -- ruby
           null_ls.builtins.formatting.black, -- python formatter
           null_ls.builtins.formatting.isort, -- sorts python imports
           -- null_ls.builtins.diagnostics.flake8 -- python linter
@@ -386,23 +332,25 @@ return require('lazy').setup({
     end
   },
 
-  -- {
-  --   'alexghergh/nvim-tmux-navigation',
-  --   config = function()
-  --     require 'nvim-tmux-navigation'.setup {
-  --       disable_when_zoomed = true, -- defaults to false
-  --       keybindings = {
-  --         left = "<C-h>",
-  --         down = "<C-j>",
-  --         up = "<C-k>",
-  --         right = "<C-l>",
-  --         last_active = "<C-\\>",
-  --       }
-  --     }
-  --   end
-  -- },
-
-  'nvim-treesitter/nvim-treesitter-context',
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require 'treesitter-context'.setup {
+        max_lines = 3,
+      }
+    end
+  },
+  {
+    "shellRaining/hlchunk.nvim",
+    event = { "UIEnter" },
+    config = function()
+      require("hlchunk").setup({
+        blank = {
+          enable = false, -- too noisy with default
+        }
+      })
+    end
+  },
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
@@ -444,87 +392,25 @@ return require('lazy').setup({
       }
     end
   },
-
-  -- Lua
   {
-    "folke/trouble.nvim",
-    dependencies = "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("trouble").setup()
-    end
-  },
-
-  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
-
-  {
-    'junegunn/fzf',
-    config = function()
-      -- vim.cmd('fzf#install()') -- FIXME this errors
-    end
-  },
-
-  { 
     'junegunn/fzf.vim',
-    config = function()
-      vim.cmd('nnoremap <C-space> <cmd>Files<cr>')
-      vim.cmd("command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case --no-ignore-vcs --hidden --glob=!.git -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)")
-      vim.cmd("nnoremap <leader>r <cmd>Rg<CR>")
-      vim.cmd("nnoremap <leader>g <cmd>call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case --no-ignore-vcs --hidden --glob=!.git -- '.expand('<cword>'), 1, fzf#vim#with_preview())<CR>")
-    end
-  },
-  {
-    'nvim-telescope/telescope.nvim',
-    tag = '0.1.0',
     dependencies = {
-      { 'nvim-lua/plenary.nvim' },
-      { "nvim-telescope/telescope-live-grep-args.nvim" },
+      'junegunn/fzf',
     },
     config = function()
-      local builtin = require('telescope.builtin')
-      -- vim.cmd('nnoremap <C-p> <cmd>Telescope find_files<cr>')
-      -- TODO: maybe swap c-p and c-space
-      -- vim.keymap.set("n", "<C-p>", (function() builtin.find_files({ find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' }})end))
-      -- vim.cmd('nnoremap <leader>fg <cmd>Telescope live_grep<cr>')
-      -- FIXME: live grep args but using picker config below for searching hiddeng files
-      -- vim.cmd("nnoremap <leader>fg <cmd> lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-      -- TODO: find hidden files using live grep 
-      -- find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
-      -- keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-      -- vim.cmd('nnoremap <leader>fw <cmd>Telescope grep_string<cr>')
-      -- vim.cmd('nnoremap <leader>fb <cmd>Telescope buffers<cr>')
-      -- vim.cmd('nnoremap <leader>fh <cmd>Telescope help_tags<cr>')
-
-      -- local actions = require("telescope.actions")
-      local trouble = require("trouble.providers.telescope")
-      local telescope = require("telescope")
-
-      telescope.setup {
-        defaults = {
-          mappings = {
-            i = { ["<c-t>"] = trouble.open_with_trouble },
-            n = { ["<c-t>"] = trouble.open_with_trouble },
-          },
-        },
-        pickers = {
-            live_grep = {
-                additional_args = function(opts)
-                    return {"--hidden"}
-                    -- return { '--files', '--iglob', '!.git', '--hidden' }
-                end
-            },
-        },
-      }
-
-      telescope.load_extension('fzf')
-      telescope.load_extension("live_grep_args")
-    end,
+      vim.cmd('nnoremap <C-space> <cmd>Files<cr>')
+      -- ctrl-t is same as fzf in shell
+      vim.cmd('nnoremap <C-t> <cmd>Files<cr>')
+      vim.cmd(
+        "command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case --no-ignore-vcs --hidden --glob=!.git -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)")
+      vim.cmd("nnoremap <leader>r <cmd>Rg<CR>")
+      vim.cmd(
+        "nnoremap <leader>g <cmd>call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case --no-ignore-vcs --hidden --glob=!.git -- '.expand('<cword>'), 1, fzf#vim#with_preview())<CR>")
+    end
   },
-
-
   {
     'mfussenegger/nvim-dap',
     config = function()
-
       local dap = require('dap')
       vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
       vim.keymap.set("n", "<leader>dc", dap.continue)
@@ -548,7 +434,6 @@ return require('lazy').setup({
   {
     'leoluz/nvim-dap-go',
     config = function()
-
       require('dap-go').setup()
     end
 
@@ -574,7 +459,6 @@ return require('lazy').setup({
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load()
       require 'luasnip'.filetype_extend("go", { "go" })
-      require 'luasnip'.filetype_extend("ruby", { "rails" })
       require 'luasnip'.filetype_extend("python", { "python" })
     end
   },
@@ -591,4 +475,3 @@ return require('lazy').setup({
   --   end
   -- },
 })
-

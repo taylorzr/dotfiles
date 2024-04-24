@@ -15,6 +15,7 @@ git remote set-url origin git@github.com:taylorzr/dotfiles.git
 
 # install
 zsh kitty vim fzf tldr jq yq gomplate ripgrep golang
+git clone git@github.com:taylorzr/kitty-meow.git ~/.config/kitty/meow
 
 # generate ssh and gpg keys
 $ ssh-keygen -t ed25519 -C "<email>"
@@ -54,6 +55,9 @@ tfenv, then tfenv install
 # fedora
 
 ```sh
+# tools
+sudo dnf group install "Development Tools" "C Development Tools and Libraries"
+
 # signal
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install com.discordapp.Discord

@@ -37,6 +37,7 @@ compinit -C
 # {{{
 
 export GOPATH="$HOME/go"
+path+=(/usr/local/go/bin) # manually installed go to get 1.22
 path+=("${GOPATH}/bin")
 path+=("$HOME/.rd/bin") # rancher desktop
 
@@ -128,6 +129,7 @@ alias vi='nvim'
 alias nv="VIMRUNTIME=$HOME/code/neovim/runtime $HOME/code/neovim/build/bin/nvim" # Nightly neovim
 
 # git
+alias gp='git pull'
 alias ghpr='gh pr create --draft'
 alias ghprb='gh pr create --draft --body '
 alias pr=ghprb
@@ -140,6 +142,7 @@ alias gau='git add -u'
 alias gan='git ls-files --others --exclude-standard | fzf --multi | xargs git add -N'
 alias grn='git ls-files --others --exclude-standard | fzf --multi | xargs rm'
 alias gap='git add --patch'
+alias grp='git reset --patch'
 alias gs='git status'
 alias gsh='git show'
 alias gd='git diff'
@@ -166,6 +169,7 @@ function gb() {
 }
 alias gbm="git branch -m"
 alias gf="git fetch"
+alias gfp="git push --force-with-lease"
 alias gfm='git fetch && git fetch origin :$(git default-branch)'
 # TODO: just git continue, lookup what is currently in progress
 alias grc="git rebase --continue"
