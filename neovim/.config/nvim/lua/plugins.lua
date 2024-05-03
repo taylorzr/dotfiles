@@ -398,7 +398,6 @@ return require('lazy').setup({
       'junegunn/fzf',
     },
     config = function()
-      vim.cmd('nnoremap <C-space> <cmd>Files<cr>')
       -- ctrl-t is same as fzf in shell
       vim.cmd('nnoremap <C-t> <cmd>Files<cr>')
       vim.cmd(
