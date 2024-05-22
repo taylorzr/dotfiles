@@ -161,6 +161,15 @@ vim.api.nvim_create_autocmd("Filetype", {
   end
 })
 
+-- markdown
+vim.api.nvim_create_autocmd("Filetype", {
+  group = "zachwuzhere",
+  pattern = { "markdown" },
+  callback = function()
+    vim.opt_local.shiftwidth = 2
+  end
+})
+
 -- typescript
 vim.api.nvim_create_autocmd("Filetype", {
   group = "zachwuzhere",

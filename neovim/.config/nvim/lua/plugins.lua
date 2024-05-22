@@ -57,23 +57,23 @@ return require('lazy').setup({
       ]])
     end
   },
-  -- {
-  --   "zbirenbaum/copilot.lua",
-  --   cmd = "Copilot",
-  --   -- event = "InsertEnter",
-  --   config = function()
-  --     require("copilot").setup({
-  --       suggestion = { enabled = false },
-  --       panel = { enabled = false },
-  --     })
-  --   end,
-  -- },
-  -- {
-  --   "zbirenbaum/copilot-cmp",
-  --   config = function()
-  --     require("copilot_cmp").setup()
-  --   end
-  -- },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    -- event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
+    end,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function()
+      require("copilot_cmp").setup()
+    end
+  },
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -307,6 +307,7 @@ return require('lazy').setup({
           -- }),
           null_ls.builtins.diagnostics.zsh,
           null_ls.builtins.formatting.black, -- python formatter
+          null_ls.builtins.diagnostics.mypy, -- python "type" checker
           null_ls.builtins.formatting.isort, -- sorts python imports
           -- null_ls.builtins.diagnostics.flake8 -- python linter
           null_ls.builtins.formatting.isort, -- sorts python imports
