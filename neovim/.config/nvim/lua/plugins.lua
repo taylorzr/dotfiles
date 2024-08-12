@@ -243,7 +243,9 @@ return require('lazy').setup({
       lsp.tsserver.setup {
         capabilities = capabilities,
         on_attach = function(client)
-          client.resolved_capabilities.document_formatting = false
+          -- NOTE: had to use nil here, false didn't work for some reason?!?
+          client.server_capabilities.documentFormattingProvider = nil
+          client.server_capabilities.documentRangeFormattingProvider = nil
         end,
       }
 
@@ -309,13 +311,11 @@ return require('lazy').setup({
           null_ls.builtins.formatting.black, -- python formatter
           null_ls.builtins.diagnostics.mypy, -- python "type" checker
           null_ls.builtins.formatting.isort, -- sorts python imports
+          null_ls.builtins.formatting.prettier,
           -- null_ls.builtins.diagnostics.flake8 -- python linter
-          null_ls.builtins.formatting.isort, -- sorts python imports
           -- https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md013---line-length
           null_ls.builtins.diagnostics.markdownlint.with({ extra_args = { "--disable", "MD013" } }),
-          null_ls.builtins.formatting.prettier,
         },
-
       })
     end
   },

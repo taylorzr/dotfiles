@@ -12,8 +12,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
--- this might be a stupid setting, but i'm trying to diff between tabs and spaces
-vim.opt.tabstop = 3
+vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.textwidth = 100
@@ -84,7 +83,6 @@ vim.api.nvim_create_autocmd("Filetype", {
   pattern = { "go" },
   callback = function()
     vim.keymap.set("n", "<leader>p", "oruntime.Breakpoint()<ESC>")
-    vim.opt_local.shiftwidth = 3
     vim.opt_local.expandtab = false
   end
 })
@@ -173,9 +171,11 @@ vim.api.nvim_create_autocmd("Filetype", {
 -- typescript
 vim.api.nvim_create_autocmd("Filetype", {
   group = "zachwuzhere",
-  pattern = { "typescript" },
+  pattern = { "typescript", "typescriptreact" },
   callback = function()
     vim.opt_local.expandtab = false
+    vim.opt_local.shiftwidth = 3
+    vim.opt_local.tabstop = 3
   end
 })
 

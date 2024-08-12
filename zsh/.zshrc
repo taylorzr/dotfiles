@@ -145,8 +145,10 @@ alias gap='git add --patch'
 alias grp='git reset --patch'
 alias gs='git status'
 alias gsh='git show'
-alias gd='git diff --word-diff=color --word-diff-regex=.'
-alias gds='git diff --staged --word-diff=color --word-diff-regex=.'
+alias gd='git diff'
+alias gdw='git diff --word-diff=color --word-diff-regex=.'
+alias gds='git diff --staged'
+alias gdsw='git diff --staged --word-diff=color --word-diff-regex=.'
 alias gco='git checkout'
 alias gcom='git checkout $(git default-branch)'
 alias gcm='git commit --message'
@@ -213,6 +215,11 @@ alias k=kubectl
 source <(kubectl completion zsh)
 # alias kubectx='kubectl ctx'
 function kc() {
+  token=$(cat ~/.aws/sso/cache/* | jq -rs 'map(select(.accessToken and .expiresAt > (now | todate)) | [.accessToken, .expiresAt])[0]')
+  if [ "$token" = null ]; then
+    echo "aws access token expired"
+    return 1
+  fi
   cluster=$(kubectl ctx | fzf)
   if [ "$cluster" = "" ]; then
     return
@@ -220,10 +227,15 @@ function kc() {
   k9s --context "$cluster"
 }
 function kn() {
+  token=$(cat ~/.aws/sso/cache/* | jq -rs 'map(select(.accessToken and .expiresAt > (now | todate)) | [.accessToken, .expiresAt])[0]')
+  if [ "$token" = null ]; then
+    echo "aws access token expired"
+    return 1
+  fi
   cluster=$(kubectl ctx | fzf)
   if [ "$cluster" = "" ]; then
     printf "no clusters selected\n"
-    return
+    return 1
   fi
   selection=$(kubectl --context $cluster get --no-headers namespaces > /dev/null | fzf)
   if [ "$selection" = "" ]; then
