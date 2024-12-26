@@ -109,6 +109,7 @@ alias cf="cd \$(find * -type d -not -path '.git*' | fzf || pwd)"
 # reload
 alias reload-zsh='source ~/.zshrc && echo "Zsh reloaded!"'
 alias rz='reload-zsh'
+alias rk='kitten @ load-config'
 
 # editing configs
 alias ez='vim ~/.zshrc'
@@ -129,6 +130,7 @@ alias vi='nvim'
 alias nv="VIMRUNTIME=$HOME/code/neovim/runtime $HOME/code/neovim/build/bin/nvim" # Nightly neovim
 
 # git
+alias chat='gh copilot explain'
 alias gp='git pull'
 alias ghpr='gh pr create --draft'
 alias ghprb='gh pr create --draft --body '
@@ -144,6 +146,7 @@ alias grn='git ls-files --others --exclude-standard | fzf --multi | xargs rm'
 alias gap='git add --patch'
 alias grp='git reset --patch'
 alias gs='git status'
+alias gsn='git status -uno'
 alias gsh='git show'
 alias gd='git diff'
 alias gdw='git diff --word-diff=color --word-diff-regex=.'
@@ -158,9 +161,9 @@ function gb() {
   branch=$(
     git branch --list --sort=-committerdate \
     | fzf \
-        --header 'ctrl-r: remote | alt-l: local' \
+        --header 'ctrl-r: remote | alt-l: local | alt-f: git-fetch' \
         --prompt='branch> ' \
-        --bind='alt-l:change-prompt(local> )+reload(git branch --list --sort=-committerdate),ctrl-r:change-prompt(remote> )+reload(git branch --all --sort=-committerdate)' \
+        --bind='alt-l:change-prompt(local> )+reload(git branch --list --sort=-committerdate),ctrl-r:change-prompt(remote> )+reload(git branch --all --sort=-committerdate),alt-f:execute(git fetch)' \
   )
 
   if [ -n "$branch" ]; then
@@ -212,7 +215,9 @@ alias asl='aws sso login'
 
 # kubernetes
 alias k=kubectl
-source <(kubectl completion zsh)
+if command -v kubectl > /dev/null; then
+  source <(kubectl completion zsh)
+fi
 # alias kubectx='kubectl ctx'
 function kc() {
   token=$(cat ~/.aws/sso/cache/* | jq -rs 'map(select(.accessToken and .expiresAt > (now | todate)) | [.accessToken, .expiresAt])[0]')
@@ -295,19 +300,12 @@ if [ $(uname -s) = 'Linux' ]; then
     echo "Keyboard configured!"
 
   }
-  alias rk='configure_keyboard'
-else
-  # path+=("$HOME/Library/Python/3.10/bin")
 fi
 
 source ~/.config/shell/local.sh
-source ~/.config/shell/functions.sh
 source ~/.config/shell/prompt.sh
 
 # }}}
-
-# TODO: Steal this cd function
-# https://github.com/natw/dotfiles/blob/master/zsh/fzf.zsh#L17-L26
 
 function jwt() {
   jq -R 'split(".") | .[1] | @base64d | fromjson'
