@@ -1,15 +1,25 @@
 return require('lazy').setup({
   -- Put plugins without config here
-  "lukas-reineke/indent-blankline.nvim", -- lines for each indent level
   'machakann/vim-sandwich',
-  'tpope/vim-eunuch',                    -- helpers for file commands like mv, rm, chmod
-  "elihunter173/dirbuf.nvim",
+  'tpope/vim-eunuch', -- helpers for file commands like mv, rm, chmod
+  'elihunter173/dirbuf.nvim',
   'preservim/tagbar',
   'folke/zen-mode.nvim',
   {
     "iamcco/markdown-preview.nvim",
     build = function() vim.fn["mkdp#util#install"]() end,
   },
+
+  {
+    'stevearc/aerial.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    },
+  },
+
   {
     "catppuccin/nvim",
     as = "catppuccin",
@@ -42,7 +52,11 @@ return require('lazy').setup({
     },
   },
 
-  'L3MON4D3/LuaSnip',
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = { "rafamadriz/friendly-snippets" },
+  },
+
   {
     'saadparwaiz1/cmp_luasnip',
     config = function()
@@ -55,25 +69,25 @@ return require('lazy').setup({
       snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 
       ]])
-    end
-  },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    -- event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      })
     end,
   },
-  {
-    "zbirenbaum/copilot-cmp",
-    config = function()
-      require("copilot_cmp").setup()
-    end
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   -- event = "InsertEnter",
+  --   config = function()
+  --     require("copilot").setup({
+  --       suggestion = { enabled = false },
+  --       panel = { enabled = false },
+  --     })
+  --   end,
+  -- },
+  -- {
+  --   "zbirenbaum/copilot-cmp",
+  --   config = function()
+  --     require("copilot_cmp").setup()
+  --   end
+  -- },
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -105,24 +119,7 @@ return require('lazy').setup({
           -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-e>'] = cmp.mapping.abort(),
-
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            elseif cmp.visible() then
-              cmp.confirm({ select = true }) -- ({ select = true }) maybe?
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-
-          ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         }),
         sources = cmp.config.sources({
           { name = "copilot",                group_index = 2 },
@@ -147,7 +144,6 @@ return require('lazy').setup({
       })
     end
   },
-
 
   -- https://github.com/williamboman/mason-lspconfig.nvim#setup
   -- NOTE: It's important that you set up the plugins in the following order:
@@ -183,6 +179,7 @@ return require('lazy').setup({
         ["sqlls"] = function()
           lspconfig.sqlls.setup {}
         end,
+        -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
         ["lua_ls"] = function()
           lspconfig.lua_ls.setup {
             settings = {
@@ -266,8 +263,12 @@ return require('lazy').setup({
       lsp.yamlls.setup {
         settings = {
           yaml = {
+            -- https://www.schemastore.org/json/
+            schemaStore = {
+              enable = true
+            },
+            -- most schemas will already be in schemastore, but any missing can be configured manually
             schemas = {
-              ["https://raw.githubusercontent.com/DataDog/schema/main/service-catalog/version.schema.json"] = "service.datadog.yaml",
               -- ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
               -- ["../path/relative/to/file.yml"] = "/.github/workflows/*",
               -- ["/path/from/root/of/project"] = "/.github/workflows/*",
@@ -315,6 +316,12 @@ return require('lazy').setup({
           -- null_ls.builtins.diagnostics.flake8 -- python linter
           -- https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md013---line-length
           null_ls.builtins.diagnostics.markdownlint.with({ extra_args = { "--disable", "MD013" } }),
+          null_ls.builtins.formatting.prettier,
+          -- WIP
+          -- null_ls.builtins.formatting.sqlfluff,
+          null_ls.builtins.diagnostics.sqlfluff.with({
+            extra_args = { "--dialect", "mysql" }, -- change to your dialect
+          }),
         },
       })
     end
@@ -333,6 +340,18 @@ return require('lazy').setup({
     end
   },
 
+  -- https://github.com/lukas-reineke/indent-blankline.nvim
+  -- visual indicators for what level scope you're in
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    config = function()
+      require("ibl").setup()
+    end
+  }, -- lines for each indent level
+
+
+  -- https://github.com/nvim-treesitter/nvim-treesitter-context
+  -- shows what scope you're in when it's off the screen
   {
     'nvim-treesitter/nvim-treesitter-context',
     config = function()
@@ -341,17 +360,7 @@ return require('lazy').setup({
       }
     end
   },
-  {
-    "shellRaining/hlchunk.nvim",
-    event = { "UIEnter" },
-    config = function()
-      require("hlchunk").setup({
-        blank = {
-          enable = false, -- too noisy with default
-        }
-      })
-    end
-  },
+
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
@@ -374,6 +383,15 @@ return require('lazy').setup({
         -- Automatically cmpinstall missing parsers when entering buffer
         auto_install = true,
 
+        -- v -> visual mode, then v/V to increment/decrement selection
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            node_incremental = "v",
+            node_decremental = "V",
+          },
+        },
+
         highlight = {
           -- `false` will disable the whole extension
           enable = true,
@@ -393,6 +411,7 @@ return require('lazy').setup({
       }
     end
   },
+
   {
     'junegunn/fzf.vim',
     dependencies = {
@@ -401,13 +420,14 @@ return require('lazy').setup({
     config = function()
       -- ctrl-t is same as fzf in shell
       vim.cmd('nnoremap <C-t> <cmd>Files<cr>')
-      vim.cmd(
-        "command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case --no-ignore-vcs --hidden --glob=!.git -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)")
+      vim.cmd('nnoremap <C-s-t> <cmd>Files ~/code/<cr>')
       vim.cmd("nnoremap <leader>r <cmd>Rg<CR>")
+      -- NOTE: command same as FZF_DEFAULT_COMMAND without `--files`
       vim.cmd(
-        "nnoremap <leader>g <cmd>call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case --no-ignore-vcs --hidden --glob=!.git -- '.expand('<cword>'), 1, fzf#vim#with_preview())<CR>")
+        'nnoremap <leader>g <cmd>call fzf#vim#grep("rg --hidden --glob \'!.git\'" . " -- " . expand("<cword>"), 1, fzf#vim#with_preview())<CR>')
     end
   },
+
   {
     'mfussenegger/nvim-dap',
     config = function()
@@ -463,15 +483,4 @@ return require('lazy').setup({
     end
   },
 
-  -- {
-  --   'pwntester/octo.nvim',
-  --   dependencies = {
-  --     'nvim-lua/plenary.nvim',
-  --     'nvim-telescope/telescope.nvim',
-  --     'kyazdani42/nvim-web-devicons',
-  --   },
-  --   config = function()
-  --     require "octo".setup()
-  --   end
-  -- },
 })

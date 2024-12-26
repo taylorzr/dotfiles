@@ -41,21 +41,20 @@ path+=(/usr/local/go/bin) # manually installed go to get 1.22
 path+=("${GOPATH}/bin")
 path+=("$HOME/.rd/bin") # rancher desktop
 
+path+=("${KREW_ROOT:-$HOME/.krew}/bin")
 if [ $(uname -s) = 'Linux' ]; then
   # brew and aws cli
   path+=("$HOME/.local/bin")
   path+=("/var/lib/snapd/snap/bin")
-  path+=("${KREW_ROOT:-$HOME/.krew}/bin")
 else
-  path+=("/opt/homebrew/opt/python/libexec/bin") # FIXME prolly should use a python version manager
-  path+=("/Users/zach.taylor/Library/Python/3.10/bin") # FIXME prolly should use a python version manager
+  path+=("/opt/homebrew/opt/python/libexec/bin")
+  path+=("/Users/zach.taylor/.local/bin")  # pipx binaries
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # }}}
 
 # Plugins
-# {{{
 # Much easier and faster to just clone these zsh plugins than use some crazy slow zsh plugin manager
 if [ ! -d ~/.zsh/zsh-autosuggestions ]; then
   git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
@@ -206,12 +205,21 @@ alias d='docker'
 alias dc='docker compose'
 alias n='nerdctl'
 alias nc='nerdctl compose'
+alias docker=nerdctl
 
 # Groups on lines
 alias groups='groups | tr " " "\n"'
 
 # aws
 alias asl='aws sso login'
+function asv() {
+  if [ $(ast) = "null" ]; then
+    echo 'error: aws sso session expired'
+    return 1
+  fi
+  # echo "aws sso session valid"
+}
+alias ast="cat ~/.aws/sso/cache/* | jq -rs 'map(select(.accessToken and .expiresAt > (now | todate)) | .accessToken)[0]'"
 
 # kubernetes
 alias k=kubectl
@@ -220,11 +228,7 @@ if command -v kubectl > /dev/null; then
 fi
 # alias kubectx='kubectl ctx'
 function kc() {
-  token=$(cat ~/.aws/sso/cache/* | jq -rs 'map(select(.accessToken and .expiresAt > (now | todate)) | [.accessToken, .expiresAt])[0]')
-  if [ "$token" = null ]; then
-    echo "aws access token expired"
-    return 1
-  fi
+  asv || asl
   cluster=$(kubectl ctx | fzf)
   if [ "$cluster" = "" ]; then
     return
@@ -232,15 +236,11 @@ function kc() {
   k9s --context "$cluster"
 }
 function kn() {
-  token=$(cat ~/.aws/sso/cache/* | jq -rs 'map(select(.accessToken and .expiresAt > (now | todate)) | [.accessToken, .expiresAt])[0]')
-  if [ "$token" = null ]; then
-    echo "aws access token expired"
-    return 1
-  fi
+  asv || asl
   cluster=$(kubectl ctx | fzf)
   if [ "$cluster" = "" ]; then
     printf "no clusters selected\n"
-    return 1
+    return 1 # FIXME: doesn't fail
   fi
   selection=$(kubectl --context $cluster get --no-headers namespaces > /dev/null | fzf)
   if [ "$selection" = "" ]; then
@@ -287,6 +287,10 @@ export FZF_DEFAULT_OPTS=" \
 # direnv
 eval "$(direnv hook zsh)"
 alias da="direnv allow"
+alias de="direnv edit"
+
+# restish
+alias ish=restish
 
 # }}}
 
@@ -312,12 +316,6 @@ function jwt() {
 }
 
 export GPG_TTY=$(tty)
-
-# Better shell history
-# eval "$(atuin init zsh --disable-up-arrow)"  # FIXME: disable up arrow not working
-# export ATUIN_NOBIND="true"
-# eval "$(atuin init zsh)"
-# bindkey '^r' _atuin_search_widget
 
 # zprof
 

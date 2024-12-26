@@ -73,6 +73,8 @@ vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
+vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
+
 vim.api.nvim_create_augroup("zachwuzhere", { clear = true })
 
 -- language specific
@@ -154,7 +156,7 @@ vim.api.nvim_create_autocmd("Filetype", {
   group = "zachwuzhere",
   pattern = { "python" },
   callback = function()
-    vim.keymap.set("n", "<leader>p", "oimport code; code.interact(local=dict(globals(), **locals()))<ESC>")
+    vim.keymap.set("n", "<leader>p", "obreakpoint()<ESC>")
     vim.opt_local.shiftwidth = 4
   end
 })
@@ -254,6 +256,15 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+
+vim.filetype.add({
+  filename = {
+    [".envrc"] = "sh",
+  },
+  -- pattern = {
+  --   ["%.?env.*"] = "config",
+  -- },
+})
 
 -- lua/plugins.lua
 require('plugins')
