@@ -165,7 +165,7 @@ return require('lazy').setup({
     config = function()
       require("mason-lspconfig").setup {
         -- https://github.com/williamboman/mason-lspconfig.nvim?tab=readme-ov-file#available-lsp-servers
-        -- ensure_installed = { "pylsp", "gopls", "bashls", "sqlls", "terraformls", "tsserver", "yamlls" },
+        -- ensure_installed = { "pylsp", "gopls", "bashls", "sqlls", "terraformls", "ts_ls", "yamlls" },
         -- installs any lsps that are configured below
         automatic_installation = true,
       }
@@ -179,7 +179,7 @@ return require('lazy').setup({
             capabilities = capabilities,
           }
         end,
-        -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sqlls
+        -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#sqlls
         ["sqlls"] = function()
           lspconfig.sqlls.setup {}
         end,
@@ -212,19 +212,19 @@ return require('lazy').setup({
     end
   },
 
-  -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+  -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
   {
     'neovim/nvim-lspconfig',
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
       local lsp = require('lspconfig')
 
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#gopls
       lsp.gopls.setup {
         capabilities = capabilities,
       }
 
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pylsp
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pylsp
       -- lsp.pylsp.setup {
       -- capabilities = capabilities,
       -- settings = {
@@ -239,8 +239,8 @@ return require('lazy').setup({
       -- }
       -- }
 
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tsserver
-      lsp.tsserver.setup {
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ts_ls
+      lsp.ts_ls.setup {
         capabilities = capabilities,
         on_attach = function(client)
           -- NOTE: had to use nil here, false didn't work for some reason?!?
@@ -249,20 +249,20 @@ return require('lazy').setup({
         end,
       }
 
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#terraformls
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#terraformls
       lsp.terraformls.setup {
         capabilities = capabilities,
       }
 
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sqlls
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#sqlls
       lsp.sqlls.setup {}
 
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#bashls
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#bashls
       lsp.bashls.setup {
         capabilities = capabilities,
       }
 
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#yamlls
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#yamlls
       lsp.yamlls.setup {
         settings = {
           yaml = {
@@ -276,7 +276,7 @@ return require('lazy').setup({
         }
       }
 
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
       -- lsp.lua_ls.setup {
       --   settings = {
       --     Lua = {
