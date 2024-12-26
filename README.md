@@ -3,22 +3,29 @@
 # general setup
 
 ```
-git clone https://github.com/taylorzr/dotfiles.git $HOME/code/dotfiles
-cd ~/code/dotfiles
-install stow
+# ssh
+ssh-keygen -t ed25519 -C '108883+taylorzr@users.noreply.github.com'
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
+
+git clone git@github.com:taylorzr/dotfiles.git
+cd dotfiles
 stow --target ~ git kitty neovim zsh
-# after getting ssh setup
-git remote set-url origin git@github.com:taylorzr/dotfiles.git
 
 # brew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# install
-zsh kitty vim fzf tldr jq yq gomplate ripgrep golang
+# install stuff
+zsh kitty neovim fzf jq ripgrep golang
 git clone git@github.com:taylorzr/kitty-meow.git ~/.config/kitty/meow
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+$(brew --prefix)/opt/fzf/install
 
-# generate ssh and gpg keys
-$ ssh-keygen -t ed25519 -C "<email>"
+# maybe install stuff
+yq tldr gomplate pinentry-mac
+
+# generate gpg keys
 
 $ gpg --full-generate-key
 # choose: rsa & 4096
@@ -29,22 +36,10 @@ $ gpg --list-secret-keys --keyid-format=short
 # then export public key, copy and save in github
 gpg --armor --export <key-id>
 
-# fzf
-brew install fzf
-$(brew --prefix)/opt/fzf/install
-
-# neovim master
-tp git@github.com:neovim/neovim.git
-make CMAKE_BUILD_TYPE=Release
-use nv alias to run
-
 # postgres
 initdb
 brew services start postgresql
 createdb $USER
-
-use vim :Mason to install language servers
-TODO: get mason-lspconfig working
 
 # other software
 rectangle, pastebot, pinentry-mac
@@ -58,7 +53,7 @@ tfenv, then tfenv install
 # tools
 sudo dnf group install "Development Tools" "C Development Tools and Libraries"
 
-# signal
+# discord
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install com.discordapp.Discord
 
@@ -74,14 +69,12 @@ sudo snap install bw yq
 # go installs
 go install github.com/derailed/k9s@latest # snap didn't work right
 go install github.com/hairyhenderson/gomplate/v4/cmd/gomplate@latest
-```
 
+# aws & k8s
+ https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 install krew -> https://krew.sigs.k8s.io/docs/user-guide/setup/install/
 krew for kubectl ctx & ns
-
-https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
-
-# osx
+```
 
 ### Key repeat speed
 
