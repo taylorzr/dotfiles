@@ -165,6 +165,7 @@ return require('lazy').setup({
         -- installs any lsps that are configured below
         automatic_installation = true,
       }
+
       -- TODO: setup lsp's here
       -- see :h mason-lspconfig-automatic-server-setup
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())

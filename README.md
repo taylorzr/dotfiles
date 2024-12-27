@@ -9,12 +9,10 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 cat ~/.ssh/id_ed25519.pub
 
+# dotfiles
 git clone git@github.com:taylorzr/dotfiles.git
 cd dotfiles
 stow --target ~ git kitty neovim zsh
-
-# brew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # install stuff
 zsh kitty neovim fzf jq ripgrep golang

@@ -240,7 +240,7 @@ function kn() {
   cluster=$(kubectl ctx | fzf)
   if [ "$cluster" = "" ]; then
     printf "no clusters selected\n"
-    return 1 # FIXME: doesn't fail
+    return 1
   fi
   selection=$(kubectl --context $cluster get --no-headers namespaces > /dev/null | fzf)
   if [ "$selection" = "" ]; then
