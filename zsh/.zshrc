@@ -71,12 +71,16 @@ if [ ! -d ~/.zsh/fzf-tab ]; then
 fi
 source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
 
+if [ ! -d ~/.zsh/spaceship ]; then
+  git clone --depth=1 https://github.com/spaceship-prompt/spaceship-prompt.git "$HOME/.zsh/spaceship"
+fi
+source ~/.config/shell/prompt.sh
+# https://spaceship-prompt.sh/config/intro/
+source "$HOME/.zsh/spaceship/spaceship.zsh"
+
 autoload bashcompinit && bashcompinit
 complete -C '/usr/local/bin/aws_completer' aws
 complete -o nospace -C /usr/local/bin/vault vault
-
-# # TODO: Needed on Linux?!?
-# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
 
 # }}}
 
@@ -137,7 +141,6 @@ if [ $(uname -s) = 'Linux' ]; then
 fi
 
 source ~/.config/shell/local.sh
-source ~/.config/shell/prompt.sh
 
 # }}}
 
@@ -157,3 +160,19 @@ _fzf_complete_echo() {
     echo doge
   )
 }
+
+eval "$(zoxide init zsh)"
+
+# export PATH="/usr/local/bin/:$PATH"
+
+alias b=devbox
+
+function maybe_devbox() {
+  if [ -f 'devbox.json' ]; then
+    if [ "$DEVBOX_SHELL_ENABLED" != "1" ]; then
+      devbox shell
+    fi
+  fi
+}
+
+precmd_functions+=(maybe_devbox)

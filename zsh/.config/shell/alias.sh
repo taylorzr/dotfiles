@@ -159,8 +159,6 @@ alias rg="rg --hidden --glob '!.git'"
 export FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git'"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-alias lb="liquibase"
-
 # nvm is terribly slow, so instead
 # alias nvm="unalias nvm && source /opt/homebrew/opt/nvm/nvm.sh && nvm"
 # alias yarn="unalias yarn && source /opt/homebrew/opt/nvm/nvm.sh && yarn"

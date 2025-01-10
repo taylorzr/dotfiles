@@ -219,6 +219,18 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   end
 })
 
+
+-- caddy
+vim.api.nvim_create_autocmd("Filetype", {
+  group = "zachwuzhere",
+  pattern = { "caddy" },
+  callback = function()
+    vim.opt_local.expandtab = false
+    vim.opt_local.shiftwidth = 3
+    vim.opt_local.tabstop = 3
+  end
+})
+
 -- os dependent
 if vim.fn.has('macunix') then
   vim.opt.clipboard = 'unnamedplus'
@@ -261,6 +273,9 @@ vim.filetype.add({
   filename = {
     [".envrc"] = "sh",
   },
+  filename = {
+    ["Caddyfile"] = "caddy",
+  }
   -- pattern = {
   --   ["%.?env.*"] = "config",
   -- },
