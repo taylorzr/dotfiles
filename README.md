@@ -2,7 +2,7 @@
 
 # general setup
 
-```
+```sh
 # ssh
 ssh-keygen -t ed25519 -C '108883+taylorzr@users.noreply.github.com'
 eval "$(ssh-agent -s)"
@@ -12,7 +12,7 @@ cat ~/.ssh/id_ed25519.pub
 # dotfiles
 git clone git@github.com:taylorzr/dotfiles.git
 cd dotfiles
-stow --target ~ git kitty neovim zsh
+just stow
 
 # install stuff
 zsh kitty neovim fzf jq ripgrep golang
