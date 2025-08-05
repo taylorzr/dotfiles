@@ -4,7 +4,12 @@ return require('lazy').setup({
   'tpope/vim-eunuch', -- helpers for file commands like mv, rm, chmod
   'elihunter173/dirbuf.nvim',
   'preservim/tagbar',
-  'folke/zen-mode.nvim',
+  'towolf/vim-helm',
+  'windwp/nvim-ts-autotag',
+  'stevanmilic/nvim-lspimport', -- NOTE: really just helper for pyright imports
+
+  -- plugins with config here
+
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "ibhagwan/fzf-lua" },
@@ -58,9 +63,25 @@ return require('lazy').setup({
     config = function()
       require("catppuccin").setup()
       vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-      vim.cmd [[colorscheme catppuccin]]
+      -- vim.cmd [[colorscheme catppuccin]]
     end
   },
+
+  {
+    "zenbones-theme/zenbones.nvim",
+    -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+    -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+    -- In Vim, compat mode is turned on as Lush only works in Neovim.
+    dependencies = "rktjmp/lush.nvim",
+    lazy = false,
+    priority = 1000,
+    -- you can set set configuration options here
+    config = function()
+      vim.g.zenbones_darken_comments = 45
+      vim.cmd.colorscheme('kanagawabones')
+    end
+  },
+
   {
     'lewis6991/gitsigns.nvim',
     config = function()
@@ -177,150 +198,26 @@ return require('lazy').setup({
     end
   },
 
-  -- https://github.com/williamboman/mason-lspconfig.nvim#setup
-  -- NOTE: It's important that you set up the plugins in the following order:
-  --   - mason.nvim
-  --   - mason-lspconfig.nvim
-  --   - lspconfig
   {
-    "williamboman/mason.nvim",
-    config = function()
-      require("mason").setup({})
-    end
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    config = function()
-      require("mason-lspconfig").setup {
-        -- https://github.com/williamboman/mason-lspconfig.nvim?tab=readme-ov-file#available-lsp-servers
-        -- ensure_installed = { "pylsp", "gopls", "bashls", "sqlls", "terraformls", "ts_ls", "yamlls" },
-        -- installs any lsps that are configured below
-        automatic_installation = true,
-      }
-
-      -- TODO: setup lsp's here
-      -- see :h mason-lspconfig-automatic-server-setup
-      local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-      local lspconfig = require('lspconfig')
-      require("mason-lspconfig").setup_handlers {
-        function(server_name) -- default handler (optional)
-          require("lspconfig")[server_name].setup {
-            capabilities = capabilities,
-          }
-        end,
-        -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#sqlls
-        ["sqlls"] = function()
-          lspconfig.sqlls.setup {}
-        end,
-        -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
-        ["lua_ls"] = function()
-          lspconfig.lua_ls.setup {
-            settings = {
-              Lua = {
-                diagnostics = {
-                  globals = { "vim" }
-                }
-              }
-            }
-          }
-        end,
-        ["pylsp"] = function()
-          lspconfig.pylsp.setup {
-            settings = {
-              pylsp = {
-                plugins = {
-                  pycodestyle = {
-                    ignore = { 'W391' }, -- blank line at end of file: https://www.flake8rules.com/rules/W391.html
-                    maxLineLength = 200
-                  }
-                }
-              }
-            }
-          }
-        end
-      }
-    end
+    "mason-org/mason-lspconfig.nvim",
+    opts = {},
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "neovim/nvim-lspconfig",
+    },
   },
 
-  -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
   {
-    'neovim/nvim-lspconfig',
+    'lukas-reineke/lsp-format.nvim',
     config = function()
-      local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-      local lsp = require('lspconfig')
+      require("lsp-format").setup {}
 
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#gopls
-      lsp.gopls.setup {
-        capabilities = capabilities,
-      }
-
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pylsp
-      -- lsp.pylsp.setup {
-      -- capabilities = capabilities,
-      -- settings = {
-      --   pylsp = {
-      --     plugins = {
-      --       pycodestyle = {
-      --         ignore = { 'W391' }, -- blank line at end of file: https://www.flake8rules.com/rules/W391.html
-      --         maxLineLength = 200
-      --       }
-      --     }
-      --   }
-      -- }
-      -- }
-
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ts_ls
-      lsp.ts_ls.setup {
-        capabilities = capabilities,
-        on_attach = function(client)
-          -- NOTE: had to use nil here, false didn't work for some reason?!?
-          client.server_capabilities.documentFormattingProvider = nil
-          client.server_capabilities.documentRangeFormattingProvider = nil
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(args)
+          local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+          require("lsp-format").on_attach(client, args.buf)
         end,
-      }
-
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#terraformls
-      lsp.terraformls.setup {
-        capabilities = capabilities,
-      }
-
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#sqlls
-      lsp.sqlls.setup {}
-
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#bashls
-      lsp.bashls.setup {
-        capabilities = capabilities,
-      }
-
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#yamlls
-      lsp.yamlls.setup {
-        settings = {
-          yaml = {
-            -- https://www.schemastore.org/json/
-            schemaStore = {
-              enable = true
-            },
-            -- most schemas will already be in schemastore, but any missing can be configured manually
-            schemas = {
-              -- ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-              -- ["../path/relative/to/file.yml"] = "/.github/workflows/*",
-              -- ["/path/from/root/of/project"] = "/.github/workflows/*",
-            }
-          }
-        }
-      }
-
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
-      -- lsp.lua_ls.setup {
-      --   settings = {
-      --     Lua = {
-      --       diagnostics = {
-      --         -- Get the language server to recognize the `vim` global
-      --         globals = { 'vim' },
-      --       },
-      --     },
-      --   },
-      -- }
+      })
     end
   },
 
@@ -331,6 +228,7 @@ return require('lazy').setup({
     },
     config = function()
       local null_ls = require("null-ls")
+      -- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
       null_ls.setup({
         -- See sources here:
@@ -349,13 +247,28 @@ return require('lazy').setup({
           -- null_ls.builtins.diagnostics.flake8 -- python linter
           -- https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md013---line-length
           null_ls.builtins.diagnostics.markdownlint.with({ extra_args = { "--disable", "MD013" } }),
-          null_ls.builtins.formatting.prettier,
           -- WIP
-          -- null_ls.builtins.formatting.sqlfluff,
+          null_ls.builtins.formatting.sqlfluff.with({
+            extra_args = { "--dialect", "mysql" },
+          }),
           null_ls.builtins.diagnostics.sqlfluff.with({
-            extra_args = { "--dialect", "mysql" }, -- change to your dialect
+            extra_args = { "--dialect", "mysql" },
           }),
         },
+
+        -- https://github.com/nvimtools/none-ls.nvim/wiki/Formatting-on-save#code
+        -- on_attach = function(client, bufnr)
+        --   if client.supports_method("textDocument/formatting") then
+        --     vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+        --     vim.api.nvim_create_autocmd("BufWritePre", {
+        --       group = augroup,
+        --       buffer = bufnr,
+        --       callback = function()
+        --         vim.lsp.buf.formatting_sync()
+        --       end,
+        --     })
+        --   end
+        -- end,
       })
     end
   },

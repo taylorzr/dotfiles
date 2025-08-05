@@ -99,14 +99,15 @@ vim.api.nvim_create_autocmd("Filetype", {
 --   end
 -- })
 
+-- TODO: delete
 -- https://github.com/neovim/nvim-lspconfig/issues/115#issuecomment-1130373799
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = "zachwuzhere",
-  pattern = { "*.go" },
-  callback = function()
-    vim.lsp.buf.format(nil, 1000)
-  end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   group = "zachwuzhere",
+--   pattern = { "*.go" },
+--   callback = function()
+--     vim.lsp.buf.format(nil, 1000)
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = "zachwuzhere",
@@ -128,14 +129,15 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 
+-- TODO: delete
 -- lua
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = "zachwuzhere",
-  pattern = { "*.lua" },
-  callback = function()
-    vim.lsp.buf.format(nil, 1000)
-  end
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   group = "zachwuzhere",
+--   pattern = { "*.lua" },
+--   callback = function()
+--     vim.lsp.buf.format(nil, 1000)
+--   end
+-- })
 
 
 -- ruby
@@ -181,23 +183,25 @@ vim.api.nvim_create_autocmd("Filetype", {
   end
 })
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = "zachwuzhere",
-  pattern = { "*.ts", "*.tsx" },
-  callback = function()
-    vim.lsp.buf.format(nil, 5000)
-  end
-})
+-- TODO: delete
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   group = "zachwuzhere",
+--   pattern = { "*.ts", "*.tsx" },
+--   callback = function()
+--     vim.lsp.buf.format(nil, 5000)
+--   end
+-- })
 
 
+-- TODO: delete
 -- terraform
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = "zachwuzhere",
-  pattern = { "*.tf", "*.tfvars" },
-  callback = function()
-    vim.lsp.buf.format(nil, 10000)
-  end
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   group = "zachwuzhere",
+--   pattern = { "*.tf", "*.tfvars" },
+--   callback = function()
+--     vim.lsp.buf.format(nil, 10000)
+--   end
+-- })
 
 -- groovy
 -- autocmd BufNewFile,BufRead *jenkinsfile* set filetype=groovy
@@ -279,6 +283,70 @@ vim.filetype.add({
   -- pattern = {
   --   ["%.?env.*"] = "config",
   -- },
+})
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
+vim.lsp.enable('lua_ls', {
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" }
+      }
+    }
+  }
+})
+
+-- vim.lsp.config('pylsp', {
+--   settings = {
+--     pylsp = {
+--       plugins = {
+--         pycodestyle = {
+--           ignore = { 'W391' }, -- blank line at end of file: https://www.flake8rules.com/rules/W391.html
+--           maxLineLength = 200
+--         }
+--       }
+--     }
+--   }
+-- })
+
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ts_ls
+vim.lsp.enable('ts_ls', {
+  on_attach = function(client)
+    -- NOTE: had to use nil here, false didn't work for some reason?!?
+    client.server_capabilities.documentFormattingProvider = nil
+    client.server_capabilities.documentRangeFormattingProvider = nil
+  end,
+})
+
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#yamlls
+vim.lsp.enable('yamlls', {
+  settings = {
+    yaml = {
+      -- https://www.schemastore.org/json/
+      schemaStore = {
+        enable = true
+      },
+      -- most schemas will already be in schemastore, but any missing can be configured manually
+      schemas = {
+        -- ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+        -- ["../path/relative/to/file.yml"] = "/.github/workflows/*",
+        -- ["/path/from/root/of/project"] = "/.github/workflows/*",
+      }
+    }
+  }
+})
+
+vim.lsp.enable('helm_ls', {
+  settings = {
+    ['helm-ls'] = {
+      yamlls = {
+        enabled = false,
+        path = "yaml-language-server",
+      }
+    }
+  }
 })
 
 -- lua/plugins.lua

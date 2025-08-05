@@ -33,3 +33,6 @@ done
 compinit -C
 
 autoload bashcompinit && bashcompinit
+
+# FIX: only base dir
+precmd () {print -Pn "\e]0;%~\a"}

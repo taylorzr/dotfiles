@@ -75,16 +75,16 @@ export FZF_DEFAULT_OPTS=" \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 # restish
-alias ish=restish
+alias rsh=restish
 
 # docker
 alias d='docker'
 alias dc='docker compose'
-alias n='nerdctl'
-alias nc='nerdctl compose'
-if [ $(uname -s) = 'Darwin' ]; then
-  alias docker=nerdctl
-fi
+# alias n='nerdctl'
+# alias nc='nerdctl compose'
+# if [ $(uname -s) = 'Darwin' ]; then
+#   alias docker=nerdctl
+# fi
 
 # ocaml
 [[ ! -r /home/zach/.opam/opam-init/init.zsh ]] || source /home/zach/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
